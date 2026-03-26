@@ -26,6 +26,7 @@ dependencies = [
     "tqdm",                        
     "scikit-learn",                
     "pyBigWig",
+    "bioframe",
     "biopython>=1.80",
     "scipy",
     "matplotlib",
