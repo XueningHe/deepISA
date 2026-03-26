@@ -46,5 +46,11 @@ dev = [
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.package-data]
+deepISA = ["../data/*"]
+
 [project.scripts]
 deepisa-cli = "deepisa.main:main"
