@@ -50,7 +50,7 @@ where = ["src"]
 include-package-data = true
 
 [tool.setuptools.package-data]
-deepISA = ["../data/*"]
+deepISA = ["data/*.csv"]
 
 [project.scripts]
 deepisa-cli = "deepisa.main:main"

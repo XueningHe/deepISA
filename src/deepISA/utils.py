@@ -82,28 +82,16 @@ def find_available_gpu(min_memory_gb=2):
     return torch.device("cpu")
 
 
-
 def get_data_resource(filename):
-    # 1. Check if we are in "Installed Mode" (Colab/Site-packages)
-    # The data folder usually gets moved inside the package or 
-    # right next to it in site-packages.
+    """
+    Finds data files located in the 'data' subdirectory of the package.
+    """
+    # Find where the deepISA package is installed
     package_root = Path(deepISA.__file__).parent
-    
-    # Check inside the package (where pip usually puts it)
-    path_in_pkg = package_root / "data" / filename
-    if path_in_pkg.exists():
-        return str(path_in_pkg)
-
-    # 2. Check "Development Mode" (Local Repo)
-    # This looks for the data folder sitting next to 'src'
-    # path: root/src/deepISA/utils.py -> parents[2] is root/
-    project_root = Path(__file__).resolve().parents[2]
-    path_dev = project_root / "data" / filename
-    if path_dev.exists():
-        return str(path_dev)
-
-    # 3. Fallback to CWD
-    return str(Path("data") / filename)
+    path = package_root / "data" / filename
+    if not path.exists():
+        path = Path(__file__).parent / "data" / filename
+    return str(path)
 
 
 def setup_logger(model_dir):
