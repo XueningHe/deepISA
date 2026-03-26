@@ -7,7 +7,7 @@ name = "deepISA"
 version = "0.1.0"
 description = "A unified Python framework for mapping transcription factor cooperativity using deep learning and in silico ablation."
 authors = [
-    {name = "Your Name", email = "your.email@example.com"}
+    {name = "Xuening He", email = "xuening.he@bio.ku.com"}
 ]
 readme = "README.md"
 requires-python = ">=3.9"
@@ -19,16 +19,19 @@ classifiers = [
 
 # Core dependencies based on your module requirements 
 dependencies = [
-    "torch>=2.0.0",               # For models and training logic [cite: 2]
-    "pandas>=2.0.0",              # Data manipulation [cite: 4]
+    "torch>=2.0.0",
+    "pandas>=2.0.0",
     "numpy>=1.24.0",
-    "snakemake>=7.0.0",           # For the reproducibility engine [cite: 4]
-    "biopython>=1.80",            # For sequence handling and Jaspar mapping [cite: 3]
-    "streamlit>=1.20.0",          # For the interactive atlas [cite: 5]
-    "scipy",                      # Statistics for ISA scoring [cite: 3]
-    "matplotlib",                 # Standardized plotting [cite: 3]
-    "seaborn",                    # Advanced visualization [cite: 3]
-    "requests",                   # Fetching ChIP-seq/RNA-seq data [cite: 4]                # For plotting
+    "loguru",                                    
+    "tqdm",                        # <--- Essential for progress bars in ISA
+    "scikit-learn",                # <--- Usually needed for data splitting/metrics
+    "biopython>=1.80",
+    "scipy",
+    "matplotlib",
+    "seaborn",
+    "requests",
+    "snakemake>=7.0.0",
+    "streamlit>=1.20.0",
 ]
 
 [project.optional-dependencies]
