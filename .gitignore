@@ -1,0 +1,26 @@
+# --- Python & OS Junk ---
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ipynb_checkpoints/
+.DS_Store
+dist/
+build/
+*.egg-info/
+
+
+# --- Notebook Results & Temporary Outputs ---
+# It's usually better to keep notebooks clean and let users generate their own results
+notebooks/QuickStart_pretrained/Data/
+notebooks/QuickStart_pretrained/Plots/
+notebooks/QuickStart_results/
+notebooks/Step_by_step_res/
+notebooks/*.log
+notebooks/*.npy
+notebooks/*.pdf
+
+# --- Environment ---
+.venv/
+venv/
+env/

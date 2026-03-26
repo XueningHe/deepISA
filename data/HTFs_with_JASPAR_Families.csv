@@ -1,0 +1,1640 @@
+HGNC symbol,DBD,JASPAR_Class,JASPAR_Family
+TFAP2A,AP-2,Basic helix-span-helix factors (bHSH),AP-2
+TFAP2B,AP-2,Basic helix-span-helix factors (bHSH),AP-2
+TFAP2C,AP-2,Basic helix-span-helix factors (bHSH),AP-2
+TFAP2D,AP-2,Not in JASPAR,Not in JASPAR
+TFAP2E,AP-2,Basic helix-span-helix factors (bHSH),AP-2
+ARID3A,ARID/BRIGHT,Not in JASPAR,Not in JASPAR
+ARID3B,ARID/BRIGHT,Not in JASPAR,Not in JASPAR
+ARID3C,ARID/BRIGHT,Not in JASPAR,Not in JASPAR
+ARID5A,ARID/BRIGHT,Not in JASPAR,Not in JASPAR
+ARID5B,ARID/BRIGHT,Not in JASPAR,Not in JASPAR
+KDM5B,ARID/BRIGHT,Not in JASPAR,Not in JASPAR
+ARID2,ARID/BRIGHT; RFX,Not in JASPAR,Not in JASPAR
+AHCTF1,AT hook,Not in JASPAR,Not in JASPAR
+AHDC1,AT hook,Not in JASPAR,Not in JASPAR
+AKNA,AT hook,Not in JASPAR,Not in JASPAR
+ASH1L,AT hook,Not in JASPAR,Not in JASPAR
+CBX2,AT hook,Not in JASPAR,Not in JASPAR
+DNTTIP1,AT hook,Rel homology region (RHR) factors,NFkappaB-related
+DOT1L,AT hook,Not in JASPAR,Not in JASPAR
+GLYR1,AT hook,Not in JASPAR,Not in JASPAR
+HMGA1,AT hook,Not in JASPAR,Not in JASPAR
+HMGA2,AT hook,Not in JASPAR,Not in JASPAR
+PHF20,AT hook,Not in JASPAR,Not in JASPAR
+PHF21A,AT hook,Not in JASPAR,Not in JASPAR
+PRR12,AT hook,Not in JASPAR,Not in JASPAR
+SCML4,AT hook,Not in JASPAR,Not in JASPAR
+SETBP1,AT hook,Not in JASPAR,Not in JASPAR
+SRCAP,AT hook,Not in JASPAR,Not in JASPAR
+C11orf95,BED ZF,Not in JASPAR,Not in JASPAR
+FAM200B,BED ZF,C2H2 zinc finger factors,BED zinc finger factors
+SGSM2,BED ZF,Not in JASPAR,Not in JASPAR
+ZBED1,BED ZF,C2H2 zinc finger factors,BED zinc finger factors
+ZBED2,BED ZF,C2H2 zinc finger factors,BED zinc finger factors
+ZBED3,BED ZF,Not in JASPAR,Not in JASPAR
+ZBED4,BED ZF,C2H2 zinc finger factors,BED zinc finger factors
+ZBED5,BED ZF,C2H2 zinc finger factors,BED zinc finger factors
+ZBED6,BED ZF,Not in JASPAR,Not in JASPAR
+ZBED9,BED ZF,Not in JASPAR,Not in JASPAR
+AHR,bHLH,Not in JASPAR,Not in JASPAR
+AHRR,bHLH,Not in JASPAR,Not in JASPAR
+ARNT,bHLH,Not in JASPAR,Not in JASPAR
+ARNT2,bHLH,Basic helix-loop-helix factors (bHLH),PAS domain factors
+ARNTL,bHLH,Not in JASPAR,Not in JASPAR
+ARNTL2,bHLH,Not in JASPAR,Not in JASPAR
+ASCL1,bHLH,Basic helix-loop-helix factors (bHLH),MyoD/ASC-related factors
+ASCL2,bHLH,Not in JASPAR,Not in JASPAR
+ASCL3,bHLH,Not in JASPAR,Not in JASPAR
+ASCL4,bHLH,Not in JASPAR,Not in JASPAR
+ASCL5,bHLH,Not in JASPAR,Not in JASPAR
+ATOH1,bHLH,Not in JASPAR,Not in JASPAR
+ATOH7,bHLH,Basic helix-loop-helix factors (bHLH),Tal-related
+ATOH8,bHLH,Not in JASPAR,Not in JASPAR
+BHLHA15,bHLH,Basic helix-loop-helix factors (bHLH),Tal-related
+BHLHA9,bHLH,Not in JASPAR,Not in JASPAR
+BHLHE22,bHLH,Basic helix-loop-helix factors (bHLH),Tal-related
+BHLHE23,bHLH,Basic helix-loop-helix factors (bHLH),Tal-related
+BHLHE40,bHLH,Basic helix-loop-helix factors (bHLH),Hairy-related factors
+BHLHE41,bHLH,Basic helix-loop-helix factors (bHLH),Hairy-related factors
+CCDC169-SOHLH2,bHLH,Not in JASPAR,Not in JASPAR
+CLOCK,bHLH,Basic helix-loop-helix factors (bHLH),PAS domain factors
+EPAS1,bHLH,Basic helix-loop-helix factors (bHLH),PAS domain factors
+FERD3L,bHLH,Basic helix-loop-helix factors (bHLH),Tal-related
+FIGLA,bHLH,Basic helix-loop-helix factors (bHLH),Tal-related
+HAND1,bHLH,Not in JASPAR,Not in JASPAR
+HAND2,bHLH,Basic helix-loop-helix factors (bHLH),Tal-related
+HELT,bHLH,Basic helix-loop-helix factors (bHLH),Hairy-related factors
+HES1,bHLH,Basic helix-loop-helix factors (bHLH),Hairy-related factors
+HES2,bHLH,Basic helix-loop-helix factors (bHLH),Hairy-related factors
+HES3,bHLH,Not in JASPAR,Not in JASPAR
+HES4,bHLH,Not in JASPAR,Not in JASPAR
+HES5,bHLH,Basic helix-loop-helix factors (bHLH),Hairy-related factors
+HES6,bHLH,Basic helix-loop-helix factors (bHLH),Hairy-related factors
+HES7,bHLH,Basic helix-loop-helix factors (bHLH),Hairy-related factors
+HEY1,bHLH,Basic helix-loop-helix factors (bHLH),Hairy-related factors
+HEY2,bHLH,Basic helix-loop-helix factors (bHLH),Hairy-related factors
+HEYL,bHLH,Not in JASPAR,Not in JASPAR
+HIF1A,bHLH,Basic helix-loop-helix factors (bHLH),PAS domain factors
+HIF3A,bHLH,Homeo domain factors,PAS
+LYL1,bHLH,Not in JASPAR,Not in JASPAR
+MAX,bHLH,Basic helix-loop-helix factors (bHLH),bHLH-ZIP
+MESP1,bHLH,Not in JASPAR,Not in JASPAR
+MESP2,bHLH,Not in JASPAR,Not in JASPAR
+MITF,bHLH,Basic helix-loop-helix factors (bHLH),bHLH-ZIP
+MLX,bHLH,Basic helix-loop-helix factors (bHLH),bHLH-ZIP
+MLXIP,bHLH,Not in JASPAR,Not in JASPAR
+MLXIPL,bHLH,Basic helix-loop-helix factors (bHLH),bHLH-ZIP
+MNT,bHLH,Basic helix-loop-helix factors (bHLH),bHLH-ZIP
+MSC,bHLH,Basic helix-loop-helix factors (bHLH),Tal-related
+MSGN1,bHLH,Not in JASPAR,Not in JASPAR
+MXD1,bHLH,Not in JASPAR,Not in JASPAR
+MXD3,bHLH,Not in JASPAR,Not in JASPAR
+MXD4,bHLH,Not in JASPAR,Not in JASPAR
+MXI1,bHLH,Basic helix-loop-helix factors (bHLH),bHLH-ZIP
+MYC,bHLH,Basic helix-loop-helix factors (bHLH),bHLH-ZIP
+MYCL,bHLH,Not in JASPAR,Not in JASPAR
+MYCN,bHLH,Basic helix-loop-helix factors (bHLH),bHLH-ZIP
+MYF5,bHLH,Basic helix-loop-helix factors (bHLH),MyoD/ASC-related factors
+MYF6,bHLH,Basic helix-loop-helix factors (bHLH),MyoD/ASC-related factors
+MYOD1,bHLH,Basic helix-loop-helix factors (bHLH),MyoD/ASC-related factors
+MYOG,bHLH,Basic helix-loop-helix factors (bHLH),MyoD/ASC-related factors
+NCOA1,bHLH,Not in JASPAR,Not in JASPAR
+NCOA2,bHLH,Not in JASPAR,Not in JASPAR
+NCOA3,bHLH,Not in JASPAR,Not in JASPAR
+NEUROD1,bHLH,Basic helix-loop-helix factors (bHLH),Tal-related
+NEUROD2,bHLH,Not in JASPAR,Not in JASPAR
+NEUROD4,bHLH,Not in JASPAR,Not in JASPAR
+NEUROD6,bHLH,Not in JASPAR,Not in JASPAR
+NEUROG1,bHLH,Basic helix-loop-helix factors (bHLH),Tal-related
+NEUROG2,bHLH,Basic helix-loop-helix factors (bHLH),Tal-related
+NEUROG3,bHLH,Not in JASPAR,Not in JASPAR
+NHLH1,bHLH,Basic helix-loop-helix factors (bHLH),Tal-related
+NHLH2,bHLH,Basic helix-loop-helix factors (bHLH),Tal-related
+NPAS1,bHLH,Not in JASPAR,Not in JASPAR
+NPAS2,bHLH,Not in JASPAR,Not in JASPAR
+NPAS3,bHLH,Basic helix-loop-helix factors (bHLH),PAS
+NPAS4,bHLH,Not in JASPAR,Not in JASPAR
+OLIG1,bHLH,Basic helix-loop-helix factors (bHLH),Tal-related
+OLIG2,bHLH,Basic helix-loop-helix factors (bHLH),Tal-related
+OLIG3,bHLH,Basic helix-loop-helix factors (bHLH),Tal-related
+PTF1A,bHLH,Not in JASPAR,Not in JASPAR
+SCX,bHLH,Not in JASPAR,Not in JASPAR
+SIM1,bHLH,Not in JASPAR,Not in JASPAR
+SIM2,bHLH,Not in JASPAR,Not in JASPAR
+SOHLH1,bHLH,Not in JASPAR,Not in JASPAR
+SOHLH2,bHLH,Basic helix-loop-helix factors (bHLH),PAS domain factors
+SREBF1,bHLH,Basic helix-loop-helix factors (bHLH),bHLH-ZIP
+SREBF2,bHLH,Basic helix-loop-helix factors (bHLH),bHLH-ZIP
+TAL1,bHLH,Not in JASPAR,Not in JASPAR
+TAL2,bHLH,Not in JASPAR,Not in JASPAR
+TCF12,bHLH,Basic helix-loop-helix factors (bHLH),E2A
+TCF15,bHLH,Not in JASPAR,Not in JASPAR
+TCF21,bHLH,Basic helix-loop-helix factors (bHLH),Tal-related
+TCF23,bHLH,Not in JASPAR,Not in JASPAR
+TCF24,bHLH,Not in JASPAR,Not in JASPAR
+TCF3,bHLH,Basic helix-loop-helix factors (bHLH),E2A
+TCF4,bHLH,Basic helix-loop-helix factors (bHLH),E2A
+TCFL5,bHLH,Basic helix-loop-helix factors (bHLH),PAS domain factors
+TFAP4,bHLH,Basic helix-loop-helix factors (bHLH),bHLH-ZIP
+TFE3,bHLH,Basic helix-loop-helix factors (bHLH),bHLH-ZIP
+TFEB,bHLH,Basic helix-loop-helix factors (bHLH),bHLH-ZIP
+TFEC,bHLH,Basic helix-loop-helix factors (bHLH),bHLH-ZIP
+TWIST1,bHLH,Basic helix-loop-helix factors (bHLH),Tal-related
+TWIST2,bHLH,Not in JASPAR,Not in JASPAR
+USF1,bHLH,Basic helix-loop-helix factors (bHLH),bHLH-ZIP
+USF2,bHLH,Basic helix-loop-helix factors (bHLH),bHLH-ZIP
+USF3,bHLH,Basic helix-loop-helix factors (bHLH),bHLH-ZIP
+POGK,Brinker,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+AC023509.3,bZIP,Not in JASPAR,Not in JASPAR
+ATF1,bZIP,Not in JASPAR,Not in JASPAR
+ATF2,bZIP,Basic leucine zipper factors (bZIP),Jun-related
+ATF3,bZIP,Basic leucine zipper factors (bZIP),Fos-related
+ATF4,bZIP,Basic leucine zipper factors (bZIP),ATF-4-related factors
+ATF5,bZIP,Not in JASPAR,Not in JASPAR
+ATF6,bZIP,Basic leucine zipper factors (bZIP),Jun-related
+ATF6B,bZIP,Not in JASPAR,Not in JASPAR
+ATF7,bZIP,Basic leucine zipper factors (bZIP),Jun-related
+BACH1,bZIP,Basic leucine zipper factors (bZIP),Jun-related
+BACH2,bZIP,Basic leucine zipper factors (bZIP),Jun-related
+BATF,bZIP,Basic leucine zipper factors (bZIP),B-ATF-related factors
+BATF2,bZIP,Not in JASPAR,Not in JASPAR
+BATF3,bZIP,Basic leucine zipper factors (bZIP),B-ATF-related factors
+CEBPA,bZIP,Basic leucine zipper factors (bZIP),CEBP-related
+CEBPB,bZIP,Basic leucine zipper factors (bZIP),CEBP-related
+CEBPD,bZIP,Basic leucine zipper factors (bZIP),CEBP-related
+CEBPE,bZIP,Basic leucine zipper factors (bZIP),CEBP-related
+CEBPG,bZIP,Basic leucine zipper factors (bZIP),CEBP-related
+CREB1,bZIP,Basic leucine zipper factors (bZIP),CREB-related factors
+CREB3,bZIP,Basic leucine zipper factors (bZIP),CREB-related factors
+CREB3L1,bZIP,Basic leucine zipper factors (bZIP),CREB-related factors
+CREB3L2,bZIP,Not in JASPAR,Not in JASPAR
+CREB3L3,bZIP,Basic leucine zipper factors (bZIP),CREB-related
+CREB3L4,bZIP,Basic leucine zipper factors (bZIP),CREB-related factors
+CREB5,bZIP,Not in JASPAR,Not in JASPAR
+CREBL2,bZIP,Not in JASPAR,Not in JASPAR
+CREBZF,bZIP,Not in JASPAR,Not in JASPAR
+CREM,bZIP,Basic leucine zipper factors (bZIP),CREB-related factors
+DBP,bZIP,Basic leucine zipper factors (bZIP),CEBP-related
+DDIT3,bZIP,Not in JASPAR,Not in JASPAR
+FOS,bZIP,Basic leucine zipper factors (bZIP),Fos-related
+FOSB,bZIP,Not in JASPAR,Not in JASPAR
+FOSL1,bZIP,Basic leucine zipper factors (bZIP),Fos-related
+FOSL2,bZIP,Basic leucine zipper factors (bZIP),Fos-related
+HLF,bZIP,Basic leucine zipper factors (bZIP),CEBP-related
+JDP2,bZIP,Basic leucine zipper factors (bZIP),Fos-related
+JUN,bZIP,Basic leucine zipper factors (bZIP),Jun-related
+JUNB,bZIP,Basic leucine zipper factors (bZIP),Jun-related
+JUND,bZIP,Basic leucine zipper factors (bZIP),Jun-related
+MAF,bZIP,Basic leucine zipper factors (bZIP),Maf-related
+MAFA,bZIP,Basic leucine zipper factors (bZIP),Maf-related
+MAFB,bZIP,Not in JASPAR,Not in JASPAR
+MAFF,bZIP,Basic leucine zipper factors (bZIP),Maf-related
+MAFG,bZIP,Not in JASPAR,Not in JASPAR
+MAFK,bZIP,Basic leucine zipper factors (bZIP),Maf-related
+NFE2,bZIP,Basic leucine zipper factors (bZIP),Jun-related
+NFE2L1,bZIP,Not in JASPAR,Not in JASPAR
+NFE2L2,bZIP,Not in JASPAR,Not in JASPAR
+NFE2L3,bZIP,Not in JASPAR,Not in JASPAR
+NFIL3,bZIP,Basic leucine zipper factors (bZIP),CEBP-related
+NRL,bZIP,Basic leucine zipper factors (bZIP),Maf-related
+TEF,bZIP,Basic leucine zipper factors (bZIP),CEBP-related
+XBP1,bZIP,Basic leucine zipper factors (bZIP),XBP-1-related factors
+AC008770.3,C2H2 ZF,Not in JASPAR,Not in JASPAR
+AC092835.1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+AC138696.1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+AEBP2,C2H2 ZF,Not in JASPAR,Not in JASPAR
+AKAP8,C2H2 ZF,Not in JASPAR,Not in JASPAR
+AKAP8L,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ANKZF1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ATMIN,C2H2 ZF,Not in JASPAR,Not in JASPAR
+BCL11A,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+BCL11B,C2H2 ZF,Not in JASPAR,Not in JASPAR
+BCL6,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+BCL6B,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+BNC1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+BNC2,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+CASZ1,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+CCDC17,C2H2 ZF,Not in JASPAR,Not in JASPAR
+CHAMP1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+CPXCR1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+CTCF,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+CTCFL,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+DPF1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+DPF3,C2H2 ZF,Not in JASPAR,Not in JASPAR
+DZIP1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+E4F1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+EEA1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+EGR1,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+EGR2,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+EGR3,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+EGR4,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+FAM170A,C2H2 ZF,Not in JASPAR,Not in JASPAR
+FEZF1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+FEZF2,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+FIZ1,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+GFI1,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+GFI1B,C2H2 ZF,Not in JASPAR,Not in JASPAR
+GLI1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+GLI2,C2H2 ZF,Not in JASPAR,Not in JASPAR
+GLI3,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+GLI4,C2H2 ZF,Not in JASPAR,Not in JASPAR
+GLIS1,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+GLIS2,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+GLIS3,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+GTF3A,C2H2 ZF,Not in JASPAR,Not in JASPAR
+GZF1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+HIC1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+HIC2,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+HINFP,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+HIVEP1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+HIVEP2,C2H2 ZF,Not in JASPAR,Not in JASPAR
+HIVEP3,C2H2 ZF,Not in JASPAR,Not in JASPAR
+HKR1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+IKZF1,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+IKZF2,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+IKZF3,C2H2 ZF,Not in JASPAR,Not in JASPAR
+IKZF4,C2H2 ZF,Not in JASPAR,Not in JASPAR
+IKZF5,C2H2 ZF,Not in JASPAR,Not in JASPAR
+INSM1,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+INSM2,C2H2 ZF,Not in JASPAR,Not in JASPAR
+JAZF1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+KAT7,C2H2 ZF,Not in JASPAR,Not in JASPAR
+KCMF1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+KIN,C2H2 ZF,Not in JASPAR,Not in JASPAR
+KLF1,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+KLF10,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+KLF11,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+KLF12,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+KLF13,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+KLF14,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+KLF15,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+KLF16,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+KLF17,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+KLF2,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+KLF3,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+KLF4,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+KLF5,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+KLF6,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+KLF7,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+KLF8,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+KLF9,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+L3MBTL1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+L3MBTL3,C2H2 ZF,Not in JASPAR,Not in JASPAR
+L3MBTL4,C2H2 ZF,Not in JASPAR,Not in JASPAR
+MAZ,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+MECOM,C2H2 ZF,Not in JASPAR,Not in JASPAR
+MTF1,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+MYNN,C2H2 ZF,Not in JASPAR,Not in JASPAR
+MYT1,C2H2 ZF,C2HC,MYT
+MYT1L,C2H2 ZF,C2HC,MYT
+MZF1,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+OSR1,C2H2 ZF,C2H2 zinc finger factors,Other factors with up to three adjacent zinc fingers
+OSR2,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+OVOL1,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+OVOL2,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+OVOL3,C2H2 ZF,Not in JASPAR,Not in JASPAR
+PEG3,C2H2 ZF,Not in JASPAR,Not in JASPAR
+PLAG1,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+PLAGL1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+PLAGL2,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+PRDM1,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+PRDM10,C2H2 ZF,Not in JASPAR,Not in JASPAR
+PRDM12,C2H2 ZF,Not in JASPAR,Not in JASPAR
+PRDM13,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+PRDM14,C2H2 ZF,Not in JASPAR,Not in JASPAR
+PRDM15,C2H2 ZF,Not in JASPAR,Not in JASPAR
+PRDM16,C2H2 ZF,Not in JASPAR,Not in JASPAR
+PRDM2,C2H2 ZF,Not in JASPAR,Not in JASPAR
+PRDM4,C2H2 ZF,Not in JASPAR,Not in JASPAR
+PRDM5,C2H2 ZF,Not in JASPAR,Not in JASPAR
+PRDM6,C2H2 ZF,Not in JASPAR,Not in JASPAR
+PRDM8,C2H2 ZF,Not in JASPAR,Not in JASPAR
+PRDM9,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+PRMT3,C2H2 ZF,Not in JASPAR,Not in JASPAR
+RBAK,C2H2 ZF,Not in JASPAR,Not in JASPAR
+RBSN,C2H2 ZF,Not in JASPAR,Not in JASPAR
+REPIN1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+REST,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+RLF,C2H2 ZF,Not in JASPAR,Not in JASPAR
+RREB1,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+SALL1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+SALL2,C2H2 ZF,Not in JASPAR,Not in JASPAR
+SALL3,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+SALL4,C2H2 ZF,Not in JASPAR,Not in JASPAR
+SCRT1,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+SCRT2,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+SLC2A4RG,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+SNAI1,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+SNAI2,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+SNAI3,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+SP1,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+SP2,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+SP3,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+SP4,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+SP5,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+SP6,C2H2 ZF,Not in JASPAR,Not in JASPAR
+SP7,C2H2 ZF,Not in JASPAR,Not in JASPAR
+SP8,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+SP9,C2H2 ZF,C2H2 zinc finger factors,Three-zinc finger Kruppel-related
+ST18,C2H2 ZF,Not in JASPAR,Not in JASPAR
+TRAFD1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+TSHZ1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+TSHZ2,C2H2 ZF,Not in JASPAR,Not in JASPAR
+TSHZ3,C2H2 ZF,Not in JASPAR,Not in JASPAR
+VEZF1,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+WIZ,C2H2 ZF,Not in JASPAR,Not in JASPAR
+WT1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+YY1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+YY2,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZBTB1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZBTB10,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZBTB11,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZBTB12,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZBTB14,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZBTB16,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZBTB17,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZBTB18,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZBTB2,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZBTB20,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZBTB21,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZBTB22,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZBTB25,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZBTB26,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZBTB3,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZBTB32,C2H2 ZF,C2H2 zinc finger factors,Other factors with up to three adjacent zinc fingers
+ZBTB33,C2H2 ZF,C2H2 zinc finger factors,Other factors with up to three adjacent zinc fingers
+ZBTB34,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZBTB37,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZBTB38,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZBTB39,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZBTB4,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZBTB40,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZBTB41,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZBTB42,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZBTB43,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZBTB44,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZBTB45,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZBTB46,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZBTB47,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZBTB48,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZBTB49,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZBTB5,C2H2 ZF,C2H2 zinc finger factors,BTB-POZ
+ZBTB6,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZBTB7A,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZBTB7B,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZBTB7C,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZBTB8A,C2H2 ZF,C2H2 zinc finger factors,Other factors with up to three adjacent zinc fingers
+ZBTB8B,C2H2 ZF,C2H2 zinc finger factors,Other factors with up to three adjacent zinc fingers
+ZBTB9,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZFAT,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZFP1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZFP14,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZFP2,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZFP28,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZFP3,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZFP30,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZFP37,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZFP41,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZFP42,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZFP57,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZFP62,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZFP64,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZFP69,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZFP69B,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZFP82,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZFP90,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZFP91,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZFP92,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZFPM1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZFPM2,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZFX,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZFY,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZIC1,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZIC2,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZIC3,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZIC4,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZIC5,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZIK1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZIM2,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZIM3,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZKSCAN1,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZKSCAN2,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZKSCAN3,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZKSCAN4,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZKSCAN5,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZKSCAN7,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZKSCAN8,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZMAT1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZMAT4,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF10,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF100,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF101,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF107,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF112,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF114,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF117,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF12,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF121,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF124,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF131,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF132,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF133,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF134,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZNF135,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF136,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF138,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF14,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF140,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF141,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF142,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZNF143,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF146,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF148,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF154,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF155,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF157,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF16,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF160,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF165,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF169,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF17,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF174,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF175,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF177,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF18,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF180,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF181,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF182,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF184,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF189,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF19,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF195,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF197,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF2,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF20,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF200,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF202,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF205,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF207,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF208,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF211,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZNF212,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF213,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF214,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF215,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF217,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF219,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF22,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF221,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF222,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF223,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF224,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF225,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF226,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF227,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF229,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF23,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF230,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF232,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF233,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF234,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF235,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF236,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF239,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF24,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF248,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF25,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF250,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF251,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZNF253,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF254,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF256,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF257,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF26,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF260,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF263,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF264,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF266,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF267,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF268,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF273,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF274,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF275,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF276,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF28,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF280A,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF280B,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF280C,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF280D,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF281,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF282,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF283,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF284,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF285,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF286A,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF286B,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF287,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF292,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF296,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF3,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF30,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF300,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF302,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF304,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF311,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF316,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF317,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF318,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF319,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF32,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF320,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF322,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF324,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF324B,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF326,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF329,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF331,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF333,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF334,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF335,C2H2 ZF,C2H2 zinc finger factors,Other factors with up to three adjacent zinc fingers
+ZNF337,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF33A,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF33B,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF34,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF341,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZNF343,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF345,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF346,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF347,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF35,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF350,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF354A,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF354B,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF354C,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF358,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF362,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF365,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF366,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF367,C2H2 ZF,C2H2 zinc finger factors,
+ZNF37A,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF382,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZNF383,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF384,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF385A,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF385B,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF385C,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF385D,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF391,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF394,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF395,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF396,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF397,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF398,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF404,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF407,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZNF408,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF41,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF410,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF414,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF415,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF416,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF417,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZNF418,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZNF419,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF420,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF423,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZNF425,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF426,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF428,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF429,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF43,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF430,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF431,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF432,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF433,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF436,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF438,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF439,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF44,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF440,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF441,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF442,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF443,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF444,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF445,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF446,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF449,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF45,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF451,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF454,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF460,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF461,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF462,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF467,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF468,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF469,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF470,C2H2 ZF,C2H2 zinc finger factors,Other factors with up to three adjacent zinc fingers
+ZNF471,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF473,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF474,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF479,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF48,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF480,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF483,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF484,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF485,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF486,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF487,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF488,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF490,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF491,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF492,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF493,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF496,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF497,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF500,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF501,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF502,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF503,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF506,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF507,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF510,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZNF511,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF512B,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF513,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF514,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF516,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF517,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF518A,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF518B,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZNF519,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF521,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF525,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF526,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF527,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF528,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF529,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF530,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF532,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF534,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF536,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZNF540,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF543,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF544,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF546,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF547,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF548,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF549,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF550,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF551,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF552,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF554,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF555,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF556,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF557,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF558,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF559,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF560,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF561,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF562,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF563,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF564,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF565,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF566,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF567,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF568,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF569,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF57,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF570,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF571,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF572,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF573,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF574,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZNF575,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF576,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF577,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF578,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF579,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF580,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF581,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF582,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF583,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF584,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF585A,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF585B,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF586,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF587,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF587B,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF589,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF592,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF594,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF595,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF596,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF597,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF598,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF599,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF600,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF605,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF606,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZNF607,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF608,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF609,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF610,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF611,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF613,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF614,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF615,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF616,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF618,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF619,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF620,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF621,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF623,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF624,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF625,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF626,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF627,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF628,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF629,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF630,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF639,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF641,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF644,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF645,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF646,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF648,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF649,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF652,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF654,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF655,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF658,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF66,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF660,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF662,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF664,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF665,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF667,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF668,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF669,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF670,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF671,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF672,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF674,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF675,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF676,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF677,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF678,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF679,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF680,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF681,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF682,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF683,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF684,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF687,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF688,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF689,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF69,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF691,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF692,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF695,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF696,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF697,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF699,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF7,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF70,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF700,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF701,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF703,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF704,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF705A,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF705B,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF705D,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF705E,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF705G,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF706,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF707,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF708,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF709,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF71,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF710,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF711,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF713,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF714,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF716,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF717,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF718,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF721,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF724,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF726,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF727,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF728,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF729,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF730,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF732,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF735,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF736,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF737,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF74,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF740,C2H2 ZF,C2H2 zinc finger factors,Other factors with up to three adjacent zinc fingers
+ZNF746,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF747,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF749,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF750,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF75A,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF75D,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF76,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF761,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF763,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF764,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF765,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF766,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF768,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF77,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF770,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZNF771,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF772,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZNF773,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF774,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF775,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZNF776,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF777,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF778,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF780A,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF780B,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF781,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF782,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF783,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF784,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZNF785,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF786,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF787,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF788,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF789,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF79,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF790,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF791,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF792,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF793,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF799,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF8,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZNF80,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF800,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZNF804A,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF804B,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF805,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF808,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF81,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF813,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF814,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZNF816,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF821,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF823,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF827,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF829,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF83,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF830,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF831,C2H2 ZF,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZNF835,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF836,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF837,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF84,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF841,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF843,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF844,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF845,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF846,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF85,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF850,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF852,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF853,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF860,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF865,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF878,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF879,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF880,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF883,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF888,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF891,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF90,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF91,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF92,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF93,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF98,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZNF99,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZSCAN1,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZSCAN10,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZSCAN12,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZSCAN16,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZSCAN18,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZSCAN2,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZSCAN20,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZSCAN21,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZSCAN22,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZSCAN23,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZSCAN25,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZSCAN26,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZSCAN29,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZSCAN30,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZSCAN31,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZSCAN32,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZSCAN4,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZSCAN5A,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZSCAN5B,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZSCAN5C,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZSCAN9,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZUFSP,C2H2 ZF,Not in JASPAR,Not in JASPAR
+ZXDA,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZXDB,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZXDC,C2H2 ZF,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+PATZ1,C2H2 ZF; AT hook,C2H2 zinc finger factors,Factors with multiple dispersed zinc fingers
+ZBTB24,C2H2 ZF; AT hook,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF524,C2H2 ZF; AT hook,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+ZNF653,C2H2 ZF; AT hook,Not in JASPAR,Not in JASPAR
+ZNF277,C2H2 ZF; BED ZF,Not in JASPAR,Not in JASPAR
+ZNF512,C2H2 ZF; BED ZF,Not in JASPAR,Not in JASPAR
+ZEB1,C2H2 ZF; Homeodomain,Homeo domain factors,HD-ZF factors
+ZEB2,C2H2 ZF; Homeodomain,Homeo domain factors,HD-ZF
+ZFHX3,C2H2 ZF; Homeodomain,Not in JASPAR,Not in JASPAR
+ZFHX4,C2H2 ZF; Homeodomain,Not in JASPAR,Not in JASPAR
+TRERF1,C2H2 ZF; Myb/SANT,Not in JASPAR,Not in JASPAR
+ZNF541,C2H2 ZF; Myb/SANT,Not in JASPAR,Not in JASPAR
+NFYA,CBF/NF-Y,Heteromeric CCAAT-binding factors,Heteromeric CCAAT-binding
+MBNL2,CCCH ZF,Not in JASPAR,Not in JASPAR
+ZC3H8,CCCH ZF,Not in JASPAR,Not in JASPAR
+ZGPAT,CCCH ZF,Not in JASPAR,Not in JASPAR
+CENPB,CENPB,Not in JASPAR,Not in JASPAR
+CENPBD1,CENPB,Not in JASPAR,Not in JASPAR
+JRK,CENPB,Not in JASPAR,Not in JASPAR
+JRKL,CENPB,Not in JASPAR,Not in JASPAR
+TIGD1,CENPB,Not in JASPAR,Not in JASPAR
+TIGD2,CENPB,Not in JASPAR,Not in JASPAR
+TIGD3,CENPB,,
+TIGD4,CENPB,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+TIGD5,CENPB,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+TIGD6,CENPB,Not in JASPAR,Not in JASPAR
+TIGD7,CENPB,C2H2 zinc finger factors,More than 3 adjacent zinc fingers
+CAMTA1,CG-1,Not in JASPAR,Not in JASPAR
+CAMTA2,CG-1,Not in JASPAR,Not in JASPAR
+LIN28A,CSD,Not in JASPAR,Not in JASPAR
+LIN28B,CSD,Not in JASPAR,Not in JASPAR
+YBX1,CSD,Not in JASPAR,Not in JASPAR
+YBX2,CSD,Not in JASPAR,Not in JASPAR
+YBX3,CSD,Not in JASPAR,Not in JASPAR
+RBPJ,CSL,Rel homology region (RHR) factors,CSL-related factors
+RBPJL,CSL,Not in JASPAR,Not in JASPAR
+CUX1,CUT; Homeodomain,Homeo domain factors,HD-CUT
+CUX2,CUT; Homeodomain,Homeo domain factors,HD-CUT
+ONECUT1,CUT; Homeodomain,Homeo domain factors,HD-CUT
+ONECUT2,CUT; Homeodomain,Homeo domain factors,HD-CUT
+ONECUT3,CUT; Homeodomain,Homeo domain factors,HD-CUT
+SATB1,CUT; Homeodomain,Homeo domain factors,HD-CUT
+SATB2,CUT; Homeodomain,Not in JASPAR,Not in JASPAR
+CXXC1,CxxC,Not in JASPAR,Not in JASPAR
+CXXC4,CxxC,Not in JASPAR,Not in JASPAR
+CXXC5,CxxC,Not in JASPAR,Not in JASPAR
+DNMT1,CxxC,Not in JASPAR,Not in JASPAR
+FBXL19,CxxC,Not in JASPAR,Not in JASPAR
+KDM2A,CxxC,Not in JASPAR,Not in JASPAR
+KDM2B,CxxC,Not in JASPAR,Not in JASPAR
+TET1,CxxC,Not in JASPAR,Not in JASPAR
+TET3,CxxC,Not in JASPAR,Not in JASPAR
+KMT2A,CxxC; AT hook,Not in JASPAR,Not in JASPAR
+KMT2B,CxxC; AT hook,Not in JASPAR,Not in JASPAR
+DMRT1,DM,Not in JASPAR,Not in JASPAR
+DMRT2,DM,Not in JASPAR,Not in JASPAR
+DMRT3,DM,DM-type intertwined zinc finger factors,DMRT factors
+DMRTA1,DM,DM-type intertwined zinc finger factors,DMRT factors
+DMRTA2,DM,DM-type intertwined zinc finger factors,DMRT factors
+DMRTB1,DM,Not in JASPAR,Not in JASPAR
+DMRTC2,DM,DM-type intertwined zinc finger factors,DMRT factors
+E2F1,E2F,Fork head/winged helix factors,E2F
+E2F2,E2F,Fork head/winged helix factors,E2F
+E2F3,E2F,Fork head/winged helix factors,E2F
+E2F4,E2F,Fork head/winged helix factors,E2F
+E2F5,E2F,Not in JASPAR,Not in JASPAR
+E2F6,E2F,Fork head/winged helix factors,E2F
+E2F7,E2F,Fork head/winged helix factors,E2F
+E2F8,E2F,Fork head/winged helix factors,E2F
+TFDP1,E2F,Fork head/winged helix factors,E2F
+TFDP2,E2F,Not in JASPAR,Not in JASPAR
+TFDP3,E2F,Not in JASPAR,Not in JASPAR
+EBF1,EBF1,Rel homology region (RHR) factors,Early B-Cell Factor-related factors
+EBF2,EBF1,Not in JASPAR,Not in JASPAR
+EBF3,EBF1,Rel homology region (RHR) factors,Early B-Cell Factor-related factors
+EBF4,EBF1,Not in JASPAR,Not in JASPAR
+EHF,Ets,Tryptophan cluster factors,Ets-related
+ELF1,Ets,Tryptophan cluster factors,Ets-related
+ELF2,Ets,Tryptophan cluster factors,Ets-related
+ELF4,Ets,Tryptophan cluster factors,Ets-related
+ELF5,Ets,Not in JASPAR,Not in JASPAR
+ELK1,Ets,Tryptophan cluster factors,Ets-related
+ELK3,Ets,Tryptophan cluster factors,Ets-related
+ELK4,Ets,Tryptophan cluster factors,Ets-related
+ERF,Ets,Tryptophan cluster factors,Ets-related
+ERG,Ets,Not in JASPAR,Not in JASPAR
+ETS1,Ets,Tryptophan cluster factors,Ets-related
+ETS2,Ets,Tryptophan cluster factors,Ets-related
+ETV1,Ets,Tryptophan cluster factors,Ets-related
+ETV2,Ets,Tryptophan cluster factors,Ets-related
+ETV3,Ets,Tryptophan cluster factors,Ets-related
+ETV3L,Ets,Not in JASPAR,Not in JASPAR
+ETV4,Ets,Tryptophan cluster factors,Ets-related
+ETV5,Ets,Tryptophan cluster factors,Ets-related
+ETV6,Ets,Tryptophan cluster factors,Ets-related
+ETV7,Ets,Tryptophan cluster factors,Ets-related
+FEV,Ets,Tryptophan cluster factors,Ets-related
+FLI1,Ets,Tryptophan cluster factors,Ets-related
+GABPA,Ets,Tryptophan cluster factors,Ets-related
+SPDEF,Ets,Tryptophan cluster factors,Ets-related
+SPI1,Ets,Not in JASPAR,Not in JASPAR
+SPIB,Ets,Tryptophan cluster factors,Ets-related
+SPIC,Ets,Tryptophan cluster factors,Ets-related
+ELF3,Ets; AT hook,Tryptophan cluster factors,Ets-related
+FLYWCH1,FLYWCH,,FLYWCH1
+FOXA1,Forkhead,Fork head/winged helix factors,FOX
+FOXA2,Forkhead,Fork head/winged helix factors,FOX
+FOXA3,Forkhead,Fork head/winged helix factors,FOX
+FOXB1,Forkhead,Fork head/winged helix factors,FOX
+FOXB2,Forkhead,Not in JASPAR,Not in JASPAR
+FOXC1,Forkhead,Fork head/winged helix factors,FOX
+FOXC2,Forkhead,Fork head/winged helix factors,FOX
+FOXD1,Forkhead,Fork head/winged helix factors,FOX
+FOXD2,Forkhead,Fork head/winged helix factors,FOX
+FOXD3,Forkhead,Fork head/winged helix factors,FOX
+FOXD4,Forkhead,Not in JASPAR,Not in JASPAR
+FOXD4L1,Forkhead,Not in JASPAR,Not in JASPAR
+FOXD4L3,Forkhead,Not in JASPAR,Not in JASPAR
+FOXD4L4,Forkhead,Not in JASPAR,Not in JASPAR
+FOXD4L5,Forkhead,Not in JASPAR,Not in JASPAR
+FOXD4L6,Forkhead,Not in JASPAR,Not in JASPAR
+FOXE1,Forkhead,Fork head/winged helix factors,FOX
+FOXE3,Forkhead,Not in JASPAR,Not in JASPAR
+FOXF1,Forkhead,Not in JASPAR,Not in JASPAR
+FOXF2,Forkhead,Fork head/winged helix factors,FOX
+FOXG1,Forkhead,Fork head/winged helix factors,FOX
+FOXH1,Forkhead,Fork head/winged helix factors,FOX
+FOXI1,Forkhead,Fork head/winged helix factors,FOX
+FOXI2,Forkhead,Not in JASPAR,Not in JASPAR
+FOXI3,Forkhead,Not in JASPAR,Not in JASPAR
+FOXJ1,Forkhead,Not in JASPAR,Not in JASPAR
+FOXJ2,Forkhead,Not in JASPAR,Not in JASPAR
+FOXJ3,Forkhead,Not in JASPAR,Not in JASPAR
+FOXK1,Forkhead,Fork head/winged helix factors,FOX
+FOXK2,Forkhead,Fork head/winged helix factors,FOX
+FOXL1,Forkhead,Fork head/winged helix factors,FOX
+FOXL2,Forkhead,Not in JASPAR,Not in JASPAR
+FOXM1,Forkhead,Fork head/winged helix factors,FOX
+FOXN1,Forkhead,Not in JASPAR,Not in JASPAR
+FOXN2,Forkhead,Not in JASPAR,Not in JASPAR
+FOXN3,Forkhead,Fork head/winged helix factors,FOX
+FOXN4,Forkhead,Not in JASPAR,Not in JASPAR
+FOXO1,Forkhead,Not in JASPAR,Not in JASPAR
+FOXO3,Forkhead,Not in JASPAR,Not in JASPAR
+FOXO4,Forkhead,Fork head/winged helix factors,FOX
+FOXO6,Forkhead,Fork head/winged helix factors,FOX
+FOXP1,Forkhead,Fork head/winged helix factors,FOX
+FOXP2,Forkhead,Fork head/winged helix factors,FOX
+FOXP3,Forkhead,Fork head/winged helix factors,FOX
+FOXP4,Forkhead,Fork head/winged helix factors,FOX
+FOXQ1,Forkhead,Not in JASPAR,Not in JASPAR
+FOXR1,Forkhead,Not in JASPAR,Not in JASPAR
+FOXR2,Forkhead,Not in JASPAR,Not in JASPAR
+FOXS1,Forkhead,Fork head/winged helix factors,FOX
+GATA1,GATA,Other C4 zinc finger-type factors,C4-GATA-related
+GATA2,GATA,Other C4 zinc finger-type factors,C4-GATA-related
+GATA3,GATA,Not in JASPAR,Not in JASPAR
+GATA4,GATA,Other C4 zinc finger-type factors,C4-GATA-related
+GATA5,GATA,Other C4 zinc finger-type factors,C4-GATA-related
+GATA6,GATA,Other C4 zinc finger-type factors,C4-GATA-related
+GATAD2A,GATA,Not in JASPAR,Not in JASPAR
+GATAD2B,GATA,Not in JASPAR,Not in JASPAR
+TRPS1,GATA,Other C4 zinc finger-type factors,C4-GATA-related
+ZGLP1,GATA,Other C4 zinc finger-type factors,C4-GATA-related
+GCM1,GCM,GCM domain factors,GCM
+GCM2,GCM,GCM domain factors,GCM
+GRHL1,Grainyhead,Grainyhead domain factors,Grainyhead-related factors
+GRHL2,Grainyhead,Grainyhead domain factors,Grainyhead-related factors
+GRHL3,Grainyhead,Not in JASPAR,Not in JASPAR
+TFCP2,Grainyhead,Grainyhead domain factors,CP2-related factors
+TFCP2L1,Grainyhead,Not in JASPAR,Not in JASPAR
+UBP1,Grainyhead,Not in JASPAR,Not in JASPAR
+GTF2I,GTF2I-like,Not in JASPAR,Not in JASPAR
+GTF2IRD1,GTF2I-like,Not in JASPAR,Not in JASPAR
+GTF2IRD2,GTF2I-like,Not in JASPAR,Not in JASPAR
+GTF2IRD2B,GTF2I-like,Not in JASPAR,Not in JASPAR
+BBX,HMG/Sox,Not in JASPAR,Not in JASPAR
+CIC,HMG/Sox,Not in JASPAR,Not in JASPAR
+HBP1,HMG/Sox,Not in JASPAR,Not in JASPAR
+HMG20A,HMG/Sox,Not in JASPAR,Not in JASPAR
+HMG20B,HMG/Sox,Not in JASPAR,Not in JASPAR
+HMGN3,HMG/Sox,Not in JASPAR,Not in JASPAR
+LEF1,HMG/Sox,Not in JASPAR,Not in JASPAR
+SOX1,HMG/Sox,Not in JASPAR,Not in JASPAR
+SOX10,HMG/Sox,High-mobility group (HMG) domain factors,SOX-related factors
+SOX11,HMG/Sox,Not in JASPAR,Not in JASPAR
+SOX12,HMG/Sox,High-mobility group (HMG) domain factors,SOX-related factors
+SOX13,HMG/Sox,High-mobility group (HMG) domain factors,SOX-related factors
+SOX14,HMG/Sox,High-mobility group (HMG) domain factors,SOX-related factors
+SOX15,HMG/Sox,High-mobility group (HMG) domain factors,SOX-related factors
+SOX17,HMG/Sox,Not in JASPAR,Not in JASPAR
+SOX18,HMG/Sox,High-mobility group (HMG) domain factors,SOX-related factors
+SOX2,HMG/Sox,High-mobility group (HMG) domain factors,SOX-related factors
+SOX21,HMG/Sox,High-mobility group (HMG) domain factors,SOX-related factors
+SOX3,HMG/Sox,Not in JASPAR,Not in JASPAR
+SOX30,HMG/Sox,High-mobility group (HMG) domain factors,SOX-related factors
+SOX4,HMG/Sox,High-mobility group (HMG) domain factors,SOX-related factors
+SOX5,HMG/Sox,Not in JASPAR,Not in JASPAR
+SOX6,HMG/Sox,Not in JASPAR,Not in JASPAR
+SOX7,HMG/Sox,Not in JASPAR,Not in JASPAR
+SOX8,HMG/Sox,High-mobility group (HMG) domain factors,SOX-related factors
+SOX9,HMG/Sox,High-mobility group (HMG) domain factors,SOX-related factors
+SRY,HMG/Sox,High-mobility group (HMG) domain factors,SOX-related factors
+TCF7,HMG/Sox,High-mobility group (HMG) domain factors,TCF-7-related factors
+TCF7L1,HMG/Sox,High-mobility group (HMG) domain factors,TCF-7-related factors
+TCF7L2,HMG/Sox,High-mobility group (HMG) domain factors,TCF-7-related factors
+ADNP,Homeodomain,Not in JASPAR,Not in JASPAR
+ADNP2,Homeodomain,Not in JASPAR,Not in JASPAR
+ALX1,Homeodomain,Not in JASPAR,Not in JASPAR
+ALX3,Homeodomain,Homeo domain factors,Paired-related HD factors
+ALX4,Homeodomain,Not in JASPAR,Not in JASPAR
+ANHX,Homeodomain,Not in JASPAR,Not in JASPAR
+ARGFX,Homeodomain,Homeo domain factors,Paired-related HD factors
+ARX,Homeodomain,Not in JASPAR,Not in JASPAR
+BARHL1,Homeodomain,Homeo domain factors,NK
+BARHL2,Homeodomain,Homeo domain factors,NK
+BARX1,Homeodomain,Homeo domain factors,NK
+BARX2,Homeodomain,Homeo domain factors,NK
+BSX,Homeodomain,Homeo domain factors,NK
+CDX1,Homeodomain,Homeo domain factors,HOX
+CDX2,Homeodomain,Homeo domain factors,HOX
+CDX4,Homeodomain,Homeo domain factors,HOX
+CRX,Homeodomain,Not in JASPAR,Not in JASPAR
+DBX1,Homeodomain,Not in JASPAR,Not in JASPAR
+DBX2,Homeodomain,Not in JASPAR,Not in JASPAR
+DLX1,Homeodomain,Homeo domain factors,NK
+DLX2,Homeodomain,Not in JASPAR,Not in JASPAR
+DLX3,Homeodomain,Not in JASPAR,Not in JASPAR
+DLX4,Homeodomain,Not in JASPAR,Not in JASPAR
+DLX5,Homeodomain,Not in JASPAR,Not in JASPAR
+DLX6,Homeodomain,Homeo domain factors,NK
+DMBX1,Homeodomain,Not in JASPAR,Not in JASPAR
+DPRX,Homeodomain,Homeo domain factors,Paired-related HD factors
+DRGX,Homeodomain,Homeo domain factors,Paired-related HD factors
+DUX1,Homeodomain,Not in JASPAR,Not in JASPAR
+DUX3,Homeodomain,Not in JASPAR,Not in JASPAR
+DUX4,Homeodomain,Homeo domain factors,Paired-related HD factors
+DUXA,Homeodomain,Homeo domain factors,Paired-related HD factors
+EMX1,Homeodomain,Homeo domain factors,NK
+EMX2,Homeodomain,Homeo domain factors,NK
+EN1,Homeodomain,Homeo domain factors,NK
+EN2,Homeodomain,Homeo domain factors,NK
+ESX1,Homeodomain,Homeo domain factors,Paired-related HD factors
+EVX1,Homeodomain,Homeo domain factors,HOX
+EVX2,Homeodomain,Homeo domain factors,HOX
+GBX1,Homeodomain,Homeo domain factors,HOX
+GBX2,Homeodomain,Homeo domain factors,HOX
+GSC,Homeodomain,Homeo domain factors,Paired-related HD factors
+GSC2,Homeodomain,Homeo domain factors,Paired-related HD factors
+GSX1,Homeodomain,Homeo domain factors,HOX
+GSX2,Homeodomain,Homeo domain factors,HOX
+HDX,Homeodomain,Not in JASPAR,Not in JASPAR
+HESX1,Homeodomain,Homeo domain factors,Paired-related HD factors
+HHEX,Homeodomain,Not in JASPAR,Not in JASPAR
+HLX,Homeodomain,Not in JASPAR,Not in JASPAR
+HMBOX1,Homeodomain,Homeo domain factors,POU domain factors
+HMX1,Homeodomain,Not in JASPAR,Not in JASPAR
+HMX2,Homeodomain,Not in JASPAR,Not in JASPAR
+HMX3,Homeodomain,Not in JASPAR,Not in JASPAR
+HNF1A,Homeodomain,Homeo domain factors,POU domain factors
+HNF1B,Homeodomain,Homeo domain factors,POU domain factors
+HOMEZ,Homeodomain,Homeo domain factors,HD-ZF
+HOXA1,Homeodomain,Homeo domain factors,HOX
+HOXA10,Homeodomain,Homeo domain factors,HOX
+HOXA11,Homeodomain,Not in JASPAR,Not in JASPAR
+HOXA13,Homeodomain,Not in JASPAR,Not in JASPAR
+HOXA2,Homeodomain,Homeo domain factors,HOX
+HOXA3,Homeodomain,Homeo domain factors,HOX
+HOXA4,Homeodomain,Homeo domain factors,HOX
+HOXA5,Homeodomain,Homeo domain factors,HOX
+HOXA6,Homeodomain,Homeo domain factors,HOX
+HOXA7,Homeodomain,Homeo domain factors,HOX
+HOXA9,Homeodomain,Homeo domain factors,HOX
+HOXB1,Homeodomain,Homeo domain factors,HOX
+HOXB13,Homeodomain,Homeo domain factors,HOX
+HOXB2,Homeodomain,Homeo domain factors,HOX
+HOXB3,Homeodomain,Homeo domain factors,HOX
+HOXB4,Homeodomain,Homeo domain factors,HOX
+HOXB5,Homeodomain,Homeo domain factors,HOX
+HOXB6,Homeodomain,Homeo domain factors,HOX
+HOXB7,Homeodomain,Homeo domain factors,HOX
+HOXB8,Homeodomain,Homeo domain factors,HOX
+HOXB9,Homeodomain,Homeo domain factors,HOX
+HOXC10,Homeodomain,Homeo domain factors,HOX
+HOXC11,Homeodomain,Homeo domain factors,HOX
+HOXC12,Homeodomain,Homeo domain factors,HOX
+HOXC13,Homeodomain,Homeo domain factors,HOX
+HOXC4,Homeodomain,Homeo domain factors,HOX
+HOXC5,Homeodomain,Not in JASPAR,Not in JASPAR
+HOXC6,Homeodomain,Not in JASPAR,Not in JASPAR
+HOXC8,Homeodomain,Homeo domain factors,HOX
+HOXC9,Homeodomain,Homeo domain factors,HOX
+HOXD1,Homeodomain,Homeo domain factors,HOX
+HOXD10,Homeodomain,Homeo domain factors,HOX
+HOXD11,Homeodomain,Homeo domain factors,HOX
+HOXD12,Homeodomain,Homeo domain factors,HOX
+HOXD13,Homeodomain,Not in JASPAR,Not in JASPAR
+HOXD3,Homeodomain,Homeo domain factors,HOX
+HOXD4,Homeodomain,Homeo domain factors,HOX
+HOXD8,Homeodomain,Homeo domain factors,HOX
+HOXD9,Homeodomain,Homeo domain factors,HOX
+IRX1,Homeodomain,Homeo domain factors,TALE-type HD
+IRX2,Homeodomain,Homeo domain factors,TALE-type HD
+IRX3,Homeodomain,Not in JASPAR,Not in JASPAR
+IRX4,Homeodomain,Not in JASPAR,Not in JASPAR
+IRX5,Homeodomain,Homeo domain factors,TALE-type HD
+IRX6,Homeodomain,Not in JASPAR,Not in JASPAR
+ISL1,Homeodomain,Not in JASPAR,Not in JASPAR
+ISL2,Homeodomain,Homeo domain factors,HD-LIM
+ISX,Homeodomain,Homeo domain factors,Paired-related HD factors
+LBX1,Homeodomain,Homeo domain factors,NK
+LBX2,Homeodomain,Homeo domain factors,NK
+LEUTX,Homeodomain,Homeo domain factors,Paired-related HD
+LHX1,Homeodomain,Not in JASPAR,Not in JASPAR
+LHX2,Homeodomain,Homeo domain factors,HD-LIM
+LHX3,Homeodomain,Not in JASPAR,Not in JASPAR
+LHX4,Homeodomain,Not in JASPAR,Not in JASPAR
+LHX5,Homeodomain,Homeo domain factors,HD-LIM
+LHX6,Homeodomain,Homeo domain factors,HD-LIM
+LHX8,Homeodomain,Not in JASPAR,Not in JASPAR
+LHX9,Homeodomain,Homeo domain factors,HD-LIM
+LMX1A,Homeodomain,Homeo domain factors,HD-LIM
+LMX1B,Homeodomain,Homeo domain factors,HD-LIM
+MEIS1,Homeodomain,Homeo domain factors,TALE-type homeo domain factors
+MEIS2,Homeodomain,Homeo domain factors,TALE-type homeo domain factors
+MEIS3,Homeodomain,Homeo domain factors,TALE-type homeo domain factors
+MEOX1,Homeodomain,Homeo domain factors,HOX
+MEOX2,Homeodomain,Homeo domain factors,HOX
+MIXL1,Homeodomain,Homeo domain factors,Paired-related HD factors
+MKX,Homeodomain,Homeo domain factors,TALE-type HD
+MNX1,Homeodomain,Homeo domain factors,HOX
+MSX1,Homeodomain,Homeo domain factors,NK
+MSX2,Homeodomain,Homeo domain factors,NK
+NANOG,Homeodomain,Not in JASPAR,Not in JASPAR
+NANOGNB,Homeodomain,Not in JASPAR,Not in JASPAR
+NANOGP8,Homeodomain,Not in JASPAR,Not in JASPAR
+NKX1-1,Homeodomain,Not in JASPAR,Not in JASPAR
+NKX1-2,Homeodomain,Not in JASPAR,Not in JASPAR
+NKX2-1,Homeodomain,Not in JASPAR,Not in JASPAR
+NKX2-2,Homeodomain,Homeo domain factors,NK
+NKX2-3,Homeodomain,Homeo domain factors,NK
+NKX2-4,Homeodomain,Homeo domain factors,NK
+NKX2-5,Homeodomain,Homeo domain factors,NK
+NKX2-6,Homeodomain,Not in JASPAR,Not in JASPAR
+NKX2-8,Homeodomain,Homeo domain factors,NK
+NKX3-1,Homeodomain,Not in JASPAR,Not in JASPAR
+NKX3-2,Homeodomain,Not in JASPAR,Not in JASPAR
+NKX6-1,Homeodomain,Homeo domain factors,NK
+NKX6-2,Homeodomain,Homeo domain factors,NK
+NKX6-3,Homeodomain,Homeo domain factors,NK
+NOBOX,Homeodomain,Not in JASPAR,Not in JASPAR
+NOTO,Homeodomain,Homeo domain factors,NK
+OTP,Homeodomain,Not in JASPAR,Not in JASPAR
+OTX1,Homeodomain,Homeo domain factors,Paired-related HD factors
+OTX2,Homeodomain,Homeo domain factors,Paired-related HD factors
+PBX1,Homeodomain,Homeo domain factors,TALE-type homeo domain factors
+PBX2,Homeodomain,Homeo domain factors,TALE-type homeo domain factors
+PBX3,Homeodomain,Homeo domain factors,TALE-type homeo domain factors
+PBX4,Homeodomain,Not in JASPAR,Not in JASPAR
+PDX1,Homeodomain,Homeo domain factors,HOX
+PHOX2A,Homeodomain,Homeo domain factors,Paired-related HD factors
+PHOX2B,Homeodomain,Homeo domain factors,Paired-related HD factors
+PITX1,Homeodomain,Homeo domain factors,Paired-related HD factors
+PITX2,Homeodomain,Homeo domain factors,Paired-related HD factors
+PITX3,Homeodomain,Homeo domain factors,Paired-related HD factors
+PKNOX1,Homeodomain,Homeo domain factors,TALE-type homeo domain factors
+PKNOX2,Homeodomain,Homeo domain factors,TALE-type homeo domain factors
+PROP1,Homeodomain,Homeo domain factors,Paired-related HD factors
+PRRX1,Homeodomain,Homeo domain factors,Paired-related HD factors
+PRRX2,Homeodomain,Homeo domain factors,Paired-related HD factors
+RAX,Homeodomain,Homeo domain factors,Paired-related HD factors
+RAX2,Homeodomain,Homeo domain factors,Paired-related HD factors
+RHOXF1,Homeodomain,Homeo domain factors,Paired-related HD factors
+RHOXF2,Homeodomain,Not in JASPAR,Not in JASPAR
+RHOXF2B,Homeodomain,Not in JASPAR,Not in JASPAR
+SEBOX,Homeodomain,Not in JASPAR,Not in JASPAR
+SHOX,Homeodomain,Homeo domain factors,Paired-related HD factors
+SHOX2,Homeodomain,Not in JASPAR,Not in JASPAR
+SIX1,Homeodomain,Homeo domain factors,HD-SINE
+SIX2,Homeodomain,Homeo domain factors,HD-SINE
+SIX3,Homeodomain,Not in JASPAR,Not in JASPAR
+SIX4,Homeodomain,Not in JASPAR,Not in JASPAR
+SIX5,Homeodomain,Not in JASPAR,Not in JASPAR
+SIX6,Homeodomain,Not in JASPAR,Not in JASPAR
+TGIF1,Homeodomain,Homeo domain factors,TALE-type homeo domain factors
+TGIF2,Homeodomain,Homeo domain factors,TALE-type homeo domain factors
+TGIF2LX,Homeodomain,Homeo domain factors,TALE-type homeo domain factors
+TGIF2LY,Homeodomain,Homeo domain factors,TALE-type homeo domain factors
+TLX1,Homeodomain,Not in JASPAR,Not in JASPAR
+TLX2,Homeodomain,Homeo domain factors,NK
+TLX3,Homeodomain,Homeo domain factors,NK
+TPRX1,Homeodomain,Homeo domain factors,Paired-related HD
+UNCX,Homeodomain,Homeo domain factors,Paired-related HD factors
+VAX1,Homeodomain,Homeo domain factors,NK
+VAX2,Homeodomain,Homeo domain factors,NK
+VENTX,Homeodomain,Homeo domain factors,NK
+VSX1,Homeodomain,Homeo domain factors,Paired-related HD factors
+VSX2,Homeodomain,Homeo domain factors,Paired-related HD factors
+ZFHX2,Homeodomain,Not in JASPAR,Not in JASPAR
+ZHX1,Homeodomain,Not in JASPAR,Not in JASPAR
+ZHX2,Homeodomain,Not in JASPAR,Not in JASPAR
+ZHX3,Homeodomain,Not in JASPAR,Not in JASPAR
+PAX2,Homeodomain; Paired box,Paired box factors,Paired domain only
+PAX3,Homeodomain; Paired box,Paired box factors,Paired plus homeo domain
+PAX4,Homeodomain; Paired box,Paired box factors,Paired plus homeo domain
+PAX6,Homeodomain; Paired box,Paired box factors,Paired plus homeo domain
+PAX7,Homeodomain; Paired box,Not in JASPAR,Not in JASPAR
+POU1F1,Homeodomain; POU,Homeo domain factors,POU domain factors
+POU2F1,Homeodomain; POU,Homeo domain factors,POU domain factors
+POU2F2,Homeodomain; POU,Homeo domain factors,POU domain factors
+POU2F3,Homeodomain; POU,Homeo domain factors,POU domain factors
+POU3F1,Homeodomain; POU,Homeo domain factors,POU domain factors
+POU3F2,Homeodomain; POU,Homeo domain factors,POU domain factors
+POU3F3,Homeodomain; POU,Homeo domain factors,POU domain factors
+POU3F4,Homeodomain; POU,Homeo domain factors,POU domain factors
+POU4F1,Homeodomain; POU,Homeo domain factors,POU domain factors
+POU4F2,Homeodomain; POU,Homeo domain factors,POU domain factors
+POU4F3,Homeodomain; POU,Homeo domain factors,POU domain factors
+POU5F1,Homeodomain; POU,Homeo domain factors,POU domain factors
+POU5F1B,Homeodomain; POU,Homeo domain factors,POU domain factors
+POU5F2,Homeodomain; POU,Not in JASPAR,Not in JASPAR
+POU6F1,Homeodomain; POU,Homeo domain factors,POU domain factors
+POU6F2,Homeodomain; POU,Homeo domain factors,POU domain factors
+HSF1,HSF,Heat shock factors,HSF factors
+HSF2,HSF,Heat shock factors,HSF factors
+HSF4,HSF,Heat shock factors,HSF factors
+HSF5,HSF,Heat shock factors,HSF factors
+HSFX1,HSF,Not in JASPAR,Not in JASPAR
+HSFX2,HSF,Not in JASPAR,Not in JASPAR
+HSFY1,HSF,Not in JASPAR,Not in JASPAR
+HSFY2,HSF,Not in JASPAR,Not in JASPAR
+IRF1,IRF,Not in JASPAR,Not in JASPAR
+IRF2,IRF,Tryptophan cluster factors,Interferon-regulatory factors
+IRF3,IRF,Tryptophan cluster factors,Interferon-regulatory factors
+IRF4,IRF,Tryptophan cluster factors,Interferon-regulatory factors
+IRF5,IRF,Tryptophan cluster factors,Interferon-regulatory factors
+IRF6,IRF,Tryptophan cluster factors,Interferon-regulatory factors
+IRF7,IRF,Tryptophan cluster factors,Interferon-regulatory factors
+IRF8,IRF,Tryptophan cluster factors,Interferon-regulatory factors
+IRF9,IRF,Tryptophan cluster factors,Interferon-regulatory factors
+MSANTD1,MADF,Tryptophan cluster factors,Myb-SANT
+MSANTD3,MADF,Tryptophan cluster factors,Myb/SANT domain factors
+NAIF1,MADF,Not in JASPAR,Not in JASPAR
+BORCS8-MEF2B,MADS box,Not in JASPAR,Not in JASPAR
+MEF2A,MADS box,MADS box factors,Regulators of differentiation
+MEF2B,MADS box,MADS box factors,Regulators of differentiation
+MEF2C,MADS box,MADS box factors,Regulators of differentiation
+MEF2D,MADS box,MADS box factors,Regulators of differentiation
+SRF,MADS box,MADS box factors,Responders to external signals (SRF/RLM1)
+BAZ2B,MBD,Not in JASPAR,Not in JASPAR
+MBD2,MBD,Not in JASPAR,Not in JASPAR
+MBD3,MBD,Not in JASPAR,Not in JASPAR
+MBD4,MBD,Not in JASPAR,Not in JASPAR
+MBD6,MBD,Not in JASPAR,Not in JASPAR
+PIN1,MBD,Not in JASPAR,Not in JASPAR
+SETDB1,MBD,Not in JASPAR,Not in JASPAR
+SETDB2,MBD,Not in JASPAR,Not in JASPAR
+BAZ2A,MBD; AT hook,Not in JASPAR,Not in JASPAR
+MECP2,MBD; AT hook,Not in JASPAR,Not in JASPAR
+MBD1,MBD; CxxC ZF,Not in JASPAR,Not in JASPAR
+MTERF1,mTERF,Not in JASPAR,Not in JASPAR
+MTERF2,mTERF,Not in JASPAR,Not in JASPAR
+MTERF3,mTERF,Not in JASPAR,Not in JASPAR
+MTERF4,mTERF,Not in JASPAR,Not in JASPAR
+CDC5L,Myb/SANT,Not in JASPAR,Not in JASPAR
+DMTF1,Myb/SANT,Tryptophan cluster factors,Myb-SANT
+MSANTD4,Myb/SANT,Tryptophan cluster factors,Myb-SANT
+MYB,Myb/SANT,Tryptophan cluster factors,Myb/SANT domain factors
+MYBL1,Myb/SANT,Tryptophan cluster factors,Myb/SANT domain factors
+MYBL2,Myb/SANT,Tryptophan cluster factors,Myb/SANT domain factors
+MYPOP,Myb/SANT,Tryptophan cluster factors,Myb-SANT
+MYSM1,Myb/SANT,Not in JASPAR,Not in JASPAR
+SNAPC4,Myb/SANT,Not in JASPAR,Not in JASPAR
+TERB1,Myb/SANT,Not in JASPAR,Not in JASPAR
+TERF1,Myb/SANT,Not in JASPAR,Not in JASPAR
+TERF2,Myb/SANT,Not in JASPAR,Not in JASPAR
+TTF1,Myb/SANT,Not in JASPAR,Not in JASPAR
+ZZZ3,Myb/SANT,Not in JASPAR,Not in JASPAR
+MYRF,Ndt80/PhoG,Not in JASPAR,Not in JASPAR
+MYRFL,Ndt80/PhoG,Not in JASPAR,Not in JASPAR
+NFX1,NFX,Not in JASPAR,Not in JASPAR
+NFXL1,NFX,Not in JASPAR,Not in JASPAR
+AR,Nuclear receptor,Not in JASPAR,Not in JASPAR
+ESR1,Nuclear receptor,Nuclear receptors with C4 zinc fingers,Steroid hormone receptors (NR3)
+ESR2,Nuclear receptor,Nuclear receptors with C4 zinc fingers,Steroid hormone receptors (NR3)
+ESRRA,Nuclear receptor,Nuclear receptors with C4 zinc fingers,Steroid hormone receptors (NR3)
+ESRRB,Nuclear receptor,Nuclear receptors with C4 zinc fingers,Steroid hormone receptors (NR3)
+ESRRG,Nuclear receptor,Not in JASPAR,Not in JASPAR
+HNF4A,Nuclear receptor,Nuclear receptors with C4 zinc fingers,RXR-related receptors (NR2)
+HNF4G,Nuclear receptor,Nuclear receptors with C4 zinc fingers,RXR-related receptors (NR2)
+NR1D1,Nuclear receptor,Nuclear receptors with C4 zinc fingers,Thyroid hormone receptor-related factors (NR1)
+NR1D2,Nuclear receptor,Nuclear receptors with C4 zinc fingers,Thyroid hormone receptor-related factors (NR1)
+NR1H2,Nuclear receptor,Not in JASPAR,Not in JASPAR
+NR1H3,Nuclear receptor,Not in JASPAR,Not in JASPAR
+NR1H4,Nuclear receptor,Not in JASPAR,Not in JASPAR
+NR1I2,Nuclear receptor,Nuclear receptors with C4 zinc fingers,Thyroid hormone receptor-related factors (NR1)
+NR1I3,Nuclear receptor,Nuclear receptors with C4 zinc fingers,Thyroid hormone receptor-related factors (NR1)
+NR2C1,Nuclear receptor,Nuclear receptors with C4 zinc fingers,RXR-related receptors (NR2)
+NR2C2,Nuclear receptor,Nuclear receptors with C4 zinc fingers,RXR-related receptors (NR2)
+NR2E1,Nuclear receptor,Not in JASPAR,Not in JASPAR
+NR2E3,Nuclear receptor,Not in JASPAR,Not in JASPAR
+NR2F1,Nuclear receptor,Nuclear receptors with C4 zinc fingers,RXR-related receptors (NR2)
+NR2F2,Nuclear receptor,Nuclear receptors with C4 zinc fingers,RXR-related receptors (NR2)
+NR2F6,Nuclear receptor,Nuclear receptors with C4 zinc fingers,RXR-related receptors (NR2)
+NR3C1,Nuclear receptor,Nuclear receptors with C4 zinc fingers,Steroid hormone receptors (NR3)
+NR3C2,Nuclear receptor,Nuclear receptors with C4 zinc fingers,Steroid hormone receptors (NR3)
+NR4A1,Nuclear receptor,Nuclear receptors with C4 zinc fingers,NGFI-B-related receptors (NR4)
+NR4A2,Nuclear receptor,Nuclear receptors with C4 zinc fingers,NGFI-B-related receptors (NR4)
+NR4A3,Nuclear receptor,Not in JASPAR,Not in JASPAR
+NR5A1,Nuclear receptor,Not in JASPAR,Not in JASPAR
+NR5A2,Nuclear receptor,Not in JASPAR,Not in JASPAR
+NR6A1,Nuclear receptor,Nuclear receptors with C4 zinc fingers,GCNF-related receptors (NR6)
+PGR,Nuclear receptor,Nuclear receptors with C4 zinc fingers,Steroid hormone receptors (NR3)
+PPARA,Nuclear receptor,Not in JASPAR,Not in JASPAR
+PPARD,Nuclear receptor,Nuclear receptors with C4 zinc fingers,Thyroid hormone receptor-related factors (NR1)
+PPARG,Nuclear receptor,Nuclear receptors with C4 zinc fingers,Thyroid hormone receptor-related factors (NR1)
+RARA,Nuclear receptor,Nuclear receptors with C4 zinc fingers,Thyroid hormone receptor-related factors (NR1)
+RARB,Nuclear receptor,Nuclear receptors with C4 zinc fingers,Thyroid hormone receptor-related factors (NR1)
+RARG,Nuclear receptor,Nuclear receptors with C4 zinc fingers,Thyroid hormone receptor-related factors (NR1)
+RORA,Nuclear receptor,Nuclear receptors with C4 zinc fingers,Thyroid hormone receptor-related factors (NR1)
+RORB,Nuclear receptor,Nuclear receptors with C4 zinc fingers,Thyroid hormone receptor-related factors (NR1)
+RORC,Nuclear receptor,Nuclear receptors with C4 zinc fingers,Thyroid hormone receptor-related factors (NR1)
+RXRA,Nuclear receptor,Not in JASPAR,Not in JASPAR
+RXRB,Nuclear receptor,Nuclear receptors with C4 zinc fingers,RXR-related receptors (NR2)
+RXRG,Nuclear receptor,Nuclear receptors with C4 zinc fingers,RXR-related receptors (NR2)
+THRA,Nuclear receptor,Nuclear receptors with C4 zinc fingers,Thyroid hormone receptor-related factors (NR1)
+THRB,Nuclear receptor,Nuclear receptors with C4 zinc fingers,Thyroid hormone receptor-related factors (NR1)
+VDR,Nuclear receptor,Not in JASPAR,Not in JASPAR
+TP53,p53,p53 domain factors,p53-related factors
+TP63,p53,p53 domain factors,p53-related factors
+TP73,p53,p53 domain factors,p53-related factors
+PAX1,Paired box,Paired box factors,Paired domain only
+PAX5,Paired box,Paired box factors,Paired domain only
+PAX8,Paired box,Paired box factors,Paired domain only
+PAX9,Paired box,Paired box factors,Paired domain only
+LCOR,Pipsqueak,Not in JASPAR,Not in JASPAR
+LCORL,Pipsqueak,Not in JASPAR,Not in JASPAR
+PROX1,Prospero,Homeo domain factors,HD-PROS factors
+PROX2,Prospero,Not in JASPAR,Not in JASPAR
+NFAT5,Rel,Not in JASPAR,Not in JASPAR
+NFATC1,Rel,Not in JASPAR,Not in JASPAR
+NFATC2,Rel,Not in JASPAR,Not in JASPAR
+NFATC3,Rel,Rel homology region (RHR) factors,NFAT-related factors
+NFATC4,Rel,Rel homology region (RHR) factors,NFAT-related factors
+NFKB1,Rel,Rel homology region (RHR) factors,NF-kappaB-related factors
+NFKB2,Rel,Rel homology region (RHR) factors,NF-kappaB-related factors
+REL,Rel,Rel homology region (RHR) factors,NF-kappaB-related factors
+RELA,Rel,Rel homology region (RHR) factors,NF-kappaB-related factors
+RELB,Rel,Rel homology region (RHR) factors,NF-kappaB-related factors
+RFX1,RFX,Fork head/winged helix factors,RFX-related factors
+RFX2,RFX,Fork head/winged helix factors,RFX-related factors
+RFX3,RFX,Fork head/winged helix factors,RFX-related factors
+RFX4,RFX,Fork head/winged helix factors,RFX-related factors
+RFX5,RFX,Fork head/winged helix factors,RFX-related factors
+RFX6,RFX,Not in JASPAR,Not in JASPAR
+RFX7,RFX,Fork head/winged helix factors,RFX-related factors
+RFX8,RFX,Not in JASPAR,Not in JASPAR
+RUNX1,Runt,Not in JASPAR,Not in JASPAR
+RUNX2,Runt,Runt domain factors,Runt-related factors
+RUNX3,Runt,Runt domain factors,Runt-related factors
+AIRE,SAND,Not in JASPAR,Not in JASPAR
+DEAF1,SAND,Not in JASPAR,Not in JASPAR
+GMEB1,SAND,Not in JASPAR,Not in JASPAR
+GMEB2,SAND,SAND domain factors,GMEB
+SKOR2,SAND,Not in JASPAR,Not in JASPAR
+SP100,SAND,Not in JASPAR,Not in JASPAR
+SP110,SAND,Not in JASPAR,Not in JASPAR
+SP140,SAND,Not in JASPAR,Not in JASPAR
+SP140L,SAND,SAND domain factors,Sp140-Sp100
+NFIA,SMAD,SMAD/NF-1 DNA-binding domain factors,Nuclear factor 1
+NFIB,SMAD,SMAD/NF-1 DNA-binding domain factors,Nuclear factor 1
+NFIC,SMAD,SMAD/NF-1 DNA-binding domain factors,Nuclear factor 1
+NFIX,SMAD,SMAD/NF-1 DNA-binding domain factors,Nuclear factor 1
+SMAD1,SMAD,Not in JASPAR,Not in JASPAR
+SMAD3,SMAD,SMAD/NF-1 DNA-binding domain factors,SMAD factors
+SMAD4,SMAD,Not in JASPAR,Not in JASPAR
+SMAD5,SMAD,SMAD/NF-1 DNA-binding domain factors,SMAD factors
+SMAD9,SMAD,Not in JASPAR,Not in JASPAR
+STAT1,STAT,STAT domain factors,STAT factors
+STAT2,STAT,Not in JASPAR,Not in JASPAR
+STAT3,STAT,STAT domain factors,STAT factors
+STAT4,STAT,Not in JASPAR,Not in JASPAR
+STAT5A,STAT,Not in JASPAR,Not in JASPAR
+STAT5B,STAT,Not in JASPAR,Not in JASPAR
+STAT6,STAT,Not in JASPAR,Not in JASPAR
+EOMES,T-box,T-Box factors,TBrain-related factors
+MGA,T-box,T-Box factors,TBX6-related factors
+T,T-box,Not in JASPAR,Not in JASPAR
+TBR1,T-box,T-Box factors,TBrain-related factors
+TBX1,T-box,T-Box factors,TBX1-related factors
+TBX10,T-box,Not in JASPAR,Not in JASPAR
+TBX15,T-box,T-Box factors,TBX1-related factors
+TBX18,T-box,T-Box factors,TBX1-related factors
+TBX19,T-box,T-Box factors,Brachyury-related factors
+TBX2,T-box,T-Box factors,TBX2-related factors
+TBX20,T-box,T-Box factors,TBX1-related factors
+TBX21,T-box,T-Box factors,TBrain-related factors
+TBX22,T-box,Not in JASPAR,Not in JASPAR
+TBX3,T-box,T-Box factors,TBX2-related factors
+TBX4,T-box,T-Box factors,TBX2-related factors
+TBX5,T-box,T-Box factors,TBX2-related factors
+TBX6,T-box,Not in JASPAR,Not in JASPAR
+TBP,TBP,Not in JASPAR,Not in JASPAR
+TBPL1,TBP,Not in JASPAR,Not in JASPAR
+TBPL2,TBP,Not in JASPAR,Not in JASPAR
+LIN54,TCR/CxC,Not in JASPAR,Not in JASPAR
+TEAD1,TEA,TEA domain factors,TEF-1-related factors
+TEAD2,TEA,TEA domain factors,TEF-1-related factors
+TEAD3,TEA,TEA domain factors,TEF-1-related factors
+TEAD4,TEA,TEA domain factors,TEF-1-related factors
+THAP1,THAP finger,C2CH THAP-type zinc finger factors,THAP-related factors
+THAP10,THAP finger,Not in JASPAR,Not in JASPAR
+THAP11,THAP finger,Not in JASPAR,Not in JASPAR
+THAP12,THAP finger,Not in JASPAR,Not in JASPAR
+THAP2,THAP finger,Not in JASPAR,Not in JASPAR
+THAP3,THAP finger,Not in JASPAR,Not in JASPAR
+THAP4,THAP finger,Not in JASPAR,Not in JASPAR
+THAP5,THAP finger,Not in JASPAR,Not in JASPAR
+THAP6,THAP finger,Not in JASPAR,Not in JASPAR
+THAP7,THAP finger,Not in JASPAR,Not in JASPAR
+THAP8,THAP finger,Not in JASPAR,Not in JASPAR
+THAP9,THAP finger,Not in JASPAR,Not in JASPAR
+AEBP1,Unknown,Not in JASPAR,Not in JASPAR
+ARHGAP35,Unknown,Not in JASPAR,Not in JASPAR
+BPTF,Unknown,Not in JASPAR,Not in JASPAR
+BRF2,Unknown,Not in JASPAR,Not in JASPAR
+CARF,Unknown,Not in JASPAR,Not in JASPAR
+CC2D1A,Unknown,Not in JASPAR,Not in JASPAR
+CEBPZ,Unknown,Not in JASPAR,Not in JASPAR
+CENPA,Unknown,Not in JASPAR,Not in JASPAR
+CENPS,Unknown,Not in JASPAR,Not in JASPAR
+CENPT,Unknown,Not in JASPAR,Not in JASPAR
+CENPX,Unknown,Not in JASPAR,Not in JASPAR
+CGGBP1,Unknown,C2H2 zinc finger factors,
+CHCHD3,Unknown,Not in JASPAR,Not in JASPAR
+CPEB1,Unknown,Not in JASPAR,Not in JASPAR
+CSRNP1,Unknown,Not in JASPAR,Not in JASPAR
+CSRNP2,Unknown,Not in JASPAR,Not in JASPAR
+CSRNP3,Unknown,Not in JASPAR,Not in JASPAR
+DACH1,Unknown,Not in JASPAR,Not in JASPAR
+DACH2,Unknown,Not in JASPAR,Not in JASPAR
+DR1,Unknown,Not in JASPAR,Not in JASPAR
+DRAP1,Unknown,Not in JASPAR,Not in JASPAR
+GLMP,Unknown,Not in JASPAR,Not in JASPAR
+GPBP1,Unknown,Not in JASPAR,Not in JASPAR
+GPBP1L1,Unknown,Not in JASPAR,Not in JASPAR
+GTF2B,Unknown,Not in JASPAR,Not in JASPAR
+KCNIP3,Unknown,Not in JASPAR,Not in JASPAR
+LTF,Unknown,Not in JASPAR,Not in JASPAR
+MTF2,Unknown,Not in JASPAR,Not in JASPAR
+NACC2,Unknown,C2H2 zinc finger factors,Other factors with up to three adjacent zinc fingers
+NFE4,Unknown,Not in JASPAR,Not in JASPAR
+NFYB,Unknown,Heteromeric CCAAT-binding factors,Heteromeric CCAAT-binding
+NFYC,Unknown,Heteromeric CCAAT-binding factors,Heteromeric CCAAT-binding
+NKRF,Unknown,Not in JASPAR,Not in JASPAR
+NME2,Unknown,Not in JASPAR,Not in JASPAR
+NR0B1,Unknown,Not in JASPAR,Not in JASPAR
+NRF1,Unknown,Not in JASPAR,Not in JASPAR
+PA2G4,Unknown,Not in JASPAR,Not in JASPAR
+PCGF2,Unknown,Not in JASPAR,Not in JASPAR
+PCGF6,Unknown,Not in JASPAR,Not in JASPAR
+PHF1,Unknown,Not in JASPAR,Not in JASPAR
+PHF19 ,Unknown,Not in JASPAR,Not in JASPAR
+PLSCR1,Unknown,Not in JASPAR,Not in JASPAR
+POU2AF1,Unknown,Not in JASPAR,Not in JASPAR
+PREB,Unknown,Not in JASPAR,Not in JASPAR
+PURA,Unknown,Not in JASPAR,Not in JASPAR
+PURB,Unknown,Not in JASPAR,Not in JASPAR
+PURG,Unknown,Not in JASPAR,Not in JASPAR
+RAG1,Unknown,Not in JASPAR,Not in JASPAR
+RBCK1,Unknown,Not in JASPAR,Not in JASPAR
+REXO4,Unknown,Not in JASPAR,Not in JASPAR
+SAFB,Unknown,Not in JASPAR,Not in JASPAR
+SAFB2,Unknown,Not in JASPAR,Not in JASPAR
+SCMH1,Unknown,Not in JASPAR,Not in JASPAR
+SKI,Unknown,Not in JASPAR,Not in JASPAR
+SKIL,Unknown,Not in JASPAR,Not in JASPAR
+SKOR1,Unknown,Not in JASPAR,Not in JASPAR
+SMYD3,Unknown,Not in JASPAR,Not in JASPAR
+SNAPC2,Unknown,Not in JASPAR,Not in JASPAR
+SNAPC5,Unknown,Not in JASPAR,Not in JASPAR
+SON,Unknown,Not in JASPAR,Not in JASPAR
+SPEN,Unknown,Not in JASPAR,Not in JASPAR
+SPZ1,Unknown,Not in JASPAR,Not in JASPAR
+TCF20,Unknown,Not in JASPAR,Not in JASPAR
+TET2,Unknown,Not in JASPAR,Not in JASPAR
+THYN1,Unknown,Not in JASPAR,Not in JASPAR
+TMF1,Unknown,Not in JASPAR,Not in JASPAR
+TOPORS,Unknown,Not in JASPAR,Not in JASPAR
+TSC22D1,Unknown,Not in JASPAR,Not in JASPAR
+XPA,Unknown,Not in JASPAR,Not in JASPAR

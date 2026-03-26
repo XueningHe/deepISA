@@ -1,0 +1,82 @@
+2026-03-23 11:41:34 | INFO     | Logger initialized. All logs and errors redirected to: ./QuickStart_pretrained/workflow.log
+2026-03-23 11:41:34 | INFO     | Using GPU 0: NVIDIA H100 NVL (93.09 GB)
+2026-03-23 11:41:34 | INFO     | Using device: cuda:0
+2026-03-23 11:41:34 | INFO     | Running ISA scenario: Threshold=500, RemapSubset=False
+2026-03-23 11:42:52 | INFO     | Logger initialized. All logs and errors redirected to: ./QuickStart_pretrained/workflow.log
+2026-03-23 11:42:52 | INFO     | Using GPU 0: NVIDIA H100 NVL (93.09 GB)
+2026-03-23 11:42:52 | INFO     | Using device: cuda:0
+2026-03-23 11:42:52 | INFO     | Running ISA scenario: Threshold=500, RemapSubset=False
+2026-03-23 11:42:52 | INFO     | Starting motif mapping.
+2026-03-23 11:42:52 | INFO     | Processing region 0...
+2026-03-23 11:43:05 | INFO     | Complete. Output saved to: ./QuickStart_pretrained/Data/motif_locs.csv
+2026-03-23 11:43:05 | INFO     | Single ISA for 43 motifs.
+2026-03-23 11:43:08 | INFO     | Processed batch 1: 3879 motif importance saved.
+2026-03-23 11:43:11 | INFO     | Processed batch 2: 4397 motif importance saved.
+2026-03-23 11:43:14 | INFO     | Processed batch 3: 4248 motif importance saved.
+2026-03-23 11:43:17 | INFO     | Processed batch 4: 3875 motif importance saved.
+2026-03-23 11:43:20 | INFO     | Processed batch 5: 4363 motif importance saved.
+2026-03-23 11:43:20 | INFO     | Single ISA complete. Results saved to ./QuickStart_pretrained/Data/motif_single_isa.csv
+2026-03-23 11:43:20 | INFO     | Combinatorial ISA for 1000 regions.
+2026-03-23 11:45:40 | INFO     | Combinatorial ISA complete. Results saved to ./QuickStart_pretrained/Data/motif_combi_isa.csv
+2026-03-23 11:45:40 | INFO     | Aggregating results in ./QuickStart_pretrained/Data
+2026-03-23 11:45:40 | INFO     | Calculating TF importance for tracks: ['isa_t0']
+2026-03-23 11:45:40 | WARNING  | Insufficient data for TF ATOH7 to perform KS test.
+2026-03-23 11:45:40 | WARNING  | Insufficient data for TF BHLHA15 to perform KS test.
+2026-03-23 11:45:40 | WARNING  | Insufficient data for TF BHLHE22 to perform KS test.
+2026-03-23 11:45:40 | WARNING  | Insufficient data for TF CUX1 to perform KS test.
+2026-03-23 11:45:40 | WARNING  | Insufficient data for TF DDIT3::CEBPA to perform KS test.
+2026-03-23 11:45:40 | WARNING  | Insufficient data for TF DMBX1 to perform KS test.
+2026-03-23 11:45:40 | WARNING  | Insufficient data for TF DMRT1 to perform KS test.
+2026-03-23 11:45:40 | WARNING  | Insufficient data for TF DUXBL1 to perform KS test.
+2026-03-23 11:45:40 | WARNING  | Insufficient data for TF E2F2 to perform KS test.
+2026-03-23 11:45:40 | WARNING  | Insufficient data for TF E2F3 to perform KS test.
+2026-03-23 11:45:40 | WARNING  | Insufficient data for TF E2F4 to perform KS test.
+2026-03-23 11:45:40 | WARNING  | Insufficient data for TF EPAS1 to perform KS test.
+2026-03-23 11:45:40 | WARNING  | Insufficient data for TF ETV2::DRGX to perform KS test.
+2026-03-23 11:45:40 | WARNING  | Insufficient data for TF FLYWCH1 to perform KS test.
+2026-03-23 11:45:40 | WARNING  | Insufficient data for TF GCM1 to perform KS test.
+2026-03-23 11:45:40 | WARNING  | Insufficient data for TF HMX1 to perform KS test.
+2026-03-23 11:45:40 | WARNING  | Insufficient data for TF HMX3 to perform KS test.
+2026-03-23 11:45:40 | WARNING  | Insufficient data for TF HOMEZ to perform KS test.
+2026-03-23 11:45:40 | WARNING  | Insufficient data for TF HOXB9 to perform KS test.
+2026-03-23 11:45:40 | WARNING  | Insufficient data for TF HOXC10 to perform KS test.
+2026-03-23 11:45:40 | WARNING  | Insufficient data for TF HOXD1 to perform KS test.
+2026-03-23 11:45:40 | WARNING  | Insufficient data for TF HOXD10 to perform KS test.
+2026-03-23 11:45:40 | WARNING  | Insufficient data for TF HOXD12::ELK1 to perform KS test.
+2026-03-23 11:45:41 | WARNING  | Insufficient data for TF IRF5 to perform KS test.
+2026-03-23 11:45:41 | WARNING  | Insufficient data for TF IRF6 to perform KS test.
+2026-03-23 11:45:41 | WARNING  | Insufficient data for TF MEIS1 to perform KS test.
+2026-03-23 11:45:41 | WARNING  | Insufficient data for TF MYBL1 to perform KS test.
+2026-03-23 11:45:41 | WARNING  | Insufficient data for TF MYBL2 to perform KS test.
+2026-03-23 11:45:41 | WARNING  | Insufficient data for TF OVOL1 to perform KS test.
+2026-03-23 11:45:41 | WARNING  | Insufficient data for TF PAX1 to perform KS test.
+2026-03-23 11:45:41 | WARNING  | Insufficient data for TF PAX2 to perform KS test.
+2026-03-23 11:45:41 | WARNING  | Insufficient data for TF PAX6 to perform KS test.
+2026-03-23 11:45:41 | WARNING  | Insufficient data for TF PAX8 to perform KS test.
+2026-03-23 11:45:41 | WARNING  | Insufficient data for TF PAX9 to perform KS test.
+2026-03-23 11:45:41 | WARNING  | Insufficient data for TF PBX1 to perform KS test.
+2026-03-23 11:45:41 | WARNING  | Insufficient data for TF RHOX11 to perform KS test.
+2026-03-23 11:45:41 | WARNING  | Insufficient data for TF RUNX2 to perform KS test.
+2026-03-23 11:45:41 | WARNING  | Insufficient data for TF SOX1 to perform KS test.
+2026-03-23 11:45:41 | WARNING  | Insufficient data for TF TFCP2 to perform KS test.
+2026-03-23 11:45:41 | WARNING  | Insufficient data for TF TIGD5 to perform KS test.
+2026-03-23 11:45:41 | WARNING  | Insufficient data for TF TIGD7 to perform KS test.
+2026-03-23 11:45:41 | WARNING  | Insufficient data for TF VENTX to perform KS test.
+2026-03-23 11:45:41 | WARNING  | Insufficient data for TF ZKSCAN1 to perform KS test.
+2026-03-23 11:45:42 | WARNING  | Insufficient data for TF ZNF286B to perform KS test.
+2026-03-23 11:45:42 | WARNING  | Insufficient data for TF ZNF382 to perform KS test.
+2026-03-23 11:45:42 | WARNING  | Insufficient data for TF ZNF410 to perform KS test.
+2026-03-23 11:45:42 | WARNING  | Insufficient data for TF ZNF518B to perform KS test.
+2026-03-23 11:45:42 | WARNING  | Insufficient data for TF ZNF558 to perform KS test.
+2026-03-23 11:45:42 | WARNING  | Insufficient data for TF ZNF678 to perform KS test.
+2026-03-23 11:45:42 | WARNING  | Insufficient data for TF ZNF724 to perform KS test.
+2026-03-23 11:45:42 | WARNING  | Insufficient data for TF ZNF772 to perform KS test.
+2026-03-23 11:45:42 | WARNING  | Insufficient data for TF ZSCAN16 to perform KS test.
+2026-03-23 11:45:42 | WARNING  | Insufficient data for TF ZSCAN2 to perform KS test.
+2026-03-23 11:45:42 | WARNING  | Insufficient data for TF ZSCAN29 to perform KS test.
+2026-03-23 11:45:42 | INFO     | TF importance calculation complete.
+2026-03-23 11:46:55 | INFO     | Cooperativity stats saved to ./QuickStart_pretrained/Data/coop_tf_pair_t0.csv
+2026-03-23 11:46:58 | INFO     | Cooperativity stats saved to ./QuickStart_pretrained/Data/coop_tf_t0.csv
+2026-03-23 11:46:58 | INFO     | Generating Report in ./QuickStart_pretrained/Plots
+2026-03-23 11:47:04 | INFO     | Saved: ./QuickStart_pretrained/Plots/motif_gc_by_cooperativity_t0.png
+2026-03-23 11:47:05 | INFO     | Saved: ./QuickStart_pretrained/Plots/motif_distance_by_category_t0.png
