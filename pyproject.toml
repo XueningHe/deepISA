@@ -23,8 +23,9 @@ dependencies = [
     "pandas>=2.0.0",
     "numpy>=1.24.0",
     "loguru",                                    
-    "tqdm",                        # <--- Essential for progress bars in ISA
-    "scikit-learn",                # <--- Usually needed for data splitting/metrics
+    "tqdm",                        
+    "scikit-learn",                
+    "pyBigWig"
     "biopython>=1.80",
     "scipy",
     "matplotlib",
