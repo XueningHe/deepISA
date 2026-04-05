@@ -52,6 +52,56 @@ Or set the `SAMTOOLS` environment variable to the binary path:
 export SAMTOOLS=/path/to/samtools
 ```
 
+## DeepISA Environment Binding (STRICT)
+
+**This project is STRICTLY bound to the validated DeepISA environment.**
+Any version deviation may change scientific results (attribution scores, thresholds, ISA output).
+
+### Installation (Strict — Required)
+
+```bash
+# 1. Install samtools (Linux)
+sudo apt install samtools
+
+# 2. Install STRICT pinned dependencies (REQUIRED)
+make lock-install
+
+# 3. Verify environment matches DeepISA
+make verify-env
+
+# 4. Setup genome + run test
+make setup
+make test
+```
+
+### Why strict pinning?
+
+- `numpy 2.x` is **binary-incompatible** with pandas/pyarrow → silent crash
+- `torch` version changes model weight behavior
+- `captum` version changes attribution algorithm
+- Scientific reproducibility requires exact package versions
+
+### Environment validator
+
+The guard runs automatically before any computation:
+
+- `run_pipeline()` API → validates before processing
+- CLI `run_filter.py` → validates before loading model
+- Notebook → validates in setup cell
+
+To manually validate:
+
+```bash
+PYTHONPATH=src python -c "from deepISA.utils.deepisa_guard import validate_deepisa_environment; validate_deepisa_environment()"
+```
+
+### Docker
+
+```bash
+docker build -t deepisa_filter .
+docker run --rm deepisa_filter
+```
+
 ## Genome Data
 
 hg38 must be downloaded separately (required by the pipeline).

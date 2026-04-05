@@ -42,6 +42,10 @@ def parse_args():
 def main():
     args = parse_args()
 
+    # ── Environment guard (fail fast on version mismatch) ────────
+    from deepISA.utils.deepisa_guard import validate_deepisa_environment
+    validate_deepisa_environment()
+
     from deepISA.modeling.cnn import Conv
 
     print(f"Loading model from {args.model} ...")

@@ -1,4 +1,4 @@
-.PHONY: help setup install test clean run-filter run-isa
+.PHONY: help setup install lock-install verify-env test clean run-filter run-isa check-samtools
 
 PYTHON := python3
 PIP := pip
@@ -8,16 +8,24 @@ SAMTOOLS := $(shell command -v samtools 2>/dev/null || echo "")
 help:
 	@echo "deepISA_filter Makefile"
 	@echo ""
-	@echo "  make setup          Install Python deps, check samtools, download hg38"
-	@echo "  make install        Install Python dependencies only"
+	@echo "  make lock-install   STRICT: install from requirements.lock.txt (REQUIRED)"
+	@echo "  make setup         Full setup: lock-install + samtools check + hg38 download"
+	@echo "  make verify-env    Validate environment matches DeepISA (strict)"
 	@echo "  make test          Run motif_filter CLI with 10 regions (cpu)"
 	@echo "  make test-notebook Run the tutorial notebook (requires jupyter)"
 	@echo "  make clean         Remove results/ and filtered outputs"
 	@echo "  make check-samtools Check if samtools is installed"
 
-# ── Install ─────────────────────────────────────────────────────────
+# ── STRICT install (use requirements.lock.txt — mandatory) ────────────
+lock-install:
+	@echo "[lock-install] Installing STRICT pinned dependencies from requirements.lock.txt ..."
+	$(PIP) install -r requirements.lock.txt
+	@echo "[lock-install] Done."
+
+# ── Standard install (unpinned — NOT recommended) ─────────────────────
 install:
-	@echo "[install] Installing Python dependencies ..."
+	@echo "[install] WARNING: using unpinned requirements.txt"
+	@echo "[install] Use 'make lock-install' for strict reproducibility."
 	$(PIP) install -r requirements.txt
 	@echo "[install] Done."
 
@@ -30,8 +38,14 @@ else
 	@exit 1
 endif
 
-# ── Setup (all) ─────────────────────────────────────────────────────
-setup: check-samtools install
+# ── Verify environment (strict guard) ────────────────────────────────
+verify-env:
+	@echo "[verify-env] Running DeepISA environment validator ..."
+	PYTHONPATH=src $(PYTHON) -c "from deepISA.utils.deepisa_guard import validate_deepisa_environment; validate_deepisa_environment()"
+	@echo "[verify-env] Environment OK."
+
+# ── Setup (all: strict install + samtools + hg38) ────────────────────
+setup: check-samtools lock-install
 	@echo "[setup] Downloading and setting up hg38 ..."
 	$(PYTHON) -m deepISA.utils.genome_setup \
 		--genome-dir ./data/genome

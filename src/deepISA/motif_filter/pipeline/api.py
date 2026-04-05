@@ -23,6 +23,7 @@ import torch
 from deepISA.motif_filter.pipeline.filter_pipeline import run_pipeline as _run_pipeline
 from deepISA.motif_filter.utils.io import load_regions, load_motif_locs, save_filtered_motifs
 from deepISA.modeling.cnn import Conv
+from deepISA.utils.deepisa_guard import validate_deepisa_environment
 
 
 def run_pipeline(
@@ -76,6 +77,9 @@ def run_pipeline(
         Filtered motifs DataFrame with attrs attached.
         If return_model=True, returns (result_df, model).
     """
+    # ── Environment guard ──────────────────────────────────────
+    validate_deepisa_environment()
+
     # ── Resolve paths ─────────────────────────────────────────
     if isinstance(regions_df, str):
         regions_df = load_regions(regions_df)

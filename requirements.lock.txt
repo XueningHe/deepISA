@@ -1,0 +1,22 @@
+# deepISA_filter — STRICT LOCKED ENVIRONMENT
+# Generated from validated DeepISA environment
+# Python == 3.9.x required
+# DO NOT modify — any version change may alter scientific results
+
+python==3.9.18
+numpy==1.26.4
+pandas==2.3.3
+torch==2.8.0
+captum==0.8.0
+scipy==1.13.1
+bioframe==0.8.0
+pysam==0.23.3
+pyBigWig==0.3.25
+matplotlib==3.9.4
+seaborn==0.13.2
+pyyaml==6.0.3
+tqdm==4.67.3
+loguru==0.7.3
+scikit-learn==1.5.2
+statsmodels==0.14.4
+adjustText==0.8
