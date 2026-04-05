@@ -1,0 +1,13 @@
+torch
+captum
+numpy
+pandas
+matplotlib
+seaborn
+bioframe
+scipy
+tqdm
+loguru
+pysam
+pyBigWig
+pyyaml

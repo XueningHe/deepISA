@@ -10,8 +10,17 @@ build/
 *.egg-info/
 
 
+# --- Runtime Outputs (ignore all, keep data/) ---
+*.csv
+*.png
+*.pdf
+results/
+filtered_motifs_tutorial.csv
+
+# Exception: shipped input data
+!data/*.csv
+
 # --- Notebook Results & Temporary Outputs ---
-# It's usually better to keep notebooks clean and let users generate their own results
 notebooks/QuickStart_pretrained/Data/
 notebooks/QuickStart_pretrained/Plots/
 notebooks/QuickStart_results/

@@ -1,0 +1,34 @@
+# motif_filter default configuration
+# All paths are relative to project root, or absolute
+
+paths:
+  # Directory for hg38 per-chromosome FASTA files
+  genome_dir: "./data/genome/hg38/chroms"
+
+  # Trained model
+  model: "./data/model_blympho.pt"
+
+  # Input data
+  regions: "./data/regions_pos_with_count.csv"
+  motifs: "./data/motif_locs.csv"
+  jaspar: "./data/JASPAR2026_CORE_non-redundant_pfms_jaspar.txt"
+
+  # Output
+  output_dir: "./results"
+
+motif_filter:
+  seq_len: 600
+  window_size: 20
+  stride: 20
+  # Percentiles for dual-gate thresholds
+  percentile_sum: 95    # T_sum = P95 of s_null
+  percentile_peak: 80   # T_peak = P80 of p_null
+
+isa:
+  enabled: false
+  track_idx: 0
+  batch_size: 200
+
+runtime:
+  device: "cuda"   # cuda or cpu
+  n_regions: null   # null = all regions
