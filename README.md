@@ -35,14 +35,14 @@ The pipeline requires the hg38 genome (FASTA, chromosome-level).
 ### Download hg38
 
 ```bash
-# Download (one-time, ~1 GB)
-mkdir -p /home/junhua/data/hg38
-cd /home/junhua/data/hg38
+# Download hg38 (one-time, ~1 GB)
+mkdir -p /path/to/hg38
+cd /path/to/hg38
 
 wget https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz
 gunzip hg38.fa.gz
 
-# Index and split into individual chromosome files
+# Index and split into per-chromosome FASTA
 mkdir -p chroms
 samtools faidx hg38.fa
 awk '{print $1}' hg38.fa.fai | while read chr; do
@@ -53,7 +53,7 @@ done
 ls chroms/chr1.fa   # should exist
 ```
 
-Expected path: `/home/junhua/data/hg38/chroms/`
+Expected path: `/path/to/hg38/chroms/`
 
 ### Pre-existing data (shipped with repo)
 
@@ -86,7 +86,7 @@ result = run_pipeline(
     model=model,
     regions_df=regions_df,
     motif_locs_df=motifs_df,
-    fasta_dir="/home/junhua/data/hg38/chroms",
+    fasta_dir="/path/to/hg38/chroms",
     seq_len=600,
     window_size=20,
     stride=20,
@@ -101,7 +101,7 @@ result = run_pipeline(
 python scripts/run_single_isa.py \
     --prefilter motif_filter \
     --jaspar data/JASPAR2026_CORE_non-redundant_pfms_jaspar.txt \
-    --fasta_dir /home/junhua/data/hg38/chroms \
+    --fasta_dir /path/to/hg38/chroms \
     --regions data/regions_pos_with_count.csv \
     --model data/model_blympho.pt \
     --n_regions 20 \
