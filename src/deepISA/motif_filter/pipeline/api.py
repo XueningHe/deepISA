@@ -1,5 +1,5 @@
-"""
-High-level pipeline API for developers.
+"""High-level pipeline API for developers."""
+from __future__ import annotations
 
 Provides a clean, reusable entry point that wraps the full motif_filter pipeline
 without requiring CLI usage.

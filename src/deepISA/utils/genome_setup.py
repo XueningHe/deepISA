@@ -8,6 +8,8 @@ Usage:
     from deepISA.utils.genome_setup import ensure_hg38
     genome_dir = ensure_hg38("./data/genome")
 """
+from __future__ import annotations
+
 import os
 import shutil
 import subprocess
