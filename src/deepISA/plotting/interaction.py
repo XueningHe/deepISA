@@ -1,290 +1,142 @@
-import matplotlib.pyplot as plt
-import seaborn as sns
-from loguru import logger
 import pandas as pd
 import numpy as np
-
-
+import matplotlib.pyplot as plt
+import seaborn as sns
 from scipy.stats import ks_2samp
 
+from deepISA.utils import apply_plot_style, save_or_show
 
-def plot_null(
-    df, 
-    track_idx=0, 
-    min_dist=100, 
-    max_dist=255, 
-    outpath=None, 
-    figsize=(2.3, 2.0),
-    label_size=7,
-    tick_size=5,
-    legend_size=5
-):
-    """
-    Plots the KDE of the null interaction distribution for all tracks.
-    Labels are dynamically generated as 'Track {i}'.
-    """
-    # 1. Filter for the null distance range
+
+import matplotlib
+matplotlib.rcParams['pdf.fonttype'] = 42
+
+def _get_cbrt_scale():
+    """Returns functions for cube root scaling."""
+    return (lambda x: np.sign(x) * np.power(np.abs(x), 1/3), 
+            lambda x: np.sign(x) * np.power(np.abs(x), 3))
+
+
+
+def plot_null(df, tracks=[0], 
+              min_dist=100, 
+              max_dist=255, 
+              outpath=None, 
+              figsize=(2.3, 2.0)):
+    # 1. Filter and Prepare
     null_df = df[(df["distance"] > min_dist) & (df["distance"] <= max_dist)]
     if null_df.empty:
-        print(f"No pairs found in range {min_dist}-{max_dist}bp.")
         return None
 
-    # Handle single integer or list of indices
-    if isinstance(track_idx, int):
-        track_idx = [track_idx]
-
-    # 2. Prepare data for plotting
-    plot_data_list = []
-    for t in track_idx:
+    plot_data = []
+    for t in tracks:
         col = f"interaction_t{t}"
         if col in null_df.columns:
-            temp = pd.DataFrame({
-                "interaction": null_df[col],
-                "Track": f"Track {t}"  # Dynamic naming
-            })
-            plot_data_list.append(temp)
+            plot_data.append(pd.DataFrame({"interaction": null_df[col], "Track": f"Track {t}"}))
     
-    if not plot_data_list:
-        print("No valid track columns found in DataFrame.")
-        return None
-        
-    plot_df = pd.concat(plot_data_list)
+    if not plot_data: return None
+    plot_df = pd.concat(plot_data)
 
-    # 3. Setup Plot
-    plt.figure(figsize=figsize)
-    ax = plt.gca()
-
-    # Consistent frame styling
-    for spine in ax.spines.values():
-        spine.set_linewidth(0.5)
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-
-    # 4. Plot KDE
-    sns.kdeplot(
-        data=plot_df, 
-        x="interaction", 
-        hue="Track", 
-        fill=True, 
-        alpha=0.3, 
-        linewidth=0.8,
-        ax=ax
-    )
+    # 2. Plotting
+    fig, ax = plt.subplots(figsize=figsize)
+    style = apply_plot_style(ax, figsize)
     
-    # Red dashed line at zero (Expected value for null)
-    ax.axvline(x=0, color='red', linestyle='--', linewidth=0.7, alpha=0.6)
+    sns.kdeplot(data=plot_df, x="interaction", hue="Track", fill=True, 
+                alpha=0.3, linewidth=0.8 * style['scale'], ax=ax)
     
-    # Formatting
-    ax.set_xlabel("Interaction", fontsize=label_size)
-    ax.set_ylabel('Density\n(cbrt scale)', fontsize=label_size)
-    ax.set_title(f"Null Distribution\n({min_dist}-{max_dist}bp)", fontsize=label_size)
+    ax.axvline(x=0, color='red', linestyle='--', linewidth=0.7 * style['scale'], alpha=0.6)
     
-    # Symmetrical x-limits based on data spread
-    limit = max(abs(plot_df["interaction"].min()), abs(plot_df["interaction"].max()), 0.1)
+    # 3. Formatting
+    ax.set_xlabel("Interaction", fontsize=style['main'])
+    ax.set_ylabel('Density\n(cbrt scale)', fontsize=style['main'])
+    ax.set_title(f"Null ({min_dist}-{max_dist}bp)", fontsize=style['main'])
+    
+    limit = max(plot_df["interaction"].abs().max(), 0.1)
     ax.set_xlim(-limit, limit)
-    # cube root scale
-    ax.set_yscale('function', functions=(lambda x: np.power(x, 1/3), lambda x: np.power(x, 3))) 
+    ax.set_yscale('function', functions=_get_cbrt_scale())
     
-    ax.tick_params(axis='both', which='major', labelsize=tick_size)
-
-    # Manage legend (Only show if multiple tracks exist)
-    if len(track_idx) > 1:
-        sns.move_legend(ax, "upper right", fontsize=legend_size, title=None, frameon=False)
-    else:
-        # Remove legend if only one track to keep plot clean
-        if ax.get_legend():
-            ax.get_legend().remove()
+    if len(tracks) > 1:
+        sns.move_legend(ax, "upper right", fontsize=style['small'], title=None, frameon=False)
+    elif ax.get_legend():
+        ax.get_legend().remove()
         
-    plt.tight_layout()
-    
-    if outpath:
-        plt.savefig(outpath, dpi=300, bbox_inches='tight')
-        plt.close()
-    else:
-        return ax
+    return save_or_show(outpath)
 
 
-
-
-
-def plot_tf_pair_against_null(
-    df, 
-    tf_pair,
-    track_idx=0, 
-    plot_type='kde', # 'kde' or 'cdf'
-    min_dist=100, 
-    max_dist=255, 
-    outpath=None, 
-    fig_size=(2.5, 2.2)
-):
-    """
-    Visualizes TF pair interaction logic against the null distribution.
-    Supports KDE (Density) or CDF (Cumulative) views with full statistical annotation.
-    """
-    t = track_idx
-    col = f"interaction_t{t}"
-    
-    # 1. Extract Distributions
+def plot_tf_pair_against_null(df, tf_pair, track_idx=0, plot_type='kde', 
+                               min_dist=100, max_dist=255, outpath=None, figsize=(2.5, 2.2)):
+    # 1. Data Selection
+    col = f"interaction_t{track_idx}"
     null_dist = df[(df["distance"] > min_dist) & (df["distance"] <= max_dist)][col].dropna()
     
-    pair_name = "|".join(sorted(tf_pair)) if isinstance(tf_pair, (list, tuple)) else tf_pair
-    # Extract based on column identity (Standardize search)
-    p1, p2 = (tf_pair[0], tf_pair[1]) if isinstance(tf_pair, (list, tuple)) else tf_pair.split('|')
-    pair_mask = ((df['tf1'] == p1) & (df['tf2'] == p2)) | ((df['tf1'] == p2) & (df['tf2'] == p1))
-    
-    pair_data = df[pair_mask]
-    total_count = len(pair_data)
-    # The valid count is based on non-NaN values (already filtered by _filter_valid_interaction)
-    pair_dist = pair_data[col].dropna()
-    valid_count = len(pair_dist)
+    p1, p2 = tf_pair if isinstance(tf_pair, (list, tuple)) else tf_pair.split('|')
+    pair_name = f"{p1}|{p2}"
+    mask = ((df['tf1'] == p1) & (df['tf2'] == p2)) | ((df['tf1'] == p2) & (df['tf2'] == p1))
+    pair_dist = df[mask][col].dropna()
 
-    if pair_dist.empty:
-        print(f"No valid interaction data for: {pair_name}")
-        return None
+    if pair_dist.empty: return None
 
-    # 2. Calculate Stats for Annotation
+    # 2. Stats
     ks_stat, p_val = ks_2samp(pair_dist, null_dist)
     med_shift = pair_dist.median() - null_dist.median()
 
-    # 3. Plotting Setup
-    plt.figure(figsize=fig_size)
-    ax = plt.gca()
-    for spine in ax.spines.values():
-        spine.set_linewidth(0.5)
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-
+    # 3. Plotting
+    fig, ax = plt.subplots(figsize=figsize)
+    style = apply_plot_style(ax, figsize)
+    
+    plot_args = {'linewidth': 1.2 * style['scale'], 'ax': ax}
     if plot_type == 'cdf':
-        # Plot CDF (Cumulative)
-        sns.ecdfplot(null_dist, color='grey', label='Null', linewidth=1, ax=ax)
-        sns.ecdfplot(pair_dist, color='steelblue', ls='--', label=pair_name, linewidth=1.2, ax=ax)
-        plt.ylabel('Cumulative Probability', fontsize=7)
+        sns.ecdfplot(null_dist, color='grey', label='Null', **plot_args)
+        sns.ecdfplot(pair_dist, color='steelblue', ls='--', label=pair_name, **plot_args)
+        ax.set_ylabel('Cumulative Prob', fontsize=style['main'])
     else:
-        # Plot KDE (Density)
-        sns.kdeplot(null_dist, color='grey', fill=True, alpha=0.2, label='Null', linewidth=1, ax=ax)
-        sns.kdeplot(pair_dist, color='steelblue', ls='--', label=pair_name, linewidth=1.2, ax=ax)
-        plt.ylabel('Density (cbrt scale)', fontsize=7)
-        # Apply your sqrt scale for density visualization if needed
-        # ax.set_yscale('function', functions=(lambda x: np.sqrt(x), lambda x: x**2))
+        sns.kdeplot(null_dist, color='grey', fill=True, alpha=0.2, label='Null', **plot_args)
+        sns.kdeplot(pair_dist, color='steelblue', ls='--', label=pair_name, **plot_args)
+        ax.set_ylabel('Density (cbrt)', fontsize=style['main'])
+        ax.set_yscale('function', functions=_get_cbrt_scale())
 
-    # Center Line (Additivity Benchmark)
-    plt.axvline(x=0, color='red', linestyle=':', linewidth=0.8, alpha=0.5)
-    ax.set_yscale('function', functions=(lambda x: np.power(x, 1/3), lambda x: np.power(x, 3)))
-    # 4. Annotations
-    stats_text = (
-        f"Total N: {total_count}\n"
-        f"Valid N: {valid_count}\n"
-        f"KS D: {ks_stat:.3f} (p:{p_val:.1e})\n"
-        f"Med Shift: {med_shift:.3f}\n"
-    )
-    # Place text in the upper left or right based on plot type
-    plt.text(0.05, 0.95, stats_text, transform=ax.transAxes, fontsize=5,
-             verticalalignment='top', bbox=dict(boxstyle='round', facecolor='white', alpha=0.5, lw=0.3))
-
-    # 5. Formatting
-    plt.xlabel(f"Interaction (track {t})", fontsize=7)
-    plt.title(f"{pair_name} ({plot_type.upper()})", fontsize=7)
+    ax.axvline(x=0, color='red', linestyle=':', linewidth=0.8 * style['scale'], alpha=0.5)
     
+    # 4. Annotations & Formatting
+    stats_text = f"N: {len(pair_dist)}\nKS D: {ks_stat:.3f}\np:{p_val:.1e}\nMedΔ: {med_shift:.3f}"
+    ax.text(0.05, 0.95, stats_text, transform=ax.transAxes, fontsize=style['small'],
+            verticalalignment='top', bbox=dict(boxstyle='round', facecolor='white', alpha=0.5, lw=0.3))
+
+    ax.set_xlabel(f"Interaction (Track {track_idx})", fontsize=style['main'])
+    ax.set_title(pair_name, fontsize=style['main'])
     limit = max(pair_dist.abs().max(), null_dist.abs().max(), 0.1) * 1.1
-    plt.xlim(-limit, limit)
+    ax.set_xlim(-limit, limit)
+    ax.legend(fontsize=style['small'], frameon=False, loc='upper right')
     
-    plt.legend(fontsize=5, frameon=False, loc='upper right')
-    plt.xticks(fontsize=5)
-    plt.yticks(fontsize=5)
-    plt.tight_layout()
-
-    if outpath:
-        plt.savefig(outpath, dpi=300)
-        plt.close()
-    else:
-        return ax
+    return save_or_show(outpath)
 
 
-
-
-def plot_interaction_decay(
-    df, 
-    track_idx=0, 
-    outpath=None,   
-    mode='signed', # 'signed' or 'absolute'
-    figsize=(2.3, 2),
-    label_size=7,
-    tick_size=6,
-    legend_size=5
-):
-    """
-    Unified function to plot either Signed or Absolute interaction decay across distances.
-    Handles single or multiple track indices.
-    """
-    # 1. Standardize track_idx to a list
-    if isinstance(track_idx, (int, float)):
-        track_idx = [int(track_idx)]
-    else:
-        track_idx = list(track_idx)
-        
-    plt.figure(figsize=figsize)
-    ax = plt.gca()
+def plot_interaction_decay(df, track_idx=0, mode='signed', outpath=None, figsize=(2.3, 2)):
+    tracks = [track_idx] if isinstance(track_idx, (int, float)) else list(track_idx)
+    fig, ax = plt.subplots(figsize=figsize)
+    style = apply_plot_style(ax, figsize)
     
-    # TODO: move frame styling to utils
-    # Clean frame styling
-    for spine in ax.spines.values():
-        spine.set_linewidth(0.5)
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    
-    # Define a color palette for multiple tracks
-    palette = sns.color_palette("tab10", n_colors=len(track_idx))
-    colors = {t: palette[i] for i, t in enumerate(track_idx)}
+    palette = sns.color_palette("tab10", n_colors=len(tracks))
 
-    for t in track_idx:
+    for i, t in enumerate(tracks):
         col = f"interaction_t{t}"
-        if col not in df.columns:
-            logger.warning(f"Column {col} not found in dataframe.")
-            continue
+        if col not in df.columns: continue
         
-        label = f"Track {t}"
-        color = colors[t]
-
+        color = palette[i]
         if mode == 'absolute':
-            # Calculate mean of absolute values per distance
-            decay = df.assign(abs_val=df[col].abs()).groupby("distance")["abs_val"].mean().reset_index()
-            sns.lineplot(data=decay, x="distance", y="abs_val", 
-                         color=color, linewidth=1, label=label)
-            plt.ylabel("Mean Abs Interaction", fontsize=label_size)
-            plt.title("Abs Interaction Decay", fontsize=label_size)
-            
-        else: # 'signed'
-            # Calculate means for positive and negative populations separately
-            pos_decay = df[df[col] > 0].groupby("distance")[col].mean().reset_index()
-            neg_decay = df[df[col] < 0].groupby("distance")[col].mean().reset_index()
-            
-            # Label only the positive line to avoid duplicate legend entries
-            sns.lineplot(data=pos_decay, x="distance", y=col, 
-                         color=color, linewidth=1, label=label)
-            sns.lineplot(data=neg_decay, x="distance", y=col, 
-                         color=color, linewidth=1)
-            
-            plt.axhline(0, color='black', linewidth=0.5, alpha=0.3)
-            plt.ylabel("Mean Interaction", fontsize=label_size)
-            plt.title("Interaction Decay", fontsize=label_size)
+            decay = df.assign(abs_v=df[col].abs()).groupby("distance")["abs_v"].mean().reset_index()
+            sns.lineplot(data=decay, x="distance", y="abs_v", color=color, linewidth=1.5 * style['scale'], ax=ax, label=f"T{t}")
+        else:
+            for sign, m in [(1, 'pos'), (-1, 'neg')]:
+                sub = df[df[col] * sign > 0].groupby("distance")[col].mean().reset_index()
+                sns.lineplot(data=sub, x="distance", y=col, color=color, ax=ax, linewidth=1.5 * style['scale'],
+                             label=f"T{t}" if m == 'pos' else None)
+            ax.axhline(0, color='black', linewidth=0.5 * style['scale'], alpha=0.3)
 
-    # Global formatting
-    plt.xlabel("Distance (bp)", fontsize=label_size)
-    plt.xticks(fontsize=tick_size)
-    plt.yticks(fontsize=tick_size)
+    ax.set_xlabel("Distance (bp)", fontsize=style['main'])
+    ax.set_ylabel("Mean Interaction", fontsize=style['main'])
+    ax.set_title(f"{mode.capitalize()} Decay", fontsize=style['main'])
     
-    # Handle Legend
-    handles, labels = ax.get_legend_handles_labels()
-    if handles:
-        # Dictionary zip removes duplicates if they occur
-        by_label = dict(zip(labels, handles))
-        ax.legend(by_label.values(), by_label.keys(), 
-                  fontsize=legend_size, frameon=False, loc='upper right')
-    
-    plt.tight_layout()
-
-    if outpath:
-        plt.savefig(outpath, dpi=300, bbox_inches='tight')
-        plt.close()
-    else:
-        plt.show()
+    if len(tracks) > 0:
+        ax.legend(fontsize=style['small'], frameon=False, loc='upper right')
+        
+    return save_or_show(outpath)
