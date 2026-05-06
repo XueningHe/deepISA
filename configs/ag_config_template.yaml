@@ -1,0 +1,42 @@
+# AlphaGenome backend config for deepISA
+# ─────────────────────────────────────────────────────────────────────────────
+# Usage:
+#   from deepISA.modeling.alpha_genome_adapter import AlphaGenomeAdapter
+#   adapter = AlphaGenomeAdapter("configs/ag_config_template.yaml")
+#
+# Browse available biosamples and assay types:
+#   notebooks/ag_biosample_reference.csv   (714 biosamples × 10 assay types)
+#
+# ─────────────────────────────────────────────────────────────────────────────
+# Option A — Single track  (most common, backward-compatible format)
+# ─────────────────────────────────────────────────────────────────────────────
+api_key: YOUR_API_KEY_HERE     # AlphaGenome API key
+output_type: DNASE             # DNASE | ATAC | CAGE | RNA_SEQ | CHIP_TF | CHIP_HISTONE | PROCAP
+biosample_name: GM12878        # exact string from ag_biosample_reference.csv
+
+# Optional — defaults shown:
+context_len: 16384             # AlphaGenome input length (do not change)
+seq_len: 600                   # deepISA region length (match your training)
+aggregation: sum               # how to aggregate positions in the 600bp window
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Option B — Multi-track  (combine assays / cell lines; still ONE API call)
+# ─────────────────────────────────────────────────────────────────────────────
+# Uncomment below and remove / comment out the single-track keys above.
+#
+# api_key: YOUR_API_KEY_HERE
+# context_len: 16384
+# seq_len: 600
+# aggregation: sum
+# tracks:
+#   - output_type: DNASE
+#     biosample_name: GM12878        # col 0 in output → isa_t0
+#   - output_type: CAGE
+#     biosample_name: GM12878        # cols 1-2       → isa_t1, isa_t2
+#   - output_type: ATAC
+#     biosample_name: K562           # col 3          → isa_t3
+#
+# n_tracks = sum of tracks for each (output_type, biosample) pair.
+# Use adapter.n_tracks to get the value at runtime.
+# Use calc_coop_score(..., track_idx=i) to analyse each track separately.

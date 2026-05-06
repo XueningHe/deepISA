@@ -37,9 +37,8 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = [
-    "pytest>=7.0",                # For the Phase 1/2 validation logic
-]
+dev          = ["pytest>=7.0"]
+alphagenome  = ["alphagenome", "pyyaml"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
