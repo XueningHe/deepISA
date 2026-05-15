@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
-from loguru import logger
+import pandas as pd
 import matplotlib.gridspec as gridspec
 import re
 
@@ -8,7 +8,8 @@ from deepISA.utils import (
     plot_violin_with_statistics,
     format_cooperativity_categorical,
     apply_plot_style,
-    save_or_show
+    save_or_show,
+    remove_if_exists
 )
 
 
@@ -17,7 +18,7 @@ matplotlib.rcParams['pdf.fonttype'] = 42
 
 
 # --- Reuse Helpers from previous refactor ---
-# (Assumes apply_plot_style and save_or_show are available in scope)
+
 
 def prepare_filtered_df(df):
     """Assigns cooperativity and removes 'Independent' entries."""
@@ -31,18 +32,17 @@ def prepare_filtered_df(df):
 def hist_coop_score(
     df, 
     title=None, 
-    xlabel="Cooperativity score", 
+    xlabel="Coop score", 
     outpath=None, 
     vlines=None, 
     annotations=None, # list of (x, relative_y, text)
-    fig_size=(2.3, 2.0)
+    figsize=(2.3, 2.0)
 ):
     """Plots a distribution of cooperativity scores with vertical dividers."""
-    df = prepare_filtered_df(df)
-    
-    fig, ax = plt.subplots(figsize=fig_size)
-    styles = apply_plot_style(ax, fig_size)
-
+    remove_if_exists(outpath, label="Coop Score Histogram")
+    df = df[df["cooperativity"] != "Independent"].reset_index(drop=True)
+    fig, ax = plt.subplots(figsize=figsize)
+    styles = apply_plot_style(ax, figsize)
     # Histogram
     sns.histplot(
         df["coop_score"], 
@@ -52,144 +52,148 @@ def hist_coop_score(
         linewidth=0.2 * styles['scale'],
         ax=ax
     )
-
     # Vertical dividers
     if vlines:
         for x in vlines:
             ax.axvline(x=x, color='grey', linestyle='--', 
                        linewidth=0.7 * styles['scale'], alpha=0.8)
-
     # Category labels using Relative Y-Coordinates
     if annotations:
         transform = ax.get_xaxis_transform()
         for x, rel_y, label in annotations:
             ax.text(x, rel_y, label, transform=transform, 
                     fontsize=styles['small'], ha='center', va='bottom')
-
     ax.set_xlabel(xlabel, fontsize=styles['main'])
     ax.set_ylabel('Frequency', fontsize=styles['main'])
     if title:
         ax.set_title(title, fontsize=styles['main'])
-    
     return save_or_show(outpath)
 
 
 
 def get_prefix(name):
     """
-    Extracts the alphabetical prefix from a TF name.
-    Example: 'SOX2' -> 'SOX', 'ESRRA' -> 'ESRRA', 'GATA1' -> 'GATA'
+    Extracts the family prefix. 
+    Handles: E2F1 -> E2F, HOXA1 -> HOX, SOX2 -> SOX.
     """
-    # Find the transition from letters to numbers OR just return the name if no numbers
-    match = re.match(r"([a-zA-Z]+)", str(name))
-    return match.group(1) if match else str(name)
-
-def get_compressed_labels(label_list):
-    """
-    Reduces consecutive TFs with the same letter prefix to 'Prefix-s'.
-    Example: [SOX2, SOX17, GATA1] -> [SOXs, "", GATA1]
-    """
-    new_labels = []
-    i = 0
-    while i < len(label_list):
-        current_name = label_list[i]
-        prefix = get_prefix(current_name)
-        
-        # Look ahead to see how many consecutive TFs share this prefix
-        j = i + 1
-        count = 1
-        while j < len(label_list) and get_prefix(label_list[j]) == prefix:
-            count += 1
-            j += 1
-        
-        if count > 1:
-            # Add the pluralized prefix at the start of the block
-            new_labels.append(f"{prefix}s")
-            # Fill the rest of the block with empty strings to maintain axis alignment
-            new_labels.extend([""] * (count - 1))
-        else:
-            new_labels.append(current_name)
-        
-        i = j # Move pointer to the next new prefix block
-    return new_labels
+    name = str(name).strip()
+    # 1. Handle E2F specifically as it's a common outlier
+    if name.startswith("E2F"):
+        return "E2F"
+    # 2. General Robust Regex:
+    # Captures the leading alphabetical string, but stops if it 
+    # encounters a trailing number or a single letter suffix (like A, B, 1).
+    # [A-Z]{2,} matches at least 2 uppercase letters to avoid single-letter 'E'
+    match = re.match(r"^([A-Z]{2,})", name)
+    if match:
+        prefix = match.group(1)
+        # Special case: If prefix is 'HOXA' or 'HOXB', reduce to 'HOX'
+        if prefix.startswith("HOX") and len(prefix) > 3:
+            return "HOX"
+        return prefix
+    return name
 
 
 
-def heatmap_coop_score(df, outpath=None, fig_size=(8,8)):
+def heatmap_coop_score(df, outpath=None, figsize=(16,16)):
     """
     Generates a compressed TF-TF interaction heatmap by averaging 
     scores for TFs sharing the same prefix.
     """
-    df = prepare_filtered_df(df) # Assuming this exists in your environment
+    remove_if_exists(outpath, label="Coop Score Heatmap")
+    df = df[df["cooperativity"] != "Independent"].reset_index(drop=True)
     if df.empty:
         print("No interactions passed the significance gate.")
         return None
+    
+    
+    split_tfs = df['tf_pair'].str.split('|', expand=True)
+    df['tf1'] = split_tfs[0]
+    df['tf2'] = split_tfs[1]
+    
+    all_tfs = set(df['tf1']).union(set(df['tf2']))
+    
+    # 2. Map TFs to prefixes and count family occurrences in this specific dataset
+    tf_to_prefix = {tf: get_prefix(tf) for tf in all_tfs}
+    prefix_counts = pd.Series(list(tf_to_prefix.values())).value_counts()
+    
+    # 3. Create a labeling map: Pluralize IF count > 1, else keep original name
+    def determine_label(tf):
+        prefix = tf_to_prefix[tf]
+        if prefix_counts.get(prefix, 0) > 1:
+            return f"{prefix}s"
+        return tf
 
-    # 1. Expand pairs and assign prefixes
-    split_data = df['tf_pair'].str.split('|', n=1, expand=True)
-    df['tf1_prefix'] = split_data[0].apply(get_prefix)
-    df['tf2_prefix'] = split_data[1].apply(get_prefix)
+    df['tf1_label'] = df['tf1'].apply(determine_label)
+    df['tf2_label'] = df['tf2'].apply(determine_label)
     
-    # 2. AGGREGATE: Group by prefixes and calculate the mean score
-    # This reduces the number of rows and columns in the final matrix
-    compressed_df = df.groupby(['tf1_prefix', 'tf2_prefix'])['coop_score'].mean().reset_index()
-    # 3. Pivot the aggregated data
-    matrix = compressed_df.pivot(index="tf1_prefix", columns="tf2_prefix", values="coop_score")
-    # Optional: Pluralize labels for clarity (SOX -> SOXs)
-    matrix.index = [f"{i}s" if len(i) > 0 else i for i in matrix.index]
-    matrix.columns = [f"{c}s" if len(c) > 0 else c for c in matrix.columns]
-    # 4. Setup Figure
-    fig = plt.figure(figsize=fig_size)
-    gs = gridspec.GridSpec(1, 2, width_ratios=[0.05, 1], wspace=0.1)
-    cbar_ax = fig.add_subplot(gs[0, 0])
-    heatmap_ax = fig.add_subplot(gs[0, 1])
+    mirrored_df = df.copy()
+    mirrored_df['tf1_label'], mirrored_df['tf2_label'] = df['tf2_label'], df['tf1_label']
+    full_df = pd.concat([df, mirrored_df]).drop_duplicates()
+    # 4. AGGREGATE: Group by the new labels and calculate the mean score
+    compressed_df = full_df.groupby(['tf1_label', 'tf2_label'])['coop_score'].mean().reset_index()
+    matrix = compressed_df.pivot(index="tf1_label", columns="tf2_label", values="coop_score")
     
-    styles = apply_plot_style(heatmap_ax, fig_size)
-    _ = apply_plot_style(cbar_ax, fig_size) # Apply to colorbar axis too
+    # 5. Setup Figure with colorbar on the right and extra spacing for labels
+    fig = plt.figure(figsize=figsize)
+    # Heatmap is first (index 0), Colorbar is second (index 1)
+    # wspace=0.2 provides breathing room between the heatmap and colorbar labels
+    gs = gridspec.GridSpec(1, 2, width_ratios=[1, 0.02], wspace=0.2)
+    heatmap_ax = fig.add_subplot(gs[0, 0])
+    cbar_ax = fig.add_subplot(gs[0, 1])
+    styles = apply_plot_style(heatmap_ax, figsize)
     
-    # 5. Plot Heatmap
+    # 6. Plot Heatmap
     sns.heatmap(
         matrix, cmap="coolwarm", vmin=-1, vmax=1, 
         ax=heatmap_ax, cbar_ax=cbar_ax,
         xticklabels=True, yticklabels=True,
-        # CHANGE: Use scaled linewidth instead of hardcoded 0.5
         linewidths=0.1 * styles['scale'] 
     )
     
-    # 6. Styling
-    # CHANGE: Use styles['main'] instead of hardcoded 12
-    heatmap_ax.set_xlabel("TF Family (Average Score)", fontsize=styles['main'])
-    heatmap_ax.set_ylabel("TF Family (Average Score)", fontsize=styles['main'])
+    # 7. Final Styling
+    # Remove top and right frame lines as requested
+    for spine in heatmap_ax.spines.values():
+        spine.set_visible(False)
     
-    # CHANGE: Ensure tick labels also use the scaled font size
-    heatmap_ax.tick_params(axis='both', which='major', labelsize=styles['small'])
+    heatmap_ax.tick_params(axis='both', which='both', length=0)
+    cbar_ax.tick_params(axis='both', which='both', length=0)
+    heatmap_ax.set_xlabel("TF Family (Average Score)", fontsize=styles['main'] * 0.5)
+    heatmap_ax.set_ylabel("TF Family (Average Score)", fontsize=styles['main'] * 0.5)
     
-    plt.xticks(rotation=90)
-    plt.yticks(rotation=0)
+    # Scale down tick labels to prevent overlap seen in Screenshot 2026-05-05 at 16.24.32.jpg
+    heatmap_ax.tick_params(axis='both', which='major', labelsize=styles['small'] * 0.3)
+    cbar_ax.tick_params(labelsize=styles['small'] * 0.3)
+    
+    plt.setp(heatmap_ax.get_xticklabels(), rotation=90)
+    plt.setp(heatmap_ax.get_yticklabels(), rotation=0)
     
     return save_or_show(outpath)
 
 
 
-def plot_motif_distance_by_category(df, outpath=None, fig_size=(2.3, 2.3), rotation=30):
+def plot_motif_distance_by_category(df, outpath=None, figsize=(2.3, 2.3), rotation=30):
     """
     Wrapper for TFBS distance violin plots. 
     Note: plot_violin_with_statistics handles its own internal styling.
     """
-    df = format_cooperativity_categorical(
-        df, 
-        categories=["Independent", "Redundant", "Intermediate", "Synergistic"]
-    )
+    remove_if_exists(outpath, label="Motif Distance by Category")
     
+    # remove 'Independent' category and reset index
+    df = prepare_filtered_df(df)
+    # plot scatter plot x = coop_score, y = mean_distance, hue = cooperativity
+    sns.scatterplot(data=df, x="coop_score", y="mean_distance", hue="cooperativity")
+    # save
+    save_or_show(outpath)
     # This utility function appears to handle figure creation internally
-    plot_violin_with_statistics(
-        figsize=fig_size,
-        df=df,
-        x_col="cooperativity",
-        y_col="mean_distance",
-        x_label="TF pair type",
-        y_label="Mean distance\nbetween TFBS pair (bp)",
-        title=None,
-        rotation=rotation,
-        outpath=outpath
-    )
+    # plot_violin_with_statistics(
+    #     figsize=figsize,
+    #     df=df,
+    #     x_col="cooperativity",
+    #     y_col="mean_distance",
+    #     x_label="TF pair type",
+    #     y_label="Mean distance\nbetween TFBS pair (bp)",
+    #     title=None,
+    #     rotation=rotation,
+    #     outpath=outpath
+    # )

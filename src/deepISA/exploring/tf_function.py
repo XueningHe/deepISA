@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from deepISA.utils import get_data_resource, apply_plot_style, save_or_show
+from deepISA.utils import get_data_resource, apply_plot_style, save_or_show, remove_if_exists
 import matplotlib
 matplotlib.rcParams['pdf.fonttype'] = 42
 
@@ -24,6 +24,7 @@ def load_and_expand_tfs(filename):
 
 def plot_usf_pfs(df_tf, fig_size=(3.5, 2.8), outpath=None):
     """Plots ECDF for USFs, PFs, and Context TFs with dynamic styling."""
+    remove_if_exists(outpath)
     df = prepare_coop_df(df_tf)
     
     groups = {
@@ -40,7 +41,7 @@ def plot_usf_pfs(df_tf, fig_size=(3.5, 2.8), outpath=None):
         if subset.empty:
             continue
             
-        sns.ecdfplot(subset, color=info['color'], label=name, lw=1.5 * styles['scale'], ax=ax)
+        sns.ecdfplot(subset, color=info['color'], label=name, lw=styles['scale'], ax=ax)
         
         # Median vertical line
         median_val = subset.median()
@@ -59,8 +60,54 @@ def plot_usf_pfs(df_tf, fig_size=(3.5, 2.8), outpath=None):
     return save_or_show(outpath)
 
 
+# def plot_cell_specificity(df_tf, window_size=50, fig_size=(3, 2.5), outpath=None):
+#     """Plots continuous trend of enrichment for cell-type specificity."""
+#     remove_if_exists(outpath)
+#     df = prepare_coop_df(df_tf)
+    
+#     # Load and merge dispersion data
+#     disp_path = get_data_resource("gtex.dispersionEstimates.tab")
+#     df_dispersion = pd.read_csv(disp_path, sep="\t")
+#     plot_df = df.merge(df_dispersion, left_on="tf", right_on="symbol", how="inner")
+#     plot_df = plot_df.dropna(subset=["gini"]).copy()
+
+#     # Define quantiles
+#     high_cutoff = plot_df["gini"].quantile(0.75)
+#     low_cutoff = plot_df["gini"].quantile(0.25)
+    
+#     plot_df['is_specific'] = (plot_df['gini'] >= high_cutoff).astype(int)
+#     plot_df['is_ubiquitous'] = (plot_df['gini'] <= low_cutoff).astype(int)
+#     plot_df = plot_df.sort_values("coop_score")
+
+#     # Rolling enrichment
+#     plot_df['rolling_spec'] = plot_df['is_specific'].rolling(window=window_size, center=True).mean()
+#     plot_df['rolling_ubiq'] = plot_df['is_ubiquitous'].rolling(window=window_size, center=True).mean()
+
+#     fig, ax = plt.subplots(figsize=fig_size)
+#     styles = apply_plot_style(ax, fig_size)
+    
+#     # Plotting lines
+#     ax.plot(plot_df["coop_score"], plot_df["rolling_spec"], 
+#              color="#d62728", label="Cell-Specific (Top 25%)", linewidth=styles['scale'])
+#     ax.plot(plot_df["coop_score"], plot_df["rolling_ubiq"], 
+#              color="#1f77b4", label="Ubiquitous (Bottom 25%)", linewidth=styles['scale'])
+
+#     ax.axhline(0.25, color='gray', linestyle='--', linewidth=0.8 * styles['scale'], alpha=0.5)
+
+#     ax.set_xlabel("Coop score", fontsize=styles['main'])
+#     ax.set_ylabel("Enrichment Proportion", fontsize=styles['main'])
+#     ax.set_title("Continuous Enrichment Trend", fontsize=styles['main'])
+    
+#     ax.set_xticks([-1, -0.5, 0, 0.5, 1])
+#     ax.legend(frameon=False, fontsize=styles['small'])
+    
+#     return save_or_show(outpath)
+
+
+
 def plot_cell_specificity(df_tf, window_size=50, fig_size=(3, 2.5), outpath=None):
     """Plots continuous trend of enrichment for cell-type specificity."""
+    remove_if_exists(outpath)
     df = prepare_coop_df(df_tf)
     
     # Load and merge dispersion data
@@ -69,35 +116,17 @@ def plot_cell_specificity(df_tf, window_size=50, fig_size=(3, 2.5), outpath=None
     plot_df = df.merge(df_dispersion, left_on="tf", right_on="symbol", how="inner")
     plot_df = plot_df.dropna(subset=["gini"]).copy()
 
-    # Define quantiles
-    high_cutoff = plot_df["gini"].quantile(0.75)
-    low_cutoff = plot_df["gini"].quantile(0.25)
-    
-    plot_df['is_specific'] = (plot_df['gini'] >= high_cutoff).astype(int)
-    plot_df['is_ubiquitous'] = (plot_df['gini'] <= low_cutoff).astype(int)
-    plot_df = plot_df.sort_values("coop_score")
-
-    # Rolling enrichment
-    plot_df['rolling_spec'] = plot_df['is_specific'].rolling(window=window_size, center=True).mean()
-    plot_df['rolling_ubiq'] = plot_df['is_ubiquitous'].rolling(window=window_size, center=True).mean()
-
+    # scatter plot wih rolling mean
     fig, ax = plt.subplots(figsize=fig_size)
     styles = apply_plot_style(ax, fig_size)
-    
-    # Plotting lines
-    lw = 2 * styles['scale']
-    ax.plot(plot_df["coop_score"], plot_df["rolling_spec"], 
-             color="#d62728", label="Cell-Specific (Top 25%)", linewidth=lw)
-    ax.plot(plot_df["coop_score"], plot_df["rolling_ubiq"], 
-             color="#1f77b4", label="Ubiquitous (Bottom 25%)", linewidth=lw)
-
-    ax.axhline(0.25, color='gray', linestyle='--', linewidth=0.8 * styles['scale'], alpha=0.5)
-
-    ax.set_xlabel("Cooperativity score", fontsize=styles['main'])
-    ax.set_ylabel("Enrichment Proportion", fontsize=styles['main'])
-    ax.set_title("Continuous Enrichment Trend", fontsize=styles['main'])
-    
-    ax.set_xticks([-1, -0.5, 0, 0.5, 1])
-    ax.legend(frameon=False, fontsize=styles['small'])
+    sns.scatterplot(data=plot_df, x="coop_score", y="gini", ax=ax, color="#2ca02c", alpha=0.6, s=20)
+    # Rolling mean
+    plot_df = plot_df.sort_values("coop_score")
+    plot_df['rolling_gini'] = plot_df['gini'].rolling(window=window_size, center=True).mean()
+    ax.plot(plot_df["coop_score"], plot_df["rolling_gini"], 
+             color="#d62728", label="Rolling Mean (window=50)", linewidth=styles['scale'])
+    ax.set_xlabel("Coop score", fontsize=styles['main'])
+    ax.set_ylabel("Gini Coefficient", fontsize=styles['main'])
+    ax.set_title("Cell-Type Specificity vs. Coop Score", fontsize=styles['main'])
     
     return save_or_show(outpath)

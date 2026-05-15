@@ -7,7 +7,7 @@ from loguru import logger
 import warnings
 import matplotlib.pyplot as plt
 
-from deepISA.utils import get_data_resource, apply_plot_style, save_or_show
+from deepISA.utils import get_data_resource, apply_plot_style, save_or_show, remove_if_exists
 
 import matplotlib
 matplotlib.rcParams['pdf.fonttype'] = 42
@@ -77,6 +77,7 @@ def prepare_plot_df(df):
 # --- PLOTTING FUNCTIONS ---
 def plot_coop_by_tf_pair_family(df, outpath=None, figsize=(2.3, 2.2)):
     """Plots KDE density of coop scores, separated by intra vs inter-family pairs."""
+    remove_if_exists(outpath, label= "Cooperativity by TF pair family plot")
     df = annotate_tf_family(prepare_plot_df(df))
     if df.empty: 
         return
@@ -116,6 +117,7 @@ def plot_coop_by_tf_pair_family(df, outpath=None, figsize=(2.3, 2.2)):
 
 def plot_coop_by_dbd(df, outpath=None, top_n=15, figsize=(3.5, 4)):
     """Ranks DBDs by median cooperativity score."""
+    remove_if_exists(outpath, label= "Cooperativity by DBD plot")
     df = annotate_tf_family(prepare_plot_df(df))
     if df.empty:
         return
@@ -148,6 +150,7 @@ def plot_coop_by_dbd(df, outpath=None, top_n=15, figsize=(3.5, 4)):
 
 def plot_intra_family_coop_score(df, min_pairs=10, outpath=None, figsize=None):
     """Plots distributions for families with multiple internal pairs."""
+    remove_if_exists(outpath, label= f"Intra-family cooperativity plot (min_pairs={min_pairs})")
     df = annotate_tf_family(prepare_plot_df(df))
     plot_df = df[df["same_family"] == True].dropna(subset=["tf1_family"])
     

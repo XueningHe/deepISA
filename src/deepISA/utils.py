@@ -33,6 +33,26 @@ def get_sequences_from_df(df, fasta):
     ]
 
 
+
+def get_seq_from_fasta(fasta, region_str: str) -> str:
+    chrom, coords = region_str.split(":")
+    start_r, end_r = map(int, coords.split("-"))
+    return str(fasta[chrom][start_r:end_r]).upper()
+
+
+def remove_if_exists(path, label="file"):
+    if os.path.exists(path):
+        logger.info(f"Removing existing {label} at: {path}")
+        os.remove(path)
+
+
+def write_stream_csv(df: pd.DataFrame, 
+                     outpath: str) -> None:
+    header = not os.path.exists(outpath)
+    df.to_csv(outpath, mode="a", index=False, header=header)
+
+
+
 def ablate_motifs(seq, motif_starts, motif_ends):
     """
     Scramble the sequence between multiple motif start and end positions.
@@ -57,12 +77,13 @@ def ablate_motifs(seq, motif_starts, motif_ends):
     # Iterate and ablate each motif
     for start, end in motifs:
         if start < previous_end:
+            logger.warning("Motif overlap detected: motif_starts={}, motif_ends={}", motif_starts, motif_ends)
             raise ValueError("Overlapping motifs detected")
         end = end + 1  
         motif = seq[start:end]
-        motif_scrambled = "N" * len(motif)  
+        motif_ablated = "N" * len(motif)  
         # Append non-motif and scrambled motif parts
-        seq_ablated += seq[previous_end:start] + motif_scrambled
+        seq_ablated += seq[previous_end:start] + motif_ablated
         previous_end = end
     # Append the remaining part of the sequence if any
     seq_ablated += seq[previous_end:]
@@ -90,32 +111,50 @@ def find_available_gpu(min_memory_gb=2):
 
 
 
-
 def get_data_resource(filename):
     """
-    Finds data files relative to the package installation.
+    Find a data file by searching likely package/project locations.
+
+    Search order:
+    1. <repo_root>/data/<filename> by walking upward from this file
+    2. <package_dir>/data/<filename>
+    3. current working directory / data / <filename>
+
+    Returns:
+        str path to the resource (even if not found; caller may assert existence)
     """
     current_file = Path(__file__).resolve()
-    project_root = current_file.parents[2]
-    path = project_root / "data" / filename
-    if not path.exists():
-        # Look for deepISA/data/ relative to utils.py
-        path = current_file.parent / "data" / filename
-    if not path.exists():
-        logger.warning(f"Resource {filename} not found at {path}")
-        # Final fallback: just try the CWD (what you had before)
-        path = Path("data") / filename
-    return str(path)
+
+    # Search upward for a top-level data directory
+    for base in [current_file.parent, *current_file.parents]:
+        candidate = base / "data" / filename
+        if candidate.exists():
+            return str(candidate)
+
+    # Local package-relative fallback
+    candidate = current_file.parent / "data" / filename
+    if candidate.exists():
+        return str(candidate)
+
+    # CWD fallback
+    candidate = Path.cwd() / "data" / filename
+    if candidate.exists():
+        return str(candidate)
+
+    logger.warning(f"Resource {filename} not found.")
+    return str(candidate)
+
+
 
 
 def setup_logger(model_dir):
     os.makedirs(model_dir, exist_ok=True)
     log_file = os.path.join(model_dir, "workflow.log")
     logger.remove()
-    file_format = "{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | {function}:{line} - {message}"
+    file_format = "{time:YYYY-MM-DD HH:mm:ss} | {level: <7} | {function}:{line} - {message}"
     colored_format = (
         "<green>{time:YYYY-MM-DD HH:mm:ss}</green> | "
-        "<level>{level: <8}</level> | "
+        "<level>{level: <7}</level> | "
         "<cyan>{function}</cyan>:<cyan>{line}</cyan> - "
         "<level>{message}</level>"
     )
@@ -238,7 +277,9 @@ def plot_violin_with_statistics(
     sns.violinplot(
         data=df, x=x_col, y=y_col, order=bins, cut=0, 
         linewidth=styles['scale'] * 0.5, # Scaled line width
-        palette=custom_palette, hue=x_col, legend=False
+        palette=custom_palette, hue=x_col, legend=False,
+        density_norm="area",  # Makes all violins have the same area/width potential
+        width=0.8             # Manually set width to be "fat" and consistent
     )
 
     # 3. Add Statistical Brackets with Scaled Offsets
@@ -294,18 +335,14 @@ def format_cooperativity_categorical(df, categories = ["Independent", "Redundant
 
 
 
-
-
 def apply_plot_style(ax, fig_size):
-    """
-    Dynamically scales fonts and line widths based on figure size.
-    Base scale is calculated relative to a 2.5-inch width.
-    """
     base_width = 2.5
     scale = fig_size[0] / base_width
     font_main = 7 * scale
     font_small = 5 * scale
-    lw = 0.5 * scale
+    lw = 0.3 * scale
+    # Remove top and right spines
+    sns.despine(ax=ax, top=True, right=True)
     for spine in ax.spines.values():
         spine.set_linewidth(lw)
     ax.tick_params(axis='both', which='major', labelsize=font_small, 
@@ -313,11 +350,9 @@ def apply_plot_style(ax, fig_size):
     return {'main': font_main, 'small': font_small, 'scale': scale}
 
 
-
 def save_or_show(outpath):
     if outpath:
         plt.savefig(outpath, dpi=300, bbox_inches='tight')
-        plt.close()
     else:
         plt.show()
-        plt.close()
+    plt.close()

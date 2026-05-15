@@ -12,6 +12,7 @@ from deepISA.scoring.mapper import map_motifs
 from deepISA.scoring.single_isa import run_single_isa, calc_tf_importance
 from deepISA.scoring.combi_isa import (
     run_combi_isa, 
+    run_null_combi_isa,
     calc_coop_score
 )
 from deepISA.utils import setup_logger, find_available_gpu
@@ -73,12 +74,14 @@ class QuickStart:
         os.makedirs(self.model_dir, exist_ok=True)
         # register paths for key files that will be generated and used throughout the pipeline
         self.files = {
-            "motif_locs":   os.path.join(self.data_dir, "motif_locs.csv"),
-            "isa_single":   os.path.join(self.data_dir, "motif_single_isa.csv"),
-            "isa_combi":    os.path.join(self.data_dir, "motif_combi_isa.csv"),
-            "imp_tf":       os.path.join(self.data_dir, "tf_importance.csv"),
-            "coop_tf_pair": os.path.join(self.data_dir, "coop_tf_pair.csv"),
-            "coop_tf":      os.path.join(self.data_dir, "coop_tf.csv")
+            "motif_locs":    os.path.join(self.data_dir, "motif_locs.csv"),
+            "non_motif_locs":os.path.join(self.data_dir, "non_motif_locs.csv"),
+            "isa_single":    os.path.join(self.data_dir, "motif_single_isa.csv"),
+            "isa_combi":     os.path.join(self.data_dir, "motif_combi_isa.csv"),
+            "null_combi_isa":os.path.join(self.data_dir, "null_combi_isa.csv"),
+            "imp_tf":        os.path.join(self.data_dir, "tf_importance.csv"),
+            "coop_tf_pair":  os.path.join(self.data_dir, "coop_tf_pair.csv"),
+            "coop_tf":       os.path.join(self.data_dir, "coop_tf.csv")
         }
         self.fasta_path = fasta_path
         self.df_input = df_input # can be either positive or negative regions
@@ -178,7 +181,7 @@ class QuickStart:
         if df_pos is None:
             if self.df_train is not None and 'target_class' in self.df_train.columns:
                 df_pos = self.df_train[self.df_train['target_class'] == 1].copy()
-                logger.info(f"Automatically selected {len(df_pos)} positive regions from training set.")
+                logger.info(f"{len(df_pos)} positive regions identified from training data. Use as input for ISA.")
             else:
                 df_pos = self.df_input.copy()
                 logger.warning("Using df_input as positives for ISA. Ensure this is intended.")
@@ -190,7 +193,8 @@ class QuickStart:
         map_motifs(
             regions_df=df_pos,
             jaspar_path=jaspar_path, # Explicitly required here
-            outpath=self.files["motif_locs"],
+            motif_outpath=self.files["motif_locs"],
+            non_motif_outpath=self.files["non_motif_locs"],
             model=self.model,
             fasta_path=self.fasta_path,
             tracks=self.tracks,
@@ -226,32 +230,43 @@ class QuickStart:
             motif_locs_path=self.files["motif_locs"],
             outpath=self.files["isa_combi"], 
             tracks=self.tracks,
-            inde_dist_max=isa_config["inde_dist_max"],
+            receptive_field=isa_config["receptive_field"],
             device=self.device,
+            num_regions_per_batch=isa_config['num_regions_per_batch'],
+            pred_batch_size=isa_config['pred_batch_size'])
+        
+        run_null_combi_isa(
+            model=self.model,
+            fasta_path=self.fasta_path,
+            non_motif_locs_path=self.files["non_motif_locs"],
+            motif_combi_isa_path=self.files["isa_combi"],
+            outpath=self.files["null_combi_isa"],
+            device=self.device,
+            tracks=self.tracks,
+            k=isa_config['null_kmer_size'],
+            n_samples=isa_config['n_null_samples'],
             num_regions_per_batch=isa_config['num_regions_per_batch'],
             pred_batch_size=isa_config['pred_batch_size'])
         
         # aggregate
         logger.info(f"Aggregating results in {self.data_dir}")
-        df_imp = calc_tf_importance(self.files["isa_single"], 
-                                    min_count=isa_config["min_count"])
-        df_imp.to_csv(self.files["imp_tf"], index=False)
+        calc_tf_importance(self.files["isa_single"], 
+                           outpath=self.files["imp_tf"],
+                           min_count=isa_config["min_count"])
 
         for t in self.tracks:
             calc_coop_score(self.files["isa_combi"], 
+                            self.files["null_combi_isa"],
                             outpath=self.files["coop_tf_pair"].replace(".csv", f"_t{t}.csv"),
                             level="tf_pair",
-                            inde_dist_min=isa_config["inde_dist_min"],
-                            inde_dist_max=isa_config["inde_dist_max"],
                             track_idx=t, 
                             min_count=isa_config['min_count'],
                             q_val_thresh=isa_config['q_val_thresh'])
                             
             calc_coop_score(self.files["isa_combi"], 
+                            self.files["null_combi_isa"],
                             outpath=self.files["coop_tf"].replace(".csv", f"_t{t}.csv"),
                             level="tf",
-                            inde_dist_min=isa_config["inde_dist_min"],
-                            inde_dist_max=isa_config["inde_dist_max"],
                             track_idx=t, 
                             min_count=isa_config['min_count'],
                             q_val_thresh=isa_config['q_val_thresh'])
@@ -268,7 +283,7 @@ class QuickStart:
         # --- A. Interaction Plots (interaction.py) ---
         
         df_isa_combi = pd.read_csv(self.files["isa_combi"])
-        plot_null(df_isa_combi, 
+        plot_null(os.path.join(self.data_dir, "non_motif_combi_isa.csv"),
                   tracks=self.tracks, 
                   outpath=os.path.join(self.plots_dir, f"null_distribution.png"))
         plot_interaction_decay(df_isa_combi, 
@@ -304,7 +319,7 @@ class QuickStart:
                                      x_col="coop_score", 
                                      y_col=f"mean_isa_t{t}", 
                                      outpath=ppath("coop_vs_importance"))
-            plot_partner_specificity(df_coop_pair, df_coop_tf, outpath=ppath("cell_specificity_ratio"))
+            plot_partner_specificity(df_coop_pair, df_coop_tf, outpath=ppath("partner_specificity_ratio"))
 
             # --- D. TF Family Exploration (tf_family.py) ---
             plot_coop_by_tf_pair_family(df_coop_pair, outpath=ppath("family_coop_summary"))
@@ -316,7 +331,9 @@ class QuickStart:
             plot_cell_specificity(df_coop_tf, outpath=ppath("rolling_gini_specificity"))
 
             # --- F. PPI Validation (tf_pair_ppi.py) ---
-            plot_ppi_enrichment(df_coop_pair, outpath=ppath("ppi_enrichment_curve"))
+            plot_ppi_enrichment(df_coop_pair, rank_by="coop_score", outpath=ppath("ppi_enrichment_by_coop_score"))
+            plot_ppi_enrichment(df_coop_pair, rank_by="p_val", outpath=ppath("ppi_enrichment_by_p_val"))
             plot_cofactor_recruitment(df_coop_pair, outpath=ppath("ppi_violin_validation"))
-            plot_dna_mediated_ppi(df_coop_pair, outpath=ppath("dna_mediated_ppi"))
+            plot_dna_mediated_ppi(df_coop_pair, rank_by="coop_score", outpath=ppath("dna_ppi_enrichment_by_score"))
+            plot_dna_mediated_ppi(df_coop_pair, rank_by="p_val", outpath=ppath("dna_ppi_enrichment_by_pval"))
         logger.info(f"Report complete. All plots saved to {self.plots_dir}")

@@ -4,11 +4,13 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy.stats import ks_2samp
 
-from deepISA.utils import apply_plot_style, save_or_show
-
+from deepISA.utils import apply_plot_style, save_or_show, remove_if_exists
+import matplotlib.ticker as ticker
 
 import matplotlib
 matplotlib.rcParams['pdf.fonttype'] = 42
+
+
 
 def _get_cbrt_scale():
     """Returns functions for cube root scaling."""
@@ -17,21 +19,20 @@ def _get_cbrt_scale():
 
 
 
-def plot_null(df, tracks=[0], 
-              min_dist=100, 
-              max_dist=255, 
+def plot_null(null_combi_isa_path, 
+              tracks=[0], 
               outpath=None, 
               figsize=(2.3, 2.0)):
-    # 1. Filter and Prepare
-    null_df = df[(df["distance"] > min_dist) & (df["distance"] <= max_dist)]
-    if null_df.empty:
-        return None
+    
+    remove_if_exists(outpath, label="Null interaction plot")
+    # 1.reading data
+    df_null = pd.read_csv(null_combi_isa_path)
+
 
     plot_data = []
     for t in tracks:
         col = f"interaction_t{t}"
-        if col in null_df.columns:
-            plot_data.append(pd.DataFrame({"interaction": null_df[col], "Track": f"Track {t}"}))
+        plot_data.append(pd.DataFrame({"interaction": df_null[col], "Track": f"Track {t}"}))
     
     if not plot_data: return None
     plot_df = pd.concat(plot_data)
@@ -41,14 +42,19 @@ def plot_null(df, tracks=[0],
     style = apply_plot_style(ax, figsize)
     
     sns.kdeplot(data=plot_df, x="interaction", hue="Track", fill=True, 
-                alpha=0.3, linewidth=0.8 * style['scale'], ax=ax)
+                alpha=0.3, linewidth=style['scale'], ax=ax)
     
-    ax.axvline(x=0, color='red', linestyle='--', linewidth=0.7 * style['scale'], alpha=0.6)
+    ax.axvline(x=0, color='black', linestyle='--', linewidth=0.5*style['scale'], alpha=0.6)
     
     # 3. Formatting
     ax.set_xlabel("Interaction", fontsize=style['main'])
     ax.set_ylabel('Density\n(cbrt scale)', fontsize=style['main'])
-    ax.set_title(f"Null ({min_dist}-{max_dist}bp)", fontsize=style['main'])
+    ax.set_title(f"Interaction between non-motif pairs", fontsize=style['main'])
+    
+    # X-Axis Rounding: Format to 2 decimal places
+    ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%.2f'))
+    # Optional: If the labels overlap, you can reduce the number of ticks
+    ax.xaxis.set_major_locator(ticker.MaxNLocator(nbins=5))
     
     limit = max(plot_df["interaction"].abs().max(), 0.1)
     ax.set_xlim(-limit, limit)
@@ -62,9 +68,12 @@ def plot_null(df, tracks=[0],
     return save_or_show(outpath)
 
 
+
+
 def plot_tf_pair_against_null(df, tf_pair, track_idx=0, plot_type='kde', 
                                min_dist=100, max_dist=255, outpath=None, figsize=(2.5, 2.2)):
     # 1. Data Selection
+    remove_if_exists(outpath, label=f"TF pair vs Null plot for {tf_pair}")
     col = f"interaction_t{track_idx}"
     null_dist = df[(df["distance"] > min_dist) & (df["distance"] <= max_dist)][col].dropna()
     
@@ -111,6 +120,7 @@ def plot_tf_pair_against_null(df, tf_pair, track_idx=0, plot_type='kde',
 
 
 def plot_interaction_decay(df, track_idx=0, mode='signed', outpath=None, figsize=(2.3, 2)):
+    remove_if_exists(outpath, label=f"Interaction decay plot for track {track_idx} ({mode})")
     tracks = [track_idx] if isinstance(track_idx, (int, float)) else list(track_idx)
     fig, ax = plt.subplots(figsize=figsize)
     style = apply_plot_style(ax, figsize)
@@ -124,17 +134,17 @@ def plot_interaction_decay(df, track_idx=0, mode='signed', outpath=None, figsize
         color = palette[i]
         if mode == 'absolute':
             decay = df.assign(abs_v=df[col].abs()).groupby("distance")["abs_v"].mean().reset_index()
-            sns.lineplot(data=decay, x="distance", y="abs_v", color=color, linewidth=1.5 * style['scale'], ax=ax, label=f"T{t}")
+            sns.lineplot(data=decay, x="distance", y="abs_v", color=color, linewidth=0.5 * style['scale'], ax=ax, label=f"T{t}")
         else:
             for sign, m in [(1, 'pos'), (-1, 'neg')]:
                 sub = df[df[col] * sign > 0].groupby("distance")[col].mean().reset_index()
-                sns.lineplot(data=sub, x="distance", y=col, color=color, ax=ax, linewidth=1.5 * style['scale'],
+                sns.lineplot(data=sub, x="distance", y=col, color=color, ax=ax, linewidth=style['scale'],
                              label=f"T{t}" if m == 'pos' else None)
             ax.axhline(0, color='black', linewidth=0.5 * style['scale'], alpha=0.3)
 
     ax.set_xlabel("Distance (bp)", fontsize=style['main'])
     ax.set_ylabel("Mean Interaction", fontsize=style['main'])
-    ax.set_title(f"{mode.capitalize()} Decay", fontsize=style['main'])
+    ax.set_title(f"Interaction decay ({mode.capitalize()})", fontsize=style['main'])
     
     if len(tracks) > 0:
         ax.legend(fontsize=style['small'], frameon=False, loc='upper right')

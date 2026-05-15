@@ -30,23 +30,6 @@ def extract_regions(motif_locs_df):
 
 
 
-def add_relative_coords(df):
-    """One-time vectorized calculation of relative offsets."""
-    # Extract reg_start once for the whole DF
-    reg_starts = df['region'].str.extract(r':(\d+)-')[0].astype(int)
-    df['start_rel'] = (df['start'] - reg_starts)
-    df['end_rel'] = (df['end'] - reg_starts)
-    return df
-
-
-def map_non_motifs(regions_df, motif_locs_df):
-    """Returns genomic intervals not covered by motifs."""
-    # bioframe subtract finds the 'gaps' in regions_df not covered by motif_locs_df
-    non_motif_df = bf.subtract(regions_df, motif_locs_df)
-    non_motif_df = non_motif_df[['chrom', 'start', 'end', 'region']]
-    non_motif_df = add_relative_coords(non_motif_df)
-    return non_motif_df
-
 
 
 def scan_deeplift_scores(model, 
@@ -104,6 +87,7 @@ def get_attr_threshold(non_motif_df, score_map, track_internal_idx, percentile):
 
 def attr_filter(
     motif_locs_path,
+    non_motif_locs_path,
     model,
     fasta_path,
     tracks,
@@ -112,7 +96,7 @@ def attr_filter(
     attr_batch_size,
 ):
     """
-    Given a motif DataFrame, calculates DeepLift importance scores and filters
+    Given a motif DataFrame, calculates DeepLift attribution scores and filters
     out motifs that do not exceed the functional noise floor of the sequence.
  
     Returns the filtered DataFrame with an added 'second_max_score' column.
@@ -137,8 +121,7 @@ def attr_filter(
  
     # 2. Derive noise floor from non-motif positions
     logger.info(f"Calculating functional threshold ({attr_percentile}th percentile of non-motifs)...")
-    non_motif_df = map_non_motifs(regions_df, motif_locs_df)
-    motif_locs_df = add_relative_coords(motif_locs_df)
+    non_motif_df = pd.read_csv(non_motif_locs_path)
     
     slices = list(get_slices(motif_locs_df, score_map))  # materialise once
     for i, t in enumerate(tracks):
@@ -148,7 +131,7 @@ def attr_filter(
     for i, t in enumerate(tracks):
         # Calculate threshold for this specific track
         thresh = get_attr_threshold(non_motif_df, score_map, i, attr_percentile)
-        logger.info(f"Track {t}: Functional threshold set at {thresh:.4f} based on non-motif importance scores.")
+        logger.info(f"Track {t}: Functional threshold set at {thresh:.4f} based on non-motif attribution scores.")
         # Calculate second_max for this track
         col_name = f"pass_threshold_t{t}"
         pass_cols.append(col_name)
@@ -156,6 +139,6 @@ def attr_filter(
 
     # Final Filter: Keep row if it passes for ANY track
     filtered_df = motif_locs_df[motif_locs_df[pass_cols].any(axis=1)].reset_index(drop=True).copy()
-    logger.info(f"Filtered motifs: {len(filtered_df)} out of {len(motif_locs_df)} passed the functional threshold.")
+    logger.info(f"Filtered motifs: {len(filtered_df)} out of {len(motif_locs_df)} passed the attribution threshold.")
     return filtered_df
     

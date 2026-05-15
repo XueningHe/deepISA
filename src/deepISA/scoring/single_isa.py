@@ -8,13 +8,13 @@ import bioframe as bf
 
 # Internal imports
 from deepISA.modeling.predict import compute_predictions 
-from deepISA.utils import ablate_motifs
+from deepISA.utils import ablate_motifs, remove_if_exists
 
 
+# TODO: does single ISA need pass_threshold_ at all?
 
 
-
-
+# TODO: use new helper functions in utils.py
 def run_single_isa(model, 
                    fasta_path, 
                    motif_locs_path, 
@@ -35,9 +35,7 @@ def run_single_isa(model,
         outpath: Path to save the ISA results CSV.
         num_regions_per_batch: Number of unique regions to process before writing to disk. One region can have multiple motifs.
     """
-    if os.path.exists(outpath):
-        logger.warning(f"Removing existing single ISA results file: {outpath}")
-        os.remove(outpath)
+    remove_if_exists(outpath)
         
     df_motif_locs = pd.read_csv(motif_locs_path)    
     if df_motif_locs.empty:
@@ -84,13 +82,28 @@ def run_single_isa(model,
 
 
 
+def _signed_ks_test(df, tf, isa_col, min_count):
+    """Calculates signed KS test statistic for a TF vs the background distribution."""
+    df_this_protein = df[df.tf == tf].reset_index(drop=True)
+    if df_this_protein.shape[0] < min_count:
+        return None
+    dstat, _ = ks_2samp(df_this_protein[isa_col], df[isa_col])
+    if df_this_protein[isa_col].median() < df[isa_col].median():
+        dstat = -dstat
+    return dstat
 
 
-def calc_tf_importance(single_isa_path, min_count):
+
+
+def calc_tf_importance(single_isa_path, 
+                       outpath,
+                       min_count):
     """
     Aggregates ISA scores across all proteins for all available tracks in the data.
     Input df only contains the tracks subsetted during run_single_isa.
     """
+    remove_if_exists(outpath, label="TF importance file")
+    
     df = pd.read_csv(single_isa_path)
     isa_cols = [c for c in df.columns if c.startswith("isa_t")]
     
@@ -99,7 +112,6 @@ def calc_tf_importance(single_isa_path, min_count):
         return pd.DataFrame()
 
     logger.info(f"Calculating TF importance for tracks: {isa_cols}...")
-    
     results = []
     # Group by TF to calculate metrics per protein
     for tf, tf_data in df.groupby("tf"):
@@ -113,16 +125,6 @@ def calc_tf_importance(single_isa_path, min_count):
             res[f"median_{col}"] = tf_data[col].median()
             res[f"ks_{col}"] = _signed_ks_test(df, tf, col, min_count)
         results.append(res)
-    return pd.DataFrame(results)
+    pd.DataFrame(results).to_csv(outpath, index=False)
 
 
-
-def _signed_ks_test(df, tf, isa_col, min_count):
-    """Calculates signed KS test statistic for a TF vs the background distribution."""
-    df_this_protein = df[df.tf == tf].reset_index(drop=True)
-    if df_this_protein.shape[0] < min_count:
-        return None
-    dstat, _ = ks_2samp(df_this_protein[isa_col], df[isa_col])
-    if df_this_protein[isa_col].median() < df[isa_col].median():
-        dstat = -dstat
-    return dstat

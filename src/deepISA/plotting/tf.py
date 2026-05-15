@@ -9,7 +9,8 @@ from deepISA.utils import (
     get_data_resource,
     format_cooperativity_categorical,
     apply_plot_style, 
-    save_or_show      
+    save_or_show,
+    remove_if_exists
 )
 
 import matplotlib
@@ -41,15 +42,15 @@ def parse_jaspar_pfms(jaspar_path):
             # Calculate GC Content: (C + G) / (A + C + G + T)
             total_gc = counts['C'].sum() + counts['G'].sum()
             total_all = sum(counts[b].sum() for b in ['A', 'C', 'G', 'T'])
-            gc_fraction = total_gc / total_all
+            gc_percentage = total_gc / total_all * 100
             
-            tf_gc_data.append({'tf': tf_name, 'GC': gc_fraction})
+            tf_gc_data.append({'tf': tf_name, 'GC': gc_percentage})
         i += 1
-            
-    return pd.DataFrame(tf_gc_data)
+    return pd.DataFrame(tf_gc_data).groupby('tf').mean().reset_index()
 
 
-def plot_motif_gc_by_coop(df_tf, title="Motif GC%", outpath=None, fig_size=(2.3, 2.1)):
+def plot_motif_gc_by_coop(df_tf, title="Motif GC%", outpath=None, figsize=(2.3, 2.1)):
+    remove_if_exists(outpath, label="Motif GC plot")
     jaspar_path = get_data_resource("JASPAR2026_CORE_non-redundant_pfms_jaspar.txt")
     df_gc = parse_jaspar_pfms(jaspar_path)
     
@@ -58,13 +59,16 @@ def plot_motif_gc_by_coop(df_tf, title="Motif GC%", outpath=None, fig_size=(2.3,
     df = format_cooperativity_categorical(df)
 
     # Note: plot_violin_with_statistics should be updated internally to use apply_plot_style
-    return plot_violin_with_statistics(fig_size, df, "cooperativity", "GC", 
-                                     "TFBS Type", "Motif GC%", title, 30, outpath)
+    return plot_violin_with_statistics(figsize, df, "cooperativity", "GC", 
+                                     "TF Cooperativity", "Motif GC%", title, 30, outpath)
 
 
 
 def plot_coop_vs_importance(df_tf_coop, df_importance, x_col="coop_score", y_col="mean_isa_t0", 
-                            title="Cooperativity vs Importance", outpath=None, fig_size=(2.3, 1.6)):
+                            title="Cooperativity vs Importance", outpath=None, figsize=(2.3, 1.6)):
+    remove_if_exists(outpath, label="Cooperativity vs Importance plot")
+    # drop nan
+    df_tf_coop = df_tf_coop.dropna(subset=["coop_score"]).reset_index(drop=True)
     df = df_tf_coop.merge(df_importance, on="tf")
     if df.empty:
         logger.info("Warning: No matching TFs found for importance plot.")
@@ -73,9 +77,9 @@ def plot_coop_vs_importance(df_tf_coop, df_importance, x_col="coop_score", y_col
     df_independent = df[df["cooperativity"] == "Independent"].copy()
     df_coop = format_cooperativity_categorical(df_coop, ["Redundant", "Intermediate", "Synergistic"])
     fig, axes = plt.subplots(1, 2, gridspec_kw={'width_ratios': [5, 1]}, 
-                             sharey=True, figsize=fig_size, constrained_layout=True)
-    styles = apply_plot_style(axes[0], fig_size)
-    _ = apply_plot_style(axes[1], fig_size)
+                             sharey=True, figsize=figsize, constrained_layout=True)
+    styles = apply_plot_style(axes[0], figsize)
+    _ = apply_plot_style(axes[1], figsize)
     palette = {"Intermediate": "gray", "Synergistic": "#d62728", "Redundant": "#1f77b4"}
     sns.scatterplot(x=x_col, y=y_col, data=df_coop, hue="cooperativity", 
                     ax=axes[0], palette=palette, s=5*styles['scale'], legend=False)
@@ -86,7 +90,7 @@ def plot_coop_vs_importance(df_tf_coop, df_importance, x_col="coop_score", y_col
     
     sns.stripplot(x=x_col, y=y_col, data=df_independent, ax=axes[1], color="black", size=2*styles['scale'])
 
-    axes[0].set_xlabel(x_col, fontsize=styles['main'])
+    axes[0].set_xlabel("Coop Score", fontsize=styles['main'])
     axes[0].set_ylabel(y_col, fontsize=styles['main'])
     axes[0].set_title(title, fontsize=styles['main'])
     axes[1].set_xticks([]); axes[1].set_xlabel("")
@@ -107,8 +111,9 @@ def plot_partner_specificity(
     xlabel="Top 5 Interactors Contribution Ratio",
     ylabel="Density",
     outpath=None,
-    fig_size=(3.5, 2.5)
+    figsize=(3.5, 2.5)
 ):
+    remove_if_exists(outpath, label="Partner Specificity plot")
     # 1. Prepare mirrored pair data
     df_mirrored = df_tf_pair.copy()
     pairs = df_mirrored['tf_pair'].str.split('|', expand=True)
@@ -135,27 +140,32 @@ def plot_partner_specificity(
         return None
 
     # 3. Plotting
-    fig, ax = plt.subplots(figsize=fig_size)
-    styles = apply_plot_style(ax, fig_size)
+    fig, ax = plt.subplots(figsize=figsize)
+    styles = apply_plot_style(ax, figsize)
     
     palette = {
         "Synergistic": "#d62728", 
         "Redundant": "#1f77b4", 
         "Intermediate": "gray", 
-        "Independent": "black"  # Add this line
     }
-    # Fixed: KDE only if we have > 1 point per category to avoid Scipy crash
-    use_kde = all(df_plot['cooperativity'].value_counts() > 1) if not df_plot.empty else False
-
-    sns.histplot(
-        data=df_plot, x="specificity_ratio", hue="cooperativity",
-        kde=use_kde, element="step", common_norm=False, palette=palette,
-        ax=ax, line_kws={'linewidth': styles['scale']}, alpha=0.3
+    sns.kdeplot(
+        data=df_plot, 
+        x="specificity_ratio", 
+        hue="cooperativity",
+        fill=True,            # Set to True for a shaded area under the curve
+        common_norm=False,    # Keeps categories comparable regardless of group size
+        palette=palette,
+        alpha=0.3,            # Adjust transparency of the fill
+        linewidth=styles['scale'],
+        ax=ax
     )
     
     ax.set_title(title, fontsize=styles['main'])
     ax.set_xlabel(xlabel, fontsize=styles['main'])
     ax.set_ylabel(ylabel, fontsize=styles['main'])
+    
+    # set x limits to [0, 1] since it's a ratio
+    ax.set_xlim(0, 1)
     
     if ax.get_legend():
         plt.setp(ax.get_legend().get_texts(), fontsize=styles['small'])
