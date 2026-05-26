@@ -64,7 +64,7 @@ def plot_motif_gc_by_coop(df_tf, title="Motif GC%", outpath=None, figsize=(2.3, 
 
 
 
-def plot_coop_vs_importance(df_tf_coop, df_importance, x_col="coop_score", y_col="mean_isa_t0", 
+def plot_coop_vs_importance(df_tf_coop, df_importance, x_col="coop_score", y_col="ks_d_isa_t0", 
                             title="Cooperativity vs Importance", outpath=None, figsize=(2.3, 1.6)):
     remove_if_exists(outpath, label="Cooperativity vs Importance plot")
     # drop nan

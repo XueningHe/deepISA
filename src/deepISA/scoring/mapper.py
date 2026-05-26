@@ -1,11 +1,9 @@
 import pandas as pd
-import os
 import pyBigWig
 import bioframe as bf
 from loguru import logger
 
-from deepISA.scoring.filter import attr_filter
-from deepISA.utils import remove_if_exists
+from deepISA.utils import remove_if_exists, write_stream_csv
 
 
 
@@ -77,13 +75,14 @@ class JasparAnnotator:
         # Requirement: Motif must lie COMPLETELY within the given region
         df = df[(df['start'] >= start) & (df['end'] <= end)].copy()
         if df.empty:
-            return df
+            return pd.DataFrame()
         # Robust Parsing
         split_cols = df['details'].str.split('\t', expand=True)
         df['tf'] = split_cols[3].str.upper()
         df['score'] = pd.to_numeric(split_cols[1], errors='coerce').fillna(0).astype(int)
         df['strand'] = split_cols[2]
         df['chrom'] = chrom
+        # add region info
         df['region'] = f"{chrom}:{start}-{end}"
         df['start_rel'] = df['start'] - start
         df['end_rel']   = df['end'] - start
@@ -112,84 +111,55 @@ class JasparAnnotator:
             if "remap_evidence" in df.columns:
                 cols.append("remap_evidence")
             df = df[cols]
-            header = not os.path.exists(outpath)
-            df.to_csv(outpath, index=False, mode='a', header=header)
+            write_stream_csv(df,outpath)
 
 
-
-# TODO: expand motifs by 10bp on either side to capture flanking context
-def add_relative_coords(df):
-    """One-time vectorized calculation of relative offsets."""
-    # Extract reg_start once for the whole DF
-    reg_starts = df['region'].str.extract(r':(\d+)-')[0].astype(int)
-    df['start_rel'] = (df['start'] - reg_starts)
-    df['end_rel'] = (df['end'] - reg_starts)
-    return df
+def get_non_motifs(regions_df, motif_locs_df):
+    """Returns genomic intervals not covered by motifs."""
+    regions_df["region"] = regions_df.apply(lambda row: f"{row['chrom']}:{row['start']}-{row['end']}", axis=1)
+    # expand flanking regions:
+    motif_locs_df["start"] = motif_locs_df["start"] - 5
+    motif_locs_df["end"] = motif_locs_df["end"] + 5
+    # subtract from original regions
+    non_motif_df = bf.subtract(regions_df, motif_locs_df)
+    non_motif_df = non_motif_df[['chrom', 'start', 'end', 'region']]
+    # add relative coord
+    reg_starts = non_motif_df['region'].str.extract(r':(\d+)-')[0].astype(int)
+    non_motif_df['start_rel'] = (non_motif_df['start'] - reg_starts)
+    non_motif_df['end_rel'] = (non_motif_df['end'] - reg_starts)
+    non_motif_df['len']= non_motif_df['end'] - non_motif_df['start']
+    non_motif_df = non_motif_df[(non_motif_df['len'] > 3) & (non_motif_df['len'] < 500)].reset_index(drop=True)
+    return non_motif_df
 
 
 
 
 def map_motifs(regions_df, 
-               fasta_path,
                jaspar_path, 
                motif_outpath, 
                non_motif_outpath,
-               model,
-               device,
-               tracks=[0],
                expressed_tfs=None,
                motif_score_thresh=500,
-               remap_path=None,
-               attr_percentile=90,
-               attr_batch_size=1024):
+               remap_path=None):
     """
-    High-level API for motif mapping with integrated functional filtering.
-    Only motifs that exceed the importance 'noise floor' of the region are kept.
+    High-level API for motif mapping.
+    Outputs:
+      - motif_outpath: mapped motifs after structural filtering only
+      - non_motif_outpath: regions not covered by mapped motifs
     """
     logger.info("Starting JASPAR motif mapping.")
     # deduplicate regions_df
     regions_df = regions_df.drop_duplicates(subset=['chrom', 'start', 'end']).reset_index(drop=True)
-    
-    # 1. Standard Jaspar Annotation
     annotator = JasparAnnotator(
         jaspar_path=jaspar_path,
         expressed_tfs=expressed_tfs,
         score_thresh=motif_score_thresh,
         remap_path=remap_path
     )
-    # add suffix "pre_filter" to outpath
-    prefiltered_motif_outpath = motif_outpath.replace(".csv", "_pre_filter.csv")
-    annotator.annotate(regions_df, prefiltered_motif_outpath)
-    
-    # write non-motif regions to disk
-    prefiltered_motif_df = pd.read_csv(prefiltered_motif_outpath)
-    non_motif_df = map_non_motifs(regions_df, prefiltered_motif_df)
+    annotator.annotate(regions_df, motif_outpath)
+    motif_df = pd.read_csv(motif_outpath)
+    non_motif_df = get_non_motifs(regions_df, motif_df)
     non_motif_df.to_csv(non_motif_outpath, index=False)
-    
-    # write filtered motifs to disk
-    filtered_motif_df = attr_filter(
-        motif_locs_path=prefiltered_motif_outpath,
-        non_motif_locs_path=non_motif_outpath,
-        model=model,
-        fasta_path=fasta_path,
-        tracks=tracks,
-        attr_percentile=attr_percentile,
-        device=device,
-        attr_batch_size=attr_batch_size
-    )
-    filtered_motif_df.to_csv(motif_outpath, index=False)
+
     logger.info(f"Mapped motifs saved to {motif_outpath}.")
-        
-    # TODO: remove # after stable
-    # os.remove(prefiltered_outpath)
-    
-    
-def map_non_motifs(regions_df, motif_locs_df):
-    """Returns genomic intervals not covered by motifs."""
-    regions_df["region"] = regions_df.apply(lambda row: f"{row['chrom']}:{row['start']}-{row['end']}", axis=1)
-    non_motif_df = bf.subtract(regions_df, motif_locs_df)
-    non_motif_df = non_motif_df[['chrom', 'start', 'end', 'region']]
-    non_motif_df = add_relative_coords(non_motif_df)
-    return non_motif_df
-
-
+    logger.info(f"Non-motif regions saved to {non_motif_outpath}.")

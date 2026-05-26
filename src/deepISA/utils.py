@@ -25,6 +25,7 @@ def one_hot_encode(seqs):
     return np.transpose(X, (0, 2, 1))
 
 
+# TODO: maybe only maintain one 
 def get_sequences_from_df(df, fasta):
     """Vectorized sequence fetching using bioframe-loaded fasta."""
     return [
@@ -33,14 +34,9 @@ def get_sequences_from_df(df, fasta):
     ]
 
 
-
-def get_seq_from_fasta(fasta, region_str: str) -> str:
-    chrom, coords = region_str.split(":")
-    start_r, end_r = map(int, coords.split("-"))
-    return str(fasta[chrom][start_r:end_r]).upper()
-
-
 def remove_if_exists(path, label="file"):
+    if path is None:
+        return
     if os.path.exists(path):
         logger.info(f"Removing existing {label} at: {path}")
         os.remove(path)
@@ -49,45 +45,11 @@ def remove_if_exists(path, label="file"):
 def write_stream_csv(df: pd.DataFrame, 
                      outpath: str) -> None:
     header = not os.path.exists(outpath)
-    df.to_csv(outpath, mode="a", index=False, header=header)
+    df.to_csv(outpath, mode="a", index=False, header=header, float_format="%.4f")
 
 
 
-def ablate_motifs(seq, motif_starts, motif_ends):
-    """
-    Scramble the sequence between multiple motif start and end positions.
-    Args:
-        seq: A string of sequence.
-        motif_starts: A list of integers for motif starts.
-        motif_ends: A list of integers for motif ends.
-    Returns:
-        A string of scrambled sequence.
-    """
-    if isinstance(motif_starts, int):
-        motif_starts = [motif_starts]
-    if isinstance(motif_ends, int):
-        motif_ends = [motif_ends]
-    if len(motif_starts) != len(motif_ends):
-        raise ValueError("motif_starts and motif_ends must have the same length")
-    # Sort the motifs by start position
-    motifs = sorted(zip(motif_starts, motif_ends), key=lambda x: x[0])
-    # Initialize variables
-    seq_ablated = ''
-    previous_end = 0
-    # Iterate and ablate each motif
-    for start, end in motifs:
-        if start < previous_end:
-            logger.warning("Motif overlap detected: motif_starts={}, motif_ends={}", motif_starts, motif_ends)
-            raise ValueError("Overlapping motifs detected")
-        end = end + 1  
-        motif = seq[start:end]
-        motif_ablated = "N" * len(motif)  
-        # Append non-motif and scrambled motif parts
-        seq_ablated += seq[previous_end:start] + motif_ablated
-        previous_end = end
-    # Append the remaining part of the sequence if any
-    seq_ablated += seq[previous_end:]
-    return seq_ablated
+
 
 
 
@@ -173,29 +135,17 @@ def setup_logger(model_dir):
 
 
 
-
+# TODO: use it everywhere when needed.
 def resize_regions(df, seq_len):
     """
     Checks if regions are already at the target width. 
     Standardizes regions to a fixed width by centering if necessary.
     """
-    # Calculate current lengths
-    current_lengths = df['end'] - df['start']
-    
-    # Check if all rows match the target seq_len
-    if (current_lengths == seq_len).all():
-        logger.info(f"All {len(df)} regions already have the identical target length of {seq_len} bp. Skipping resize.")
-        return df
-    
-    # If not, perform the centering and resizing
-    logger.info(f"Regions have variable lengths. Centering and resizing {len(df)} regions to {seq_len} bp.")
     df = df.copy()
     centers = (df['start'] + df['end']) // 2
     df['start'] = centers - (seq_len // 2)
     df['end'] = df['start'] + seq_len
     return df
-
-
 
 
 
@@ -239,11 +189,6 @@ def estimate_noise_threshold(bw_paths, seq_len, percentile=99):
     threshold = np.percentile(signals, percentile)
     logger.info(f"Calculated noise threshold: {threshold:.4f} ({percentile}th percentile)")
     return threshold
-
-
-
-
-
 
 
 

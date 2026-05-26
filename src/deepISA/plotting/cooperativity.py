@@ -182,7 +182,7 @@ def plot_motif_distance_by_category(df, outpath=None, figsize=(2.3, 2.3), rotati
     # remove 'Independent' category and reset index
     df = prepare_filtered_df(df)
     # plot scatter plot x = coop_score, y = mean_distance, hue = cooperativity
-    sns.scatterplot(data=df, x="coop_score", y="mean_distance", hue="cooperativity")
+    sns.scatterplot(data=df, x="coop_score", y="median_distance", hue="cooperativity")
     # save
     save_or_show(outpath)
     # This utility function appears to handle figure creation internally

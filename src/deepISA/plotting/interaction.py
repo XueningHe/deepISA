@@ -19,7 +19,48 @@ def _get_cbrt_scale():
 
 
 
-def plot_null(null_combi_isa_path, 
+def plot_null_isa(null_isa_path, 
+                  tracks=[0],
+                  outpath=None, 
+                  figsize=(2.3, 2.0)):
+    
+    remove_if_exists(outpath, label="Null ISA plot")
+    # 1. Reading data
+    df_null = pd.read_csv(null_isa_path)
+    plot_data = []
+    for t in tracks:
+        col = f"isa_t{t}"
+        plot_data.append(pd.DataFrame({"ISA": df_null[col], "Track": f"Track {t}"}))
+    if not plot_data: return None
+    plot_df = pd.concat(plot_data)
+    # 2. Plotting
+    fig, ax = plt.subplots(figsize=figsize)
+    style = apply_plot_style(ax, figsize)
+    sns.kdeplot(data=plot_df, x="ISA", hue="Track", fill=True,
+                alpha=0.3, linewidth=style['scale'], ax=ax)
+    ax.axvline(x=0, color='black', linestyle='--', linewidth=0.5*style['scale'], alpha=0.6)
+    # 3. Formatting
+    ax.set_xlabel("ISA", fontsize=style['main'])
+    ax.set_ylabel('Density\n(cbrt scale)', fontsize=style['main'])
+    ax.set_title(f"ISA distribution for non-motifs", fontsize=style['main'])
+    ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%.2f'))
+    ax.xaxis.set_major_locator(ticker.MaxNLocator(nbins=5))
+    
+    limit = plot_df["ISA"].abs().max() * 1.1
+    ax.set_xlim(-limit, limit)
+    ax.set_yscale('function', functions=_get_cbrt_scale())
+    
+    if len(tracks) > 1:
+        sns.move_legend(ax, "upper right", fontsize=style['small'], title=None, frameon=False)
+    elif ax.get_legend():
+        ax.get_legend().remove()
+        
+    return save_or_show(outpath)
+
+
+
+
+def plot_null_interaction(null_combi_isa_path, 
               tracks=[0], 
               outpath=None, 
               figsize=(2.3, 2.0)):
@@ -27,7 +68,6 @@ def plot_null(null_combi_isa_path,
     remove_if_exists(outpath, label="Null interaction plot")
     # 1.reading data
     df_null = pd.read_csv(null_combi_isa_path)
-
 
     plot_data = []
     for t in tracks:
@@ -43,20 +83,15 @@ def plot_null(null_combi_isa_path,
     
     sns.kdeplot(data=plot_df, x="interaction", hue="Track", fill=True, 
                 alpha=0.3, linewidth=style['scale'], ax=ax)
-    
     ax.axvline(x=0, color='black', linestyle='--', linewidth=0.5*style['scale'], alpha=0.6)
-    
     # 3. Formatting
     ax.set_xlabel("Interaction", fontsize=style['main'])
     ax.set_ylabel('Density\n(cbrt scale)', fontsize=style['main'])
     ax.set_title(f"Interaction between non-motif pairs", fontsize=style['main'])
-    
-    # X-Axis Rounding: Format to 2 decimal places
     ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%.2f'))
-    # Optional: If the labels overlap, you can reduce the number of ticks
     ax.xaxis.set_major_locator(ticker.MaxNLocator(nbins=5))
     
-    limit = max(plot_df["interaction"].abs().max(), 0.1)
+    limit = plot_df["interaction"].abs().max() * 1.1
     ax.set_xlim(-limit, limit)
     ax.set_yscale('function', functions=_get_cbrt_scale())
     

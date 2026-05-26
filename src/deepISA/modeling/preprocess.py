@@ -17,7 +17,7 @@ from deepISA.utils import (
 )
 
 
-
+# TODO: check length, report, then resize. now resize cannot output log
 
 def _balance_and_label(df, 
                        neg_pool_df, 
