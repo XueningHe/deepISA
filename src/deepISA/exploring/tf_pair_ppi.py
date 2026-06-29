@@ -46,7 +46,7 @@ def plot_ppi_enrichment(
         
     elif rank_by == "p_val":
         # Do NOT filter Independent pairs here; they represent the high p-value background
-        df = df.sort_values("mw_p", ascending=True).reset_index(drop=True)
+        df = df.sort_values("p_val", ascending=True).reset_index(drop=True)
         xlabel = "Top % of Pairs (Ranked by P-value)"
         plot_color = "tomato"
         if title is None: title = "PPI Enrichment (by P-value)"
@@ -209,7 +209,7 @@ def plot_dna_mediated_ppi(
             title = "DNA-mediated PPI Enrichment (by Coop Score)"
 
     elif rank_by == "p_val":
-        df = df.sort_values("mw_p", ascending=True).reset_index(drop=True)
+        df = df.sort_values("p_val", ascending=True).reset_index(drop=True)
         xlabel = "Top % of Pairs (Ranked by P-value)"
         plot_color = "tomato"
         if title is None:

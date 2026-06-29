@@ -25,7 +25,6 @@ def one_hot_encode(seqs):
     return np.transpose(X, (0, 2, 1))
 
 
-# TODO: maybe only maintain one 
 def get_sequences_from_df(df, fasta):
     """Vectorized sequence fetching using bioframe-loaded fasta."""
     return [
@@ -276,6 +275,11 @@ def format_cooperativity_categorical(df, categories = ["Independent", "Redundant
 
 
 
+def get_cbrt_scale():
+    """Returns functions for cube root scaling."""
+    return (lambda x: np.sign(x) * np.power(np.abs(x), 1/3), 
+            lambda x: np.sign(x) * np.power(np.abs(x), 3))
+
 
 
 
@@ -301,3 +305,27 @@ def save_or_show(outpath):
     else:
         plt.show()
     plt.close()
+
+
+
+def apply_threshold_filter(
+    df,
+    cols,
+    thresholds,
+    rule,   # "any_above" | "all_above"
+):
+
+    if rule == "all_above":
+        mask = np.ones(len(df), dtype=bool)
+        for c in cols:
+            mask &= (df[c] > thresholds[c])
+        return df[mask].copy(), mask
+    
+    if rule == "any_tails":
+        mask = np.zeros(len(df), dtype=bool)
+        for c in cols:
+            t = thresholds[c]
+            mask |= ((df[c] > t["pos"]) | (df[c] < t["neg"]))
+        return df[mask].copy(), mask
+
+    raise ValueError(f"Unknown rule: {rule}")

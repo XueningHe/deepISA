@@ -114,7 +114,7 @@ def compile_training_data(df,
     df = resize_regions(df, seq_len)
     fasta = bf.load_fasta(fasta_path)
     
-    # --- Scenario 2: Bed file + BigWigs ---
+    # --- Scenario 1: Bed file + BigWigs ---
     if bw_paths:
         logger.info("Scenario 2: Quantifying from BigWigs.")
         if isinstance(bw_paths, str): bw_paths = [bw_paths]
@@ -124,7 +124,7 @@ def compile_training_data(df,
         logger.info(f"Setting threshold to {threshold:.4f}") 
         df['target_class'] = (df['target_reg'] > threshold).astype(float)
 
-    # --- Scenario 1: Pre-quantified signal ---
+    # --- Scenario 2: Pre-quantified signal ---
     elif target_reg_col in df.columns:
         logger.info(f"Scenario 1: Using provided signal column '{target_reg_col}'. Assume signal values are not log-transformed.")
         df['target_reg'] = df[target_reg_col]

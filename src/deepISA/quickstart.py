@@ -17,6 +17,7 @@ from deepISA.scoring.single_isa import (
 from deepISA.scoring.combi_isa import (
     run_combi_isa, 
     run_null_interaction,
+    add_interaction,
     calc_coop_score
 )
 from deepISA.utils import setup_logger, find_available_gpu
@@ -24,9 +25,14 @@ from deepISA.utils import setup_logger, find_available_gpu
 
 # Plotting functions
 from deepISA.plotting.interaction import (
-    plot_null_isa,
-    plot_null_interaction,
     plot_interaction_decay, 
+)
+
+from deepISA.plotting.null import (
+    plot_null_isa,
+    plot_motif_length,
+    plot_null_interaction,
+    plot_motif_distance
 )
 
 from deepISA.plotting.cooperativity import (
@@ -97,7 +103,7 @@ class QuickStart:
         }
         self.fasta_path = fasta_path
         self.df_input = df_input # can be either positive or negative regions
-        self.df_train = None
+        self.df_labeled = None
         self.device = device if device is not None else find_available_gpu()
         
 
@@ -150,7 +156,7 @@ class QuickStart:
         train_data_path = os.path.join(self.data_dir, "Training_data")
         # 1. Compile Data
         logger.info("Compiling training data...")
-        self.df_train = compile_training_data(
+        self.df_labeled = compile_training_data(
             df=self.df_input,
             fasta_path=self.fasta_path,
             out_dir=train_data_path,
@@ -223,9 +229,9 @@ class QuickStart:
         self._check_isa_dependencies(start_from)
 
         if df_pos is None:
-            if self.df_train is not None and 'target_class' in self.df_train.columns:
-                df_pos = self.df_train[self.df_train['target_class'] == 1].copy()
-                logger.info(f"{len(df_pos)} positive regions identified from training data. Use as input for ISA.")
+            if self.df_labeled is not None and 'target_class' in self.df_labeled.columns:
+                df_pos = self.df_labeled[self.df_labeled['target_class'] == 1].copy()
+                logger.info(f"{len(df_pos)} positive regions identified from input data. Use as input for ISA.")
             else:
                 df_pos = self.df_input.copy()
                 logger.warning("Using df_input as positives for ISA. Ensure this is intended.")
@@ -264,7 +270,7 @@ class QuickStart:
                 non_motif_locs_path=self.files["non_motif_locs"],   
                 single_isa_outpath=self.files["isa_single"],         
                 null_isa_outpath=self.files["null_isa"], 
-                null_percentile=isa_config.get("null_percentile", 80),            
+                null_percentile=isa_config["null_percentile"],        
                 pred_orig_outpath=self.files["pred_orig"],           
                 device=self.device,
                 tracks=self.tracks,
@@ -286,7 +292,7 @@ class QuickStart:
                 device=self.device,
                 tracks=self.tracks,
                 receptive_field=isa_config.get("receptive_field", getattr(self.model, "rf", 255)),
-                pred_orig_path=self.files["pred_orig"],    
+                pred_orig_path=self.files["pred_orig"],     
                 num_regions_per_batch=isa_config.get("num_regions_per_batch", 200),
                 pred_batch_size=isa_config.get("pred_batch_size", 1024),
             )
@@ -313,36 +319,41 @@ class QuickStart:
         if start_idx <= ISA_STAGES.index("aggregate_isa"):
             logger.info(f"Running stage: calc_coop_score")
             logger.info(f"Aggregating results in {self.data_dir}")
+            add_interaction(
+                combi_isa_path=self.files["isa_combi"],
+                null_interaction_path=self.files["null_interaction"],
+                null_isa_path=self.files["null_isa"],
+                tracks=self.tracks,
+                null_percentile=isa_config["null_percentile"])
+            
             calc_tf_importance(
                 self.files["isa_single"],
                 self.files["null_isa"],                    
                 self.files["imp_tf"],    
-                null_percentile=isa_config.get("null_percentile", 80),                   
+                null_percentile=isa_config["null_percentile"],   
                 min_count=isa_config.get("min_count", 10),
             )
 
             for t in self.tracks:
                 calc_coop_score(
-                    self.files["isa_combi"],
-                    self.files["null_isa"],                    
+                    self.files["isa_combi"],               
                     self.files["null_interaction"],   
                     # add track suffix to output paths        
                     outpath=self.files["coop_tf_pair"].replace(".csv", f"_t{t}.csv"),
                     level="tf_pair",
                     track_idx=t,
-                    null_percentile=isa_config.get("null_percentile", 80),                   
+                    null_percentile=isa_config["null_percentile"],                
                     min_count=isa_config.get("min_count", 10),
                     q_val_thresh=isa_config.get("q_val_thresh", 0.1),
                 )
                                 
                 calc_coop_score(
-                    self.files["isa_combi"],
-                    self.files["null_isa"],                   
+                    self.files["isa_combi"],             
                     self.files["null_interaction"],            
                     outpath=self.files["coop_tf"].replace(".csv", f"_t{t}.csv"),
                     level="tf",
                     track_idx=t,
-                    null_percentile=isa_config.get("null_percentile", 80), 
+                    null_percentile=isa_config["null_percentile"],
                     min_count=isa_config.get("min_count", 10),
                     q_val_thresh=isa_config.get("q_val_thresh", 0.1),
                 )
@@ -352,20 +363,36 @@ class QuickStart:
         logger.info("ISA execution and aggregation complete.")
         
     
-    def report(self):
+    def report(self, tracks=None):
         """
         Executes the full suite of visualization and exploration functions.
         """
+        if tracks is not None:
+            self.tracks = tracks
+        if not hasattr(self, "tracks") or self.tracks is None:
+            raise ValueError(
+                "Tracks are not set. Pass tracks to report(tracks=[...]) "
+                "or run run_isa(...) first."
+            )
         logger.info("Generating comprehensive reports and plots...")
-        # --- A. Interaction Plots (interaction.py) ---
+        
+        # --- A. Null Distributions (null.py) ---
+        
+        plot_null_isa(self.files["null_isa"],
+                    tracks=self.tracks, 
+                    outpath=os.path.join(self.plots_dir, f"null_isa.png"))
+        plot_motif_length(self.files["null_isa"],
+                          self.files["motif_locs"],
+                          outpath=os.path.join(self.plots_dir, f"motif_length.png"))
+        plot_null_interaction(self.files["null_interaction"],
+                              tracks=self.tracks, 
+                              outpath=os.path.join(self.plots_dir, f"null_interaction.png"))
+        plot_motif_distance(self.files["null_interaction"],
+                            self.files["isa_combi"],
+                            outpath=os.path.join(self.plots_dir, f"motif_distance.png"))
+        # --- B. Interaction Plots (interaction.py) ---
         
         df_isa_combi = pd.read_csv(self.files["isa_combi"])
-        plot_null_isa(self.files["null_isa"],
-                  tracks=self.tracks, 
-                  outpath=os.path.join(self.plots_dir, f"null_isa.png"))
-        plot_null_interaction(self.files["null_interaction"],
-                  tracks=self.tracks, 
-                  outpath=os.path.join(self.plots_dir, f"null_interaction.png"))
         plot_interaction_decay(df_isa_combi, 
                                self.tracks, 
                                mode='signed', 
@@ -388,12 +415,12 @@ class QuickStart:
             df_coop_tf = pd.read_csv(coop_tf_path)
             df_imp = pd.read_csv(imp_path)
 
-            # --- B. Cooperativity Distribution (cooperativity.py) ---
+            # --- C. Cooperativity Distribution (cooperativity.py) ---
             hist_coop_score(df_coop_pair, outpath=ppath("coop_score_hist"))
             heatmap_coop_score(df_coop_pair, outpath=ppath("coop_score_heatmap"))
             plot_motif_distance_by_category(df_coop_pair, outpath=ppath("distance_by_category"))
 
-            # --- C. TF Importance & GC (tf.py) ---
+            # --- D. TF Importance & GC (tf.py) ---
             plot_motif_gc_by_coop(df_coop_tf, outpath=ppath("motif_gc_by_coop"))
             plot_coop_vs_importance(df_coop_tf, df_imp, 
                                      x_col="coop_score", 
@@ -401,16 +428,16 @@ class QuickStart:
                                      outpath=ppath("coop_vs_importance"))
             plot_partner_specificity(df_coop_pair, df_coop_tf, outpath=ppath("partner_specificity_ratio"))
 
-            # --- D. TF Family Exploration (tf_family.py) ---
+            # --- E. TF Family Exploration (tf_family.py) ---
             plot_coop_by_tf_pair_family(df_coop_pair, outpath=ppath("family_coop_summary"))
             plot_coop_by_dbd(df_coop_tf, outpath=ppath("dbd_coop_summary"))
             plot_intra_family_coop_score(df_coop_pair, outpath=ppath("intra_family_distribution"))
 
-            # --- E. TF Functional Evolution (tf_function.py) ---
+            # --- F. TF Functional Evolution (tf_function.py) ---
             plot_usf_pfs(df_coop_tf, outpath=ppath("usf_pioneer_ecdf"))
             plot_cell_specificity(df_coop_tf, outpath=ppath("rolling_gini_specificity"))
 
-            # --- F. PPI Validation (tf_pair_ppi.py) ---
+            # --- G. PPI Validation (tf_pair_ppi.py) ---
             plot_ppi_enrichment(df_coop_pair, rank_by="coop_score", outpath=ppath("ppi_enrichment_by_coop_score"))
             plot_ppi_enrichment(df_coop_pair, rank_by="p_val", outpath=ppath("ppi_enrichment_by_p_val"))
             plot_cofactor_recruitment(df_coop_pair, outpath=ppath("ppi_violin_validation"))

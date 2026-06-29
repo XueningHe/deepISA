@@ -4,8 +4,9 @@ import numpy as np
 from loguru import logger
 from itertools import combinations
 import bioframe as bf
-from scipy.stats import mannwhitneyu
 from statsmodels.stats.multitest import multipletests
+# mann-whitney U test
+from scipy.stats import mannwhitneyu
 
 # Internal imports
 from deepISA.modeling.predict import compute_predictions
@@ -20,7 +21,7 @@ from deepISA.scoring.utils_isa import (
     region_str_to_seq
 )
 
-from deepISA.scoring.null import generate_null_pairs, derive_null_thresholds, apply_threshold_filter
+from deepISA.scoring.null import generate_null_pairs, derive_null_thresholds
 
 
 
@@ -57,10 +58,8 @@ def make_pairs_for_region(
             pair_data[f"isa1_{col.split('isa_')[-1]}"] = m1[col]  # isa1_t0, isa1_t1...
             pair_data[f"isa2_{col.split('isa_')[-1]}"] = m2[col]  # isa2_t0, isa2_t1...
         pairs.append(pair_data)
-
-    if not pairs:
-        return None
-
+    if not pairs: return None
+    
     return pd.DataFrame(pairs)
 
 
@@ -76,7 +75,6 @@ def build_combi_pairs_by_region(df_motif_single_isa: pd.DataFrame, receptive_fie
         if pair_df is None or pair_df.empty:
             continue
         pairs_by_region[region_str] = pair_df
-
     return pairs_by_region
 
 
@@ -128,8 +126,7 @@ def score_pairs(
                 all_seqs_m1.extend(seqs_m1)
                 all_seqs_m2.extend(seqs_m2)
 
-        if not pair_dfs:
-            continue
+        if not pair_dfs: continue
         
         p_both = compute_predictions(model, all_seqs_both, device=device, batch_size=pred_batch_size, tracks=tracks)
         if compute_single_isa:
@@ -140,17 +137,12 @@ def score_pairs(
             sl = slice(start, start + n)
             pair_df = pair_df.copy()
             region_val = pair_df["region"].iloc[0]
-            p0 = orig_pred_map[region_val]  # ordered by tracks list
-
+            p_orig = orig_pred_map[region_val]  
             for j, t in enumerate(tracks):
-                p_orig_t = p0[j]
-                pair_df[f"isa_both_t{t}"] = p_orig_t - p_both[sl, t]
+                pair_df[f"isa_both_t{t}"] = p_orig[j] - p_both[sl, j]
                 if compute_single_isa:
-                    pair_df[f"isa1_t{t}"] = p_orig_t - p_m1[sl, t]
-                    pair_df[f"isa2_t{t}"] = p_orig_t - p_m2[sl, t]
-                pair_df[f"interaction_t{t}"] = (
-                    pair_df[f"isa1_t{t}"] + pair_df[f"isa2_t{t}"] - pair_df[f"isa_both_t{t}"]
-                )
+                    pair_df[f"isa1_t{t}"] = p_orig[j] - p_m1[sl, j]
+                    pair_df[f"isa2_t{t}"] = p_orig[j] - p_m2[sl, j]
 
             write_stream_csv(pair_df, outpath)
 
@@ -208,27 +200,28 @@ def run_null_interaction(
     outpath,
     device,
     tracks=[0],
-    k=9,
-    n_samples=2000,
+    n_samples=8192,
     num_regions_per_batch=200,
     pred_batch_size=1024,
     receptive_field=255,
     n_bins=20,
 ):
-    remove_if_exists(outpath, label="null ISA results file")
-
-    logger.info(f"Generating null pairs (k={k}, n_samples={n_samples}) from {non_motif_locs_path} ...")
-    
+    remove_if_exists(outpath, label="null ISA results file")    
     df_combi_isa = pd.read_csv(combi_isa_path)
     target_distances = df_combi_isa["distance"].dropna().to_numpy()
+    # get median length of motifs in combi_isa
+    motif1_lengths = df_combi_isa["end1_rel"] - df_combi_isa["start1_rel"]
+    motif2_lengths = df_combi_isa["end2_rel"] - df_combi_isa["start2_rel"]
+    median_motif_length = int(np.median(np.concatenate([motif1_lengths, motif2_lengths])))
     null_pairs_df = generate_null_pairs(
         non_motif_locs_path,
         np.asarray(target_distances),
         receptive_field=receptive_field,
-        k=k,
+        k=median_motif_length,
         n_samples=n_samples,
         n_bins=n_bins,
     )
+    logger.info(f"Generating null pairs (k={median_motif_length}, n_samples={n_samples}) from {non_motif_locs_path} ...")
 
     if null_pairs_df.empty:
         logger.warning("generate_null_pairs_from_df produced no null pairs; nothing to score.")
@@ -261,9 +254,73 @@ def run_null_interaction(
 # Aggregation functions
 #-------------------
 
+def compute_interaction_per_track(df: pd.DataFrame, 
+                                  track_idx: int, 
+                                  tau: float,
+                                  isa_thresh=0) -> pd.DataFrame:
+    isa1_col = f"isa1_t{track_idx}"
+    isa2_col = f"isa2_t{track_idx}"
+    both_col = f"isa_both_t{track_idx}"
+    inter_col = f"interaction_t{track_idx}"
+    
+    isa1 = df[isa1_col].to_numpy(dtype=float)
+    isa2 = df[isa2_col].to_numpy(dtype=float)
+    both = df[both_col].to_numpy(dtype=float)
+
+    isa1_wo2 = both - isa2
+    isa2_wo1 = both - isa1
+    qualified = (isa1 >= isa_thresh) & (isa2 >= isa_thresh) & (isa1_wo2 >= 0) & (isa2_wo1 >= 0)
+    vals = np.full(df.shape[0], np.nan, dtype=float)
+    denom = isa1 + isa2 + tau
+    num = isa1 + isa2 - both
+    valid = qualified & np.isfinite(num) & np.isfinite(denom) & (denom != 0)
+    vals[valid] = num[valid] / denom[valid]
+    df[inter_col] = vals
+
+
+
+
+def add_interaction(
+    combi_isa_path: str,
+    null_interaction_path: str,
+    null_isa_path: str,
+    null_percentile: float,
+    tracks=[0],
+    tau_quantile: float = 50.0,
+):
+
+    df_null = pd.read_csv(null_interaction_path)
+    df_obs = pd.read_csv(combi_isa_path)
+    df_null_isa= pd.read_csv(null_isa_path)
+    isa_thresh_map= derive_null_thresholds(df_null_isa,[f"isa_t{t}" for t in tracks],null_percentile)
+    tau_map: dict[int, float] = {}
+    # ---------- per-track processing ----------
+    for t in tracks:
+        isa1_col = f"isa1_t{t}"
+        isa2_col = f"isa2_t{t}"
+        # calculate null-calibrated tau 
+        tau_mask = (df_null[isa1_col] > 0) & (df_null[isa2_col] > 0)
+        den_for_tau = (df_null.loc[tau_mask, isa1_col] + df_null.loc[tau_mask, isa2_col]).to_numpy(dtype=float)
+        tau_t = float(np.nanpercentile(den_for_tau, tau_quantile))
+        tau_map[t] = tau_t
+        logger.info(f"[track {t}] tau (q{tau_quantile}) = {tau_t:.4f}")
+        compute_interaction_per_track(df_null, track_idx=t, tau=tau_t)
+        compute_interaction_per_track(df_obs, track_idx=t, tau=tau_t, 
+                                      isa_thresh=isa_thresh_map[f"isa_t{t}"]["pos"])
+    # ---------- write back (same row count/order) ----------
+    df_null.to_csv(null_interaction_path, index=False, float_format="%.4f", na_rep="")
+    logger.info(f"Wrote normalized interactions to null file: {null_interaction_path}")
+    df_obs.to_csv(combi_isa_path, index=False, float_format="%.4f",na_rep="")
+    logger.info(f"Wrote normalized interactions to combi file: {combi_isa_path}")
+    return tau_map
+
+
+
+
+
+
 def calc_coop_score(
     combi_isa_path,
-    null_isa_path,
     null_interaction_path,
     outpath,
     level,  # 'tf_pair' or 'tf'
@@ -274,59 +331,14 @@ def calc_coop_score(
 ):
     remove_if_exists(outpath, label="cooperativity score file")
     
-    # read
     df = pd.read_csv(combi_isa_path)
-    shape_before = df.shape[0]
-    # derive ISA thresholds from null_isa
-    df_null_isa= pd.read_csv(null_isa_path)
-    null_isa_col = f"isa_t{track_idx}"
-    noise_thresh_map = derive_null_thresholds(
-        null_df=df_null_isa,
-        cols=[null_isa_col],
-        percentile=null_percentile,
-    )
-    noise_thresh = noise_thresh_map[null_isa_col]["pos"]
+    inter_col = f"interaction_t{track_idx}"
+    
+    #---------------
+    # Format df
+    #---------------
     # sort TF names alphabetically within row
     df["tf1"], df["tf2"] = np.minimum(df["tf1"], df["tf2"]), np.maximum(df["tf1"], df["tf2"])
-    df = df.drop_duplicates()
-    # filter pairs where either motif is below noise threshold or conditional ISA is negative
-    isa1_col = f"isa1_t{track_idx}"
-    isa2_col = f"isa2_t{track_idx}"
-    isa_both_col = f"isa_both_t{track_idx}"
-    df["isa1_wo2"] = df[isa_both_col] - df[isa1_col]
-    df["isa2_wo1"] = df[isa_both_col] - df[isa2_col]
-    all_filter_cols = [isa1_col, isa2_col, "isa1_wo2", "isa2_wo1"]
-    all_thresholds = {
-        isa1_col: noise_thresh,   
-        isa2_col: noise_thresh,   
-        "isa1_wo2": 0.0,          
-        "isa2_wo1": 0.0,          
-    }
-    df, _ = apply_threshold_filter(
-        df=df,
-        cols=all_filter_cols,
-        thresholds=all_thresholds,
-        rule="all_above",
-    )
-    logger.info(
-        f"Combined filtering (ISA >= {noise_thresh:.4f}, conditional ISA >= 0) "
-        f"reduced pairs from {shape_before} to {df.shape[0]}"
-    )
-    if df.empty:
-        logger.warning(f"No pairs remaining after motif ISA filtering for track {track_idx}.")
-        return pd.DataFrame()
-    
-    df_null_inter = pd.read_csv(null_interaction_path)
-    inter_col = f"interaction_t{track_idx}"
-    null_interaction = df_null_inter[inter_col].dropna().to_numpy()
-    thresholds = derive_null_thresholds(
-        null_df=df_null_inter,
-        cols=[inter_col],
-        percentile=null_percentile,
-    )
-    pos_thresh = thresholds[inter_col]["pos"]
-    neg_thresh = thresholds[inter_col]["neg"]
-    
     if level == "tf":
         df_melt = pd.concat(
             [
@@ -338,38 +350,45 @@ def calc_coop_score(
     else:
         df_melt = df.copy()
         df_melt["name"] = df_melt["tf1"] + "|" + df_melt["tf2"]
-
+    
+    #-----------------------------
+    # get null-derived thresholds
+    #-----------------------------
+    df_null_inter = pd.read_csv(null_interaction_path)
+    inter_thresh = derive_null_thresholds(df_null_inter,[inter_col],percentile=null_percentile)
+    pos_inter_thresh = inter_thresh[inter_col]["pos"]
+    neg_inter_thresh = inter_thresh[inter_col]["neg"]
+    null_interactions = df_null_inter[inter_col].dropna().to_numpy()
+    
     results = []
     for name, group in df_melt.groupby("name"):
-        if len(group) < min_count: continue
-        vals = group[inter_col].to_numpy()
-        mw_res = mannwhitneyu(vals, null_interaction)
+        interactions = group[inter_col].dropna().to_numpy()
+        if len(interactions)< min_count: continue
+        _, p_val = mannwhitneyu(interactions, null_interactions, alternative="two-sided")
         # remove gray zone value
-        vals = vals[(vals > pos_thresh) | (vals < neg_thresh)]
-        if len(vals) < min_count: continue
-        coop_score = vals.sum() / np.abs(vals).sum()
+        interactions = interactions[(interactions > pos_inter_thresh) | (interactions < neg_inter_thresh)]
+        if len(interactions) < min_count: continue
+        coop_score = interactions.sum() / np.abs(interactions).sum()
         results.append(
             {
                 level: name,
                 "n_total": len(group),
-                "n_effective": len(vals),
-                "abs_i_sum": np.abs(vals).sum(),
+                "n_effective": len(interactions),
+                "abs_i_sum": np.abs(interactions).sum(),
                 "coop_score": coop_score,
-                "mw_p": mw_res.pvalue,
-                "count": len(vals),
+                "p_val": p_val,
+                "count": len(interactions),
                 "median_distance": group["distance"].median()
             }
         )
 
     res_df = pd.DataFrame(results)
-
     if res_df.empty:
-        logger.warning("No groups met min_count; no cooperativity results written.")
+        logger.warning("No groups passed min_count/effective filters.")
+        res_df.to_csv(outpath, index=False)
         return res_df
-
-    res_df["mw_q"] = multipletests(res_df["mw_p"], method="fdr_bh")[1]
+    res_df["q_val"] = multipletests(res_df["p_val"], method="fdr_bh")[1]
     res_df = assign_cooperativity(res_df, q_val_thresh)
-
     res_df.to_csv(outpath, mode="w", index=False, float_format="%.4f")
     logger.info(f"Coop score saved to {outpath}")
     return res_df
@@ -382,14 +401,13 @@ def calc_coop_score(
 def assign_cooperativity(df, q_val_thresh):
     df = df.copy()
     df["cooperativity"] = "Independent"
-    is_significant = df["mw_q"] < q_val_thresh
+    is_significant = df["q_val"] < q_val_thresh
 
     synergy_thresh = df.loc[is_significant, "coop_score"].quantile(0.7)
     redun_thresh = df.loc[is_significant, "coop_score"].quantile(0.3)
     df.loc[is_significant & (df["coop_score"] > synergy_thresh), "cooperativity"] = "Synergistic"
     df.loc[is_significant & (df["coop_score"] < redun_thresh), "cooperativity"] = "Redundant"
     df.loc[is_significant & (df["coop_score"].between(redun_thresh, synergy_thresh)), "cooperativity"] = "Intermediate"
-
     df.loc[df["cooperativity"] == "Independent", "coop_score"] = np.nan
     return df
 

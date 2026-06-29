@@ -29,9 +29,6 @@ def annotate_tf_family(df):
     """
     if df.empty:
         return df
-    
-    if "same_family" in df.columns and "tf1_dbd" in df.columns:
-        return df
 
     ref = get_family_reference()
     temp_df = df.copy()
@@ -78,10 +75,11 @@ def prepare_plot_df(df):
 def plot_coop_by_tf_pair_family(df, outpath=None, figsize=(2.3, 2.2)):
     """Plots KDE density of coop scores, separated by intra vs inter-family pairs."""
     remove_if_exists(outpath, label= "Cooperativity by TF pair family plot")
-    df = annotate_tf_family(prepare_plot_df(df))
+    df.dropna(subset=["coop_score"], inplace=True)
     if df.empty: 
         return
-
+    df = annotate_tf_family(df)
+    
     fig, ax = plt.subplots(figsize=figsize)
     # Automatically get the right font sizes for this specific figsize
     fonts = apply_plot_style(ax, figsize)
@@ -118,9 +116,10 @@ def plot_coop_by_tf_pair_family(df, outpath=None, figsize=(2.3, 2.2)):
 def plot_coop_by_dbd(df, outpath=None, top_n=15, figsize=(3.5, 4)):
     """Ranks DBDs by median cooperativity score."""
     remove_if_exists(outpath, label= "Cooperativity by DBD plot")
-    df = annotate_tf_family(prepare_plot_df(df))
-    if df.empty:
+    df.dropna(subset=["coop_score"], inplace=True)
+    if df.empty: 
         return
+    df = annotate_tf_family(df)
         
     # Filter for top N most frequent DBDs
     top_dbds = df['DBD'].value_counts().nlargest(top_n).index
@@ -151,9 +150,11 @@ def plot_coop_by_dbd(df, outpath=None, top_n=15, figsize=(3.5, 4)):
 def plot_intra_family_coop_score(df, min_pairs=10, outpath=None, figsize=None):
     """Plots distributions for families with multiple internal pairs."""
     remove_if_exists(outpath, label= f"Intra-family cooperativity plot (min_pairs={min_pairs})")
-    df = annotate_tf_family(prepare_plot_df(df))
+    df.dropna(subset=["coop_score"], inplace=True)
+    if df.empty: 
+        return
+    df = annotate_tf_family(df)
     plot_df = df[df["same_family"] == True].dropna(subset=["tf1_family"])
-    
     counts = plot_df["tf1_family"].value_counts()
     keep = counts[counts >= min_pairs].index
     plot_df = plot_df[plot_df["tf1_family"].isin(keep)]

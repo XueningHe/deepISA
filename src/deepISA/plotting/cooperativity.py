@@ -5,8 +5,6 @@ import matplotlib.gridspec as gridspec
 import re
 
 from deepISA.utils import (
-    plot_violin_with_statistics,
-    format_cooperativity_categorical,
     apply_plot_style,
     save_or_show,
     remove_if_exists

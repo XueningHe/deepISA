@@ -128,7 +128,7 @@ def get_non_motifs(regions_df, motif_locs_df):
     non_motif_df['start_rel'] = (non_motif_df['start'] - reg_starts)
     non_motif_df['end_rel'] = (non_motif_df['end'] - reg_starts)
     non_motif_df['len']= non_motif_df['end'] - non_motif_df['start']
-    non_motif_df = non_motif_df[(non_motif_df['len'] > 3) & (non_motif_df['len'] < 500)].reset_index(drop=True)
+    non_motif_df = non_motif_df[non_motif_df['len'] > 5].reset_index(drop=True)
     return non_motif_df
 
 

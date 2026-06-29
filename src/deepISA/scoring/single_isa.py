@@ -7,8 +7,8 @@ import bioframe as bf
 
 # Internal imports
 from deepISA.modeling.predict import compute_predictions 
-from deepISA.utils import remove_if_exists, write_stream_csv
-from deepISA.scoring.null import derive_null_thresholds, apply_threshold_filter, sample_null_kmers
+from deepISA.utils import remove_if_exists, write_stream_csv, apply_threshold_filter
+from deepISA.scoring.null import derive_null_thresholds, sample_null_kmers
 from deepISA.scoring.utils_isa import load_pred_orig,ablate_motifs, region_str_to_seq
 
 
@@ -122,7 +122,7 @@ def run_single_isa(
     tracks=[0],
     num_regions_per_batch=200,
     pred_batch_size=1024,
-    null_n_samples: int = 2000,
+    null_n_samples: int = 8192,
 ):
     if isinstance(fasta, str):
         fasta=bf.load_fasta(fasta)
@@ -141,6 +141,8 @@ def run_single_isa(
     )
     
     locs_df = pd.read_csv(motif_locs_path)
+    # deduplicate based on [chrom,start,end,region], keep the row with largest score, 
+    locs_df = locs_df.sort_values("score", ascending=False).drop_duplicates(subset=["chrom","start","end","region"], keep="first").reset_index(drop=True)
     logger.info("Running single ISA")
     single_isa_core(
         model=model,
@@ -156,7 +158,6 @@ def run_single_isa(
     df_isa = pd.read_csv(single_isa_outpath)
     df_isa["len"] = df_isa["end_rel"] - df_isa["start_rel"]
     
-
     non_motif_locs_df = pd.read_csv(non_motif_locs_path)
     logger.info("Sampling non-motif kmers for null ISA")
     null_kmers_df = sample_null_kmers(

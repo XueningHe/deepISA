@@ -26,31 +26,6 @@ def derive_null_thresholds(
 
 
 
-def apply_threshold_filter(
-    df,
-    cols,
-    thresholds,
-    rule,   # "any_above" | "all_above"
-):
-
-    if rule == "all_above":
-        mask = np.ones(len(df), dtype=bool)
-        for c in cols:
-            mask &= (df[c] > thresholds[c])
-        return df[mask].copy(), mask
-    
-    if rule == "any_tails":
-        mask = np.zeros(len(df), dtype=bool)
-        for c in cols:
-            t = thresholds[c]
-            mask |= ((df[c] > t["pos"]) | (df[c] < t["neg"]))
-        return df[mask].copy(), mask
-
-    raise ValueError(f"Unknown rule: {rule}")
-
-
-
-
 #---------------------------
 # Null generation utilities
 #---------------------------
@@ -115,7 +90,7 @@ def sample_null_kmers(
         if k <= 0: continue
 
         eligible = df[df["interval_len"] >= k]
-        chosen = eligible.sample(n=need).copy()
+        chosen = eligible.sample(n=need, replace=True, random_state=0).copy()
         high_bounds = chosen["interval_len"] - k + 1
         offsets = rng.integers(0, high_bounds)
         chosen["start"] = chosen["start"]+ offsets
