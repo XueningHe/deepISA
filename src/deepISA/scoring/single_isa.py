@@ -127,8 +127,12 @@ def run_single_isa(
     if isinstance(fasta, str):
         fasta=bf.load_fasta(fasta)
         
-    regions = pd.read_csv(motif_locs_path)["region"].unique().tolist()
-    
+    locs_df = pd.read_csv(motif_locs_path)
+    non_motif_locs_df = pd.read_csv(non_motif_locs_path)
+    regions_pos = locs_df["region"].unique().tolist()
+    regions_neg = non_motif_locs_df["region"].unique().tolist()
+
+    regions = list(set(regions_pos + regions_neg))
     logger.info("Computing original predictions for all regions")
     get_pred_orig(
         model=model,
@@ -140,7 +144,6 @@ def run_single_isa(
         pred_batch_size=pred_batch_size,
     )
     
-    locs_df = pd.read_csv(motif_locs_path)
     # deduplicate based on [chrom,start,end,region], keep the row with largest score, 
     locs_df = locs_df.sort_values("score", ascending=False).drop_duplicates(subset=["chrom","start","end","region"], keep="first").reset_index(drop=True)
     logger.info("Running single ISA")

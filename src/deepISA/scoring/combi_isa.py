@@ -355,9 +355,10 @@ def calc_coop_score(
     # get null-derived thresholds
     #-----------------------------
     df_null_inter = pd.read_csv(null_interaction_path)
-    inter_thresh = derive_null_thresholds(df_null_inter,[inter_col],percentile=null_percentile)
-    pos_inter_thresh = inter_thresh[inter_col]["pos"]
-    neg_inter_thresh = inter_thresh[inter_col]["neg"]
+    # inter_thresh = derive_null_thresholds(df_null_inter,[inter_col],percentile=null_percentile)
+    # logger.info(f"Null-derived thresholds for {inter_col}: pos={inter_thresh[inter_col]['pos']:.4f}, neg={inter_thresh[inter_col]['neg']:.4f}")
+    # pos_inter_thresh = inter_thresh[inter_col]["pos"]
+    # neg_inter_thresh = inter_thresh[inter_col]["neg"]
     null_interactions = df_null_inter[inter_col].dropna().to_numpy()
     
     results = []
@@ -366,8 +367,8 @@ def calc_coop_score(
         if len(interactions)< min_count: continue
         _, p_val = mannwhitneyu(interactions, null_interactions, alternative="two-sided")
         # remove gray zone value
-        interactions = interactions[(interactions > pos_inter_thresh) | (interactions < neg_inter_thresh)]
-        if len(interactions) < min_count: continue
+        # interactions = interactions[(interactions > pos_inter_thresh) | (interactions < neg_inter_thresh)]
+        # if len(interactions) < min_count: continue
         coop_score = interactions.sum() / np.abs(interactions).sum()
         results.append(
             {
@@ -398,11 +399,10 @@ def calc_coop_score(
 
 
 
-def assign_cooperativity(df, q_val_thresh):
+def assign_cooperativity(df, q_val_thresh=0.1):
     df = df.copy()
     df["cooperativity"] = "Independent"
     is_significant = df["q_val"] < q_val_thresh
-
     synergy_thresh = df.loc[is_significant, "coop_score"].quantile(0.7)
     redun_thresh = df.loc[is_significant, "coop_score"].quantile(0.3)
     df.loc[is_significant & (df["coop_score"] > synergy_thresh), "cooperativity"] = "Synergistic"

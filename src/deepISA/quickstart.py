@@ -133,7 +133,7 @@ class QuickStart:
               trainer_config=None,
               bw_paths=None,
               target_reg_col="target_reg",
-              rc_aug=True):
+              target_class_col=None):
         """
         Compiles training data and executes the Trainer. 
         The best model is automatically saved by the Trainer class.
@@ -149,7 +149,9 @@ class QuickStart:
                 "min_delta": 0.001, # minimum change in the monitored metric to qualify as an improvement
                 "learning_rate": 1e-3,
                 "save_one_fourth": False,
-                "save_one": False
+                "save_one": False,
+                "log_transform":True,
+                "rc_aug":True
             }
 
         
@@ -163,7 +165,9 @@ class QuickStart:
             seq_len=self.model_config['seq_len'],
             bw_paths=bw_paths,
             target_reg_col=target_reg_col,
-            rc_aug=rc_aug
+            target_class_col=target_class_col,
+            log_transform=trainer_config.get('log_transform', True),
+            rc_aug=trainer_config.get('rc_aug', True)
         )
         
         train_model(
@@ -181,12 +185,13 @@ class QuickStart:
         """Explicitly loads a specific checkpoint into self.model."""
         if self.model is None:
             raise ValueError("Model structure not defined. Call define_model first.")
-        filename = f"model_{suffix}.pt"
+        filename = f"model{suffix}.pt"
         path = os.path.join(self.model_dir, filename)
         if not os.path.exists(path):
             raise FileNotFoundError(f"Checkpoint {filename} not found at {path}")
         self.model.load_state_dict(torch.load(path, map_location=self.device, weights_only=True))
         logger.info(f"Successfully loaded checkpoint: {filename}")
+        return self.model
     
     
     
@@ -235,6 +240,8 @@ class QuickStart:
             else:
                 df_pos = self.df_input.copy()
                 logger.warning("Using df_input as positives for ISA. Ensure this is intended.")
+        else:
+            logger.info(f"{len(df_pos)} positive regions provided for ISA.")
                         
         self.tracks = isa_config.get('tracks', [0])
         start_idx = ISA_STAGES.index(start_from)

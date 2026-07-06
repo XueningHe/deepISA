@@ -75,9 +75,9 @@ def _write_memmap(df,
         # Write data
         f_X[i : i + curr_len, :, :] = X_chunk
         # Use log1p for regression targets, 0.0 if not available
-        f_Yr[i : i + curr_len] = np.log1p(chunk_df.get('target_reg', 0.0)).astype('float32')
+        f_Yr[i : i + curr_len] = chunk_df.get('target_reg', 0.0).astype('float32')
         # regression label is optional, but classification label is always given for free.
-        f_Yc[i : i + curr_len] = chunk_df['target_class'].values.astype('float32')
+        f_Yc[i : i + curr_len] = chunk_df.get('target_class', 0.0).astype('float32')
 
         if rc_aug:
             f_X[n_samples + i : n_samples + i + curr_len, :, :] = X_chunk[:, ::-1, ::-1]
@@ -105,6 +105,7 @@ def compile_training_data(df,
                           bw_paths=None,
                           random_state=42,
                           rc_aug=True,
+                          log_transform=True,
                           chunk_size=8192):
     """
     Unified entry point for data. Handles three scenarios and returns a 
@@ -126,7 +127,7 @@ def compile_training_data(df,
 
     # --- Scenario 2: Pre-quantified signal ---
     elif target_reg_col in df.columns:
-        logger.info(f"Scenario 1: Using provided signal column '{target_reg_col}'. Assume signal values are not log-transformed.")
+        logger.info(f"Scenario 1: Using provided signal column '{target_reg_col}'")
         df['target_reg'] = df[target_reg_col]
         # Check if user provided their own classification labels
         if target_class_col and target_class_col in df.columns:
@@ -139,12 +140,18 @@ def compile_training_data(df,
     # --- Scenario 3: Pure BED file (Positives only) ---
     else:
         raise ValueError("Data must have either bw_paths or a pre-existing signal column.")
-
+    
     # --- Background Sampling & Balancing ---
     bg_regions_path = get_data_resource("non_cCRE_non_blacklist_non_exon.bed")
     bg_regions = bf.read_table(bg_regions_path, schema='bed',names=["chrom", "start", "end"])
     df = _balance_and_label(df, bg_regions, seq_len)
     
+    # ---- Optional Log Transformation ---
+    if log_transform:
+        logger.info("Applying log1p transformation to target_reg.")
+        df['target_reg'] = np.log1p(df['target_reg'])
+    else:
+        logger.info("Skipping log transformation of target_reg.")
     # --- Chromosome Holdout Split (chr2) ---
     test_df = df[df['chrom'] == 'chr2'].copy()
     train_val_pool = df[df['chrom'] != 'chr2'].copy()

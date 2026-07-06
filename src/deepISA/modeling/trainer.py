@@ -86,10 +86,10 @@ class Trainer:
             total_loss += loss.item() * len(batch_idx)
             # Fixed checkpoint logic using batch_num
             if self.save_one_fourth and epoch == 0 and batch_num == num_batches // 4:
-                self._save_checkpoint("_1_4")
+                self._save_checkpoint("1_4")
                 
         if self.save_one and epoch == 0:
-            self._save_checkpoint("_1")
+            self._save_checkpoint("1")
             
         return total_loss / num_samples
 
