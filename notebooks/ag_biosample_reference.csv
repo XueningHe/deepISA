@@ -1,0 +1,715 @@
+biosample_name,CHIP_TF,CHIP_HISTONE,SPLICE_SITE_USAGE,RNA_SEQ,CAGE,SPLICE_JUNCTIONS,DNASE,ATAC,CONTACT_MAPS,PROCAP
+22Rv1,1,1,0,0,0,0,0,0,0,0
+A172,0,0,2,2,2,1,1,0,0,0
+A375,0,0,2,2,0,1,0,0,0,0
+A549,33,4,2,2,2,1,1,1,0,0
+A673,1,3,2,2,0,1,1,0,0,2
+ACC112,0,7,0,0,0,0,0,0,0,0
+ACHN,0,0,0,0,0,0,1,0,0,0
+AG04449,1,1,0,0,0,0,1,0,0,0
+AG04450,1,4,2,2,0,1,1,0,0,0
+AG08395,0,0,0,0,0,0,1,0,0,0
+AG08396,0,0,0,0,0,0,1,0,0,0
+AG09309,1,1,0,0,0,0,1,0,0,0
+AG09319,1,1,0,0,0,0,1,0,0,0
+AG10803,1,1,0,0,0,0,1,0,0,0
+AG20443,0,0,0,0,0,0,1,0,0,0
+Ammon's horn,0,0,2,1,2,1,1,0,0,0
+B cell,1,10,4,4,0,2,1,1,0,0
+BE2C,1,4,2,1,0,1,1,0,0,0
+BJ,1,3,2,2,0,1,1,0,0,0
+BLaER1,1,9,2,2,0,1,0,0,0,0
+C1 segment of cervical spinal cord,0,0,2,1,0,1,0,0,0,0
+C4-2B,2,1,0,0,0,0,0,0,0,0
+CD14-positive monocyte,1,11,2,3,0,1,1,0,0,0
+"CD14-positive, CD16-negative classical monocyte",0,0,0,0,2,0,0,0,0,0
+"CD14-positive, CD16-positive monocyte",0,0,0,0,4,0,0,0,0,0
+"CD4-positive, CD25-positive, alpha-beta regulatory T cell",0,6,2,3,0,1,1,1,0,0
+"CD4-positive, alpha-beta T cell",1,6,4,3,0,2,1,1,0,0
+"CD4-positive, alpha-beta memory T cell",0,4,4,3,0,2,1,0,0,0
+"CD8-positive, alpha-beta T cell",1,7,4,3,0,2,1,1,0,0
+"CD8-positive, alpha-beta memory T cell",0,4,4,3,0,2,1,0,0,0
+CMK,0,0,0,0,0,0,1,0,0,0
+COLO829,0,0,0,0,0,0,1,0,0,0
+Caco-2,1,2,2,2,2,1,1,0,0,2
+Caki2,0,0,2,2,0,1,1,0,0,0
+Calu3,1,0,2,2,0,1,1,0,0,2
+CyT49,0,0,0,0,0,0,0,0,4,0
+D721Med,0,0,0,0,0,0,1,0,0,0
+DND-41,1,9,0,0,0,0,1,1,0,0
+DOHH2,1,9,0,0,0,0,0,0,0,0
+DU 145,0,0,0,0,2,0,0,0,0,0
+Daoy,0,0,2,2,0,1,1,0,0,0
+EH,0,0,0,0,0,0,1,0,0,0
+EL,0,0,0,0,0,0,1,0,0,0
+ELF-1,0,0,0,0,0,0,1,0,0,0
+ELR,0,0,0,0,0,0,1,0,0,0
+ES-I3,0,3,0,0,0,0,0,0,0,0
+G401,0,0,2,2,2,1,1,0,0,0
+GM03348,0,0,0,0,0,0,1,0,0,0
+GM04503,0,0,0,0,0,0,1,0,0,0
+GM04504,0,0,0,0,0,0,1,0,0,0
+GM06990,1,2,0,0,0,0,1,0,0,0
+GM08714,0,1,0,0,0,0,0,0,0,0
+GM10847,1,0,0,0,0,0,0,0,0,0
+GM12864,1,1,0,0,0,0,1,0,0,0
+GM12865,0,1,0,0,0,0,1,0,0,0
+GM12872,1,0,0,0,0,0,0,0,0,0
+GM12873,1,0,0,0,0,0,0,0,0,0
+GM12874,1,0,0,0,0,0,0,0,0,0
+GM12875,1,1,0,0,0,0,0,0,0,0
+GM12878,101,8,4,5,2,2,1,1,1,0
+GM12891,6,0,2,1,0,1,1,0,0,0
+GM12892,4,0,2,1,0,1,0,0,0,0
+GM13976,0,0,0,0,0,0,1,0,0,0
+GM15510,1,0,0,0,0,0,0,0,0,0
+GM18498,0,0,0,0,0,0,0,1,0,0
+GM18499,0,0,0,0,0,0,0,1,0,0
+GM18505,0,0,0,0,0,0,0,1,0,0
+GM18508,0,0,0,0,0,0,0,1,0,0
+GM18511,0,0,0,0,0,0,0,1,0,0
+GM18517,0,0,0,0,0,0,0,1,0,0
+GM18519,0,0,0,0,0,0,0,1,0,0
+GM18520,0,0,0,0,0,0,0,1,0,0
+GM18526,1,0,0,0,0,0,0,0,0,0
+GM18858,0,0,0,0,0,0,0,1,0,0
+GM18861,0,0,0,0,0,0,0,1,0,0
+GM18867,0,0,0,0,0,0,0,1,0,0
+GM18868,0,0,0,0,0,0,0,1,0,0
+GM18870,0,0,0,0,0,0,0,1,0,0
+GM18873,0,0,0,0,0,0,0,1,0,0
+GM18907,0,0,0,0,0,0,0,1,0,0
+GM18951,1,0,0,0,0,0,0,0,0,0
+GM19023,0,0,0,0,0,0,0,1,0,0
+GM19025,0,0,0,0,0,0,0,1,0,0
+GM19035,0,0,0,0,0,0,0,1,0,0
+GM19043,0,0,0,0,0,0,0,1,0,0
+GM19099,1,0,0,0,0,0,0,0,0,0
+GM19193,1,0,0,0,0,0,0,0,0,0
+GM19238,0,0,0,0,0,0,1,0,0,0
+GM19239,0,0,0,0,0,0,1,0,0,0
+GM19240,0,0,0,0,0,0,1,0,0,0
+GM19324,0,0,0,0,0,0,0,1,0,0
+GM19328,0,0,0,0,0,0,0,1,0,0
+GM19351,0,0,0,0,0,0,0,1,0,0
+GM19372,0,0,0,0,0,0,0,1,0,0
+GM19395,0,0,0,0,0,0,0,1,0,0
+GM19397,0,0,0,0,0,0,0,1,0,0
+GM19438,0,0,0,0,0,0,0,1,0,0
+GM19452,0,0,0,0,0,0,0,1,0,0
+GM19455,0,0,0,0,0,0,0,1,0,0
+GM19463,0,0,0,0,0,0,0,1,0,0
+GM19467,0,0,0,0,0,0,0,1,0,0
+GM20000,0,0,0,0,0,0,1,0,0,0
+GM21360,0,0,0,0,0,0,0,1,0,0
+GM21367,0,0,0,0,0,0,0,1,0,0
+GM21381,0,0,0,0,0,0,0,1,0,0
+GM21390,0,0,0,0,0,0,0,1,0,0
+GM21423,0,0,0,0,0,0,0,1,0,0
+GM21447,0,0,0,0,0,0,0,1,0,0
+GM21515,0,0,0,0,0,0,0,1,0,0
+GM21526,0,0,0,0,0,0,0,1,0,0
+GM21528,0,0,0,0,0,0,0,1,0,0
+GM21529,0,0,0,0,0,0,0,1,0,0
+GM21576,0,0,0,0,0,0,0,1,0,0
+GM21619,0,0,0,0,0,0,0,1,0,0
+GM21717,0,0,0,0,0,0,0,1,0,0
+GM21723,0,0,0,0,0,0,0,1,0,0
+GM21737,0,0,0,0,0,0,0,1,0,0
+GM21786,0,0,0,0,0,0,0,1,0,0
+GM21825,0,0,0,0,0,0,0,1,0,0
+GM23248,1,10,4,3,0,2,1,0,0,0
+GM23338,10,9,4,3,0,2,1,1,0,0
+GM25256,0,0,0,0,0,0,0,0,2,0
+H1,39,14,4,5,0,2,1,0,0,0
+H1-hESC,0,0,0,0,0,0,0,0,6,0
+H4,0,0,2,2,0,1,1,0,0,0
+H54,2,0,0,0,0,0,0,0,0,0
+H7,0,3,2,2,0,1,1,0,0,0
+H9,1,6,2,2,0,1,1,0,6,0
+HAP-1,0,4,0,0,0,0,1,0,0,0
+HCEC 1CT,0,0,0,0,0,0,1,0,0,0
+HCT116,25,8,4,3,0,2,1,1,2,0
+HEK293,106,3,0,0,2,0,0,0,0,0
+HEK293T,5,0,0,0,0,0,0,0,0,0
+HFF-Myc,0,1,0,0,0,0,1,0,0,0
+HFFc6,1,0,2,2,0,1,1,0,2,0
+HG02571,0,0,0,0,0,0,0,1,0,0
+HG02588,0,0,0,0,0,0,0,1,0,0
+HG02610,0,0,0,0,0,0,0,1,0,0
+HG02623,0,0,0,0,0,0,0,1,0,0
+HG02678,0,0,0,0,0,0,0,1,0,0
+HG02759,0,0,0,0,0,0,0,1,0,0
+HG02763,0,0,0,0,0,0,0,1,0,0
+HG02840,0,0,0,0,0,0,0,1,0,0
+HG02852,0,0,0,0,0,0,0,1,0,0
+HG02870,0,0,0,0,0,0,0,1,0,0
+HG02884,0,0,0,0,0,0,0,1,0,0
+HG02938,0,0,0,0,0,0,0,1,0,0
+HG02943,0,0,0,0,0,0,0,1,0,0
+HG02970,0,0,0,0,0,0,0,1,0,0
+HG02973,0,0,0,0,0,0,0,1,0,0
+HG02981,0,0,0,0,0,0,0,1,0,0
+HG03025,0,0,0,0,0,0,0,1,0,0
+HG03039,0,0,0,0,0,0,0,1,0,0
+HG03045,0,0,0,0,0,0,0,1,0,0
+HG03060,0,0,0,0,0,0,0,1,0,0
+HG03064,0,0,0,0,0,0,0,1,0,0
+HG03066,0,0,0,0,0,0,0,1,0,0
+HG03095,0,0,0,0,0,0,0,1,0,0
+HG03097,0,0,0,0,0,0,0,1,0,0
+HG03103,0,0,0,0,0,0,0,1,0,0
+HG03108,0,0,0,0,0,0,0,1,0,0
+HG03135,0,0,0,0,0,0,0,1,0,0
+HG03139,0,0,0,0,0,0,0,1,0,0
+HG03159,0,0,0,0,0,0,0,1,0,0
+HG03175,0,0,0,0,0,0,0,1,0,0
+HG03196,0,0,0,0,0,0,0,1,0,0
+HG03280,0,0,0,0,0,0,0,1,0,0
+HG03342,0,0,0,0,0,0,0,1,0,0
+HG03378,0,0,0,0,0,0,0,1,0,0
+HG03432,0,0,0,0,0,0,0,1,0,0
+HG03439,0,0,0,0,0,0,0,1,0,0
+HG03442,0,0,0,0,0,0,0,1,0,0
+HG03457,0,0,0,0,0,0,0,1,0,0
+HG03460,0,0,0,0,0,0,0,1,0,0
+HG03469,0,0,0,0,0,0,0,1,0,0
+HG03520,0,0,0,0,0,0,0,1,0,0
+HG03521,0,0,0,0,0,0,0,1,0,0
+HG03565,0,0,0,0,0,0,0,1,0,0
+HG03571,0,0,0,0,0,0,0,1,0,0
+HK-2,0,0,0,0,0,0,1,0,0,0
+HL-60,4,2,0,0,2,0,1,0,0,0
+HS-27A,0,0,0,0,0,0,1,0,0,0
+HS-5,0,0,0,0,0,0,1,0,0,0
+HT-29,0,0,2,2,0,1,1,0,0,0
+HT1080,0,0,4,4,2,2,1,0,0,0
+HTR-8/SVneo,0,0,0,0,0,0,1,0,0,0
+HUES48,0,7,0,0,0,0,0,0,0,0
+HUES6,0,7,0,0,0,0,0,0,0,0
+HUES64,0,7,2,2,0,1,0,0,0,0
+HeLa-S3,40,9,2,3,2,1,1,0,1,0
+HepG2,539,10,4,5,2,2,1,1,1,0
+HuH-7,0,0,0,0,0,0,1,0,0,0
+HuH-7.5,0,0,0,0,0,0,1,0,0,0
+IMR-90,12,26,4,4,0,2,1,1,1,0
+IgD-negative memory B cell,0,0,2,1,0,1,0,0,0,0
+Ishikawa,16,0,0,0,0,0,0,0,0,0
+Jurkat,0,0,0,0,2,0,0,0,0,0
+"Jurkat, Clone E6-1",0,1,2,1,0,1,1,0,0,0
+K562,306,10,4,5,2,2,1,1,0,2
+KBM-7,0,0,0,0,0,0,1,0,1,0
+KMS-11,1,6,0,0,0,0,0,0,0,0
+KOPT-K1,0,3,0,0,0,0,0,0,0,0
+Karpas-422,0,9,2,2,0,1,1,0,0,0
+L1-S8,0,0,0,0,0,0,1,0,0,0
+L1-S8R,0,0,0,0,0,0,1,0,0,0
+LHCN-M2,0,0,4,3,0,2,1,0,0,0
+LNCAP,1,0,0,0,0,0,0,0,0,0
+LNCaP clone FGC,1,1,0,0,0,0,1,0,0,0
+Langerhans cell,0,0,0,0,2,0,0,0,0,0
+LoVo,0,0,0,0,0,0,1,0,0,0
+Loucy,1,7,0,0,0,0,0,0,0,0
+M059J,0,0,2,2,0,1,1,0,0,0
+MCF 10A,1,0,2,2,0,1,1,0,0,2
+MCF-7,71,8,4,5,0,2,1,1,0,0
+MG63,0,2,2,2,0,1,1,0,0,0
+MM.1S,1,9,0,0,0,0,1,0,0,0
+NAMALWA,0,0,0,0,0,0,1,0,0,0
+NB4,4,1,0,0,0,0,1,0,0,0
+NCI-H226,0,0,0,0,2,0,1,0,0,0
+NCI-H460,0,0,4,4,2,2,1,0,0,0
+NCI-H929,0,8,0,0,0,0,1,1,0,0
+NT2/D1,1,6,0,0,0,0,1,0,0,0
+OCI-LY1,2,7,0,0,0,0,0,0,0,0
+OCI-LY3,1,10,0,0,0,0,0,0,0,0
+OCI-LY7,1,7,2,2,0,1,1,0,0,0
+PC-3,1,9,2,2,2,1,1,1,0,0
+PC-9,1,12,2,2,0,1,1,0,0,0
+PFSK-1,4,0,2,1,0,1,0,0,0,0
+Panc1,5,4,4,3,0,2,1,1,0,0
+Peyer's patch,2,5,4,3,0,2,1,0,0,0
+Purkinje cell,0,0,2,1,0,1,0,0,0,0
+RCC,0,0,0,0,0,0,1,0,0,0
+RCC 7860,0,0,0,0,0,0,1,0,0,0
+RKO,0,0,0,0,0,0,1,0,0,0
+RPMI7951,0,0,2,2,0,1,1,0,0,0
+RPMI8226,0,0,0,0,0,0,1,0,0,0
+RWPE1,1,1,0,0,0,0,1,0,0,0
+RWPE2,1,3,0,0,0,0,1,1,0,0
+Raji,1,0,0,0,2,0,0,0,0,0
+Right ventricle myocardium inferior,0,0,2,2,0,1,1,1,0,0
+Right ventricle myocardium superior,0,0,2,2,0,1,1,1,0,0
+SH-SY5Y,2,0,0,0,0,0,0,0,0,0
+SJCRH30,0,4,2,2,0,1,1,0,0,0
+SJSA1,0,4,2,2,0,1,1,0,0,0
+SK-MEL-5,0,0,4,4,0,2,1,0,0,0
+SK-N-DZ,0,0,2,2,0,1,1,0,0,0
+SK-N-MC,1,5,0,0,2,0,1,0,0,0
+SK-N-SH,31,10,2,3,0,1,1,0,0,0
+SU-DHL-6,0,6,0,0,0,0,0,0,0,0
+SW480,0,0,0,0,0,0,1,0,0,0
+Schwann cell,0,0,0,0,2,0,0,0,0,0
+Sertoli cell,0,0,0,0,2,0,0,0,0,0
+T follicular helper cell,0,0,0,0,0,0,1,0,0,0
+T-cell,0,6,4,4,0,2,1,1,0,0
+T-helper 1 cell,0,0,0,0,0,0,1,0,0,0
+T-helper 17 cell,0,0,0,2,0,0,1,1,0,0
+T-helper 2 cell,0,0,0,0,0,0,1,0,0,0
+T-helper 22 cell,0,0,0,0,0,0,1,0,0,0
+T-helper 9 cell,0,0,0,0,0,0,1,0,0,0
+T47D,1,0,0,0,0,0,1,0,0,0
+THP-1,0,0,0,0,2,0,0,0,0,0
+U-87 MG,0,0,2,1,0,1,0,0,0,0
+UCSF-4,0,5,0,0,0,0,0,0,0,0
+VCaP,1,1,0,0,0,0,0,0,0,0
+WERI-Rb-1,1,4,0,0,0,0,1,0,0,0
+WI38,1,1,0,0,0,0,0,0,0,0
+WTC11,34,0,2,3,0,1,1,1,0,0
+acinar cell of salivary gland,0,0,0,0,2,0,0,0,0,0
+acinar cell of sebaceous gland,0,0,0,0,2,0,0,0,0,0
+adipocyte,0,6,0,0,0,0,1,0,0,0
+adipocyte of breast,0,0,0,0,2,0,0,0,0,0
+adipocyte of omentum tissue,0,0,0,0,2,0,0,0,0,0
+adipose tissue,0,0,2,2,2,1,0,0,0,0
+adrenal gland,2,6,6,6,2,3,1,1,0,0
+adult organism,0,0,0,0,2,0,0,0,0,0
+airway epithelial cell,0,0,2,2,0,1,0,0,0,0
+amnion,0,3,2,2,2,1,0,0,0,0
+amnion mesenchymal stem cell,0,0,0,0,2,0,0,0,0,0
+amniotic epithelial cell,0,0,0,0,2,0,1,0,0,0
+amygdala,0,0,2,1,2,1,0,0,0,0
+angular gyrus,0,5,0,0,0,0,0,0,0,0
+annulus pulposus cell,0,0,0,0,2,0,0,0,0,0
+anterior cingulate cortex,0,0,2,1,0,1,0,0,0,0
+anterior lingual gland,0,0,2,1,0,1,0,0,0,0
+aorta,0,3,4,4,2,2,1,0,0,0
+aortic endothelial cell,0,0,0,0,2,0,0,0,0,0
+aortic smooth muscle cell,0,0,2,2,2,1,0,0,0,0
+artery,0,0,0,0,2,0,0,0,0,0
+articular chondrocyte of knee joint,0,0,2,2,0,1,0,0,0,0
+ascending aorta,1,5,4,3,0,2,1,0,0,0
+astrocyte,2,10,2,2,0,1,1,0,0,0
+astrocyte of the cerebellum,0,1,0,0,2,0,1,0,0,0
+astrocyte of the cerebral cortex,0,0,0,0,2,0,0,0,0,0
+astrocyte of the hippocampus,0,0,0,0,0,0,1,0,0,0
+astrocyte of the spinal cord,1,1,0,0,0,0,1,0,0,0
+basophil,0,0,0,0,4,0,0,0,0,0
+bile duct,0,0,0,0,0,0,0,1,0,0
+bladder microvascular endothelial cell,0,0,2,2,0,1,0,0,0,0
+blood,0,0,0,0,2,0,0,0,0,0
+body of pancreas,2,3,4,3,0,2,1,1,0,0
+bone marrow,0,0,0,0,2,0,0,0,0,0
+bone marrow cell,0,0,0,0,2,0,0,0,0,0
+brain,1,5,2,2,2,1,1,0,0,0
+brain microvascular endothelial cell,1,3,0,0,0,0,1,0,0,0
+brain pericyte,0,0,0,0,0,0,1,0,0,0
+breast,0,0,0,0,2,0,0,0,0,0
+breast epithelium,3,5,4,3,0,2,1,1,0,0
+bronchial epithelial cell,1,2,2,2,2,1,1,0,0,0
+bronchial smooth muscle cell,0,0,2,2,2,1,0,0,0,0
+bronchus fibroblast of lung,0,0,2,2,0,1,0,0,0,0
+calcaneal tendon,0,0,0,0,2,0,0,0,0,0
+camera-type eye,0,0,2,2,2,1,0,0,0,0
+capillary endothelial cell,0,0,0,0,2,0,0,0,0,0
+cardiac atrium fibroblast,0,0,2,2,0,1,0,0,0,0
+cardiac fibroblast,1,1,0,0,2,0,1,0,0,0
+cardiac mesenchymal cell,0,0,0,0,2,0,0,0,0,0
+cardiac muscle cell,1,5,4,3,2,2,1,0,0,0
+cardiac septum,0,0,2,2,0,1,1,1,0,0
+cardiac ventricle fibroblast,0,0,2,2,0,1,0,0,0,0
+caudate nucleus,0,5,2,1,2,1,0,0,0,0
+cell of skeletal muscle,0,0,0,0,2,0,0,0,0,0
+"central memory CD4-positive, alpha-beta T cell",0,0,0,0,0,0,1,0,0,0
+"central memory CD8-positive, alpha-beta T cell",0,0,0,0,0,0,1,1,0,0
+central nervous system pericyte,0,0,0,0,2,0,0,0,0,0
+cerebellar cortex,0,0,0,0,0,0,1,0,0,0
+cerebellar hemisphere,0,0,2,1,0,1,0,0,0,0
+cerebellum,0,1,6,5,2,3,1,0,0,0
+cerebrospinal fluid,0,0,0,0,2,0,0,0,0,0
+chondrocyte,1,0,2,2,2,1,1,0,0,0
+chorion,0,4,2,2,0,1,1,0,0,0
+chorionic villus,0,1,2,2,0,1,0,0,0,0
+choroid plexus epithelial cell,1,1,0,0,0,0,1,0,0,0
+cingulate gyrus,0,5,0,0,0,0,0,0,0,0
+colon,0,0,0,0,2,0,0,0,0,0
+colonic mucosa,1,6,2,2,0,1,1,1,0,0
+"common myeloid progenitor, CD34-positive",0,6,2,1,0,1,1,0,0,0
+corneal epithelial cell,0,0,0,0,2,0,0,0,0,0
+coronary artery,1,2,2,1,0,1,1,0,0,0
+corpus callosum,0,0,0,0,2,0,0,0,0,0
+cortex of kidney,0,0,2,1,0,1,0,0,0,0
+cranial nerve II,0,0,0,0,2,0,0,0,0,0
+cruciate ligament of knee,0,0,0,0,2,0,0,0,0,0
+dark melanocyte,0,0,0,0,2,0,0,0,0,0
+dermis blood vessel endothelial cell,0,0,2,2,0,1,1,0,0,0
+dermis lymphatic vessel endothelial cell,0,0,2,2,0,1,0,0,0,0
+dermis microvascular lymphatic vessel endothelial cell,0,0,2,2,0,1,1,0,0,0
+diaphragm,0,0,0,0,2,0,0,0,0,0
+diencephalon,0,0,2,2,2,1,0,0,0,0
+dorsal plus ventral thalamus,0,0,0,0,2,0,0,0,0,0
+dorsolateral prefrontal cortex,1,6,4,3,0,2,1,0,0,0
+duodenal mucosa,0,7,0,0,0,0,0,0,0,0
+duodenum,0,0,0,0,2,0,0,0,0,0
+dura mater,0,0,0,0,2,0,0,0,0,0
+ecto neural progenitor cell,0,0,0,0,0,0,1,0,0,0
+ectocervix,0,0,2,1,0,1,0,0,0,0
+ectodermal cell,0,4,2,2,0,1,0,0,0,0
+"effector CD4-positive, alpha-beta T cell",0,0,0,0,0,0,1,0,0,0
+"effector memory CD4-positive, alpha-beta T cell",0,3,0,0,0,0,1,0,0,0
+"effector memory CD8-positive, alpha-beta T cell",0,0,0,0,0,0,1,1,0,0
+egg chorion,0,0,0,0,2,0,0,0,0,0
+embryonic uterus,0,0,0,0,2,0,0,0,0,0
+endocervix,0,0,2,1,0,1,0,0,0,0
+endocrine pancreas,0,5,2,2,0,1,0,0,0,0
+endodermal cell,1,6,4,4,0,2,1,0,0,0
+endothelial cell,1,0,2,2,0,1,1,0,0,0
+endothelial cell of artery,0,0,0,0,2,0,0,0,0,0
+endothelial cell of coronary artery,0,0,2,2,0,1,0,0,0,0
+endothelial cell of lymphatic vessel,0,0,0,0,2,0,0,0,0,0
+endothelial cell of umbilical vein,8,9,4,5,2,2,1,0,0,2
+enteric smooth muscle cell,0,0,0,0,2,0,0,0,0,0
+eosinophil,0,0,0,0,2,0,0,0,0,0
+epidermal melanocyte,0,0,0,0,0,0,1,0,0,0
+epididymis,0,0,0,0,2,0,0,0,0,0
+epithelial cell of Malassez,0,0,0,0,4,0,0,0,0,0
+epithelial cell of alveolus of lung,0,0,2,2,0,1,0,0,0,0
+epithelial cell of esophagus,0,1,0,0,2,0,1,0,0,0
+epithelial cell of prostate,1,1,0,0,2,0,1,0,0,0
+epithelial cell of proximal tubule,1,1,2,2,2,1,1,0,0,0
+epithelial cell of umbilical artery,0,0,2,2,0,1,0,0,0,0
+erythroblast,1,0,0,0,0,0,0,0,0,0
+esophagus,0,5,2,2,2,1,0,0,0,0
+esophagus mucosa,0,0,2,2,0,1,0,1,0,0
+esophagus muscularis mucosa,3,6,4,3,0,2,0,0,0,0
+esophagus squamous epithelium,2,6,4,3,0,2,0,0,0,0
+eye,0,0,0,0,0,0,1,0,0,0
+fallopian tube,0,0,2,1,0,1,0,1,0,0
+fat cell,0,0,0,0,2,0,0,0,0,0
+female gonad,0,0,0,0,2,0,0,0,0,0
+femur,0,0,0,0,0,0,1,0,0,0
+fibroblast derived cell line,0,0,2,1,0,1,0,0,0,0
+fibroblast of breast,0,4,0,0,0,0,0,0,0,0
+fibroblast of choroid plexus,0,0,0,0,2,0,0,0,0,0
+fibroblast of dermis,1,7,2,2,2,1,1,0,0,0
+fibroblast of gingiva,0,0,0,0,2,0,1,0,0,0
+fibroblast of lung,1,8,4,5,0,2,1,0,0,0
+fibroblast of lymphatic vessel,0,0,0,0,2,0,0,0,0,0
+fibroblast of mammary gland,1,1,0,0,2,0,1,0,0,0
+fibroblast of peridontal ligament,0,0,0,0,0,0,1,0,0,0
+fibroblast of periodontium,0,0,0,0,2,0,0,0,0,0
+fibroblast of pulmonary artery,1,1,0,0,2,0,1,0,0,0
+fibroblast of skin of abdomen,0,0,2,1,0,1,1,0,0,0
+fibroblast of skin of back,0,0,2,1,0,1,1,0,0,0
+fibroblast of skin of left biceps,0,0,0,0,0,0,1,0,0,0
+fibroblast of skin of left quadriceps,0,0,0,0,0,0,1,0,0,0
+fibroblast of skin of right biceps,0,0,0,0,0,0,1,0,0,0
+fibroblast of skin of right quadriceps,0,0,0,0,0,0,1,0,0,0
+fibroblast of skin of scalp,0,0,2,1,0,1,1,0,0,0
+fibroblast of the aortic adventitia,1,1,2,2,2,1,1,0,0,0
+fibroblast of the conjuctiva,0,0,0,0,2,0,0,0,0,0
+fibroblast of the conjunctiva,0,0,0,0,0,0,1,0,0,0
+fibroblast of upper back skin,0,0,0,0,0,0,1,0,0,0
+fibroblast of villous mesenchyme,1,1,2,2,2,1,1,0,0,0
+forelimb muscle,0,0,2,1,0,1,1,0,0,0
+foreskin fibroblast,1,6,2,2,0,1,1,0,0,0
+foreskin keratinocyte,1,7,4,4,0,2,1,1,0,0
+foreskin melanocyte,0,7,2,2,0,1,1,0,0,0
+frontal cortex,0,0,4,3,2,2,1,0,0,0
+fungiform papilla,0,0,0,0,2,0,0,0,0,0
+gallbladder,0,0,0,0,2,0,0,0,0,0
+gamma-delta T cell,0,0,0,0,2,0,0,0,0,0
+gastrocnemius medialis,2,5,4,3,0,2,1,1,0,0
+gastroesophageal sphincter,4,6,4,3,0,2,0,1,0,0
+germinal matrix,0,5,0,0,0,0,0,0,0,0
+gingival epithelial cell,0,0,0,0,2,0,0,0,0,0
+globus pallidus,0,0,0,0,2,0,1,0,0,0
+glomerular endothelial cell,0,0,2,2,2,1,0,0,0,0
+glomerular visceral epithelial cell,0,0,0,0,0,0,1,0,0,0
+glutamatergic neuron,5,0,2,2,0,1,1,0,0,0
+hair follicle dermal papilla cell,0,0,2,2,0,1,0,0,0,0
+hair follicular keratinocyte,0,0,2,2,0,1,0,0,0,0
+head of caudate nucleus,0,0,0,0,0,0,1,0,0,0
+heart,0,4,4,5,2,2,1,0,0,0
+heart left ventricle,2,6,4,4,2,2,1,1,0,0
+heart right ventricle,1,6,4,4,0,2,1,1,0,0
+hematopoietic multipotent progenitor cell,0,0,2,2,0,1,1,0,0,0
+hepatic mesenchymal stem cell,0,0,0,0,2,0,0,0,0,0
+hepatic stellate cell,0,0,0,0,0,0,1,0,0,0
+hepatocyte,1,7,4,3,2,2,1,0,0,0
+hindlimb muscle,0,0,2,1,0,1,1,0,0,0
+hypothalamus,0,0,2,1,0,1,0,0,0,0
+iPS DF 19.11,0,4,0,0,0,0,0,0,0,0
+iPS DF 6.9,0,2,0,0,0,0,1,0,0,0
+iPS-11a,0,1,0,0,0,0,0,0,0,0
+iPS-15b,0,5,0,0,0,0,0,0,0,0
+iPS-18a,0,6,0,0,0,0,0,0,0,0
+iPS-18c,0,2,0,0,0,0,0,0,0,0
+iPS-20b,0,7,0,0,0,0,0,0,0,0
+iPS-NIHi11,0,0,0,0,0,0,1,0,0,0
+immature CD1a-positive Langerhans cell,0,0,0,0,2,0,0,0,0,0
+immature conventional dendritic cell,0,0,0,0,4,0,0,0,0,0
+immature natural killer cell,0,0,2,1,0,1,1,0,0,0
+inferior rectus extraocular muscle,0,0,0,0,2,0,0,0,0,0
+inflammatory macrophage,0,0,0,0,0,0,1,0,0,0
+insula,0,0,0,0,2,0,0,0,0,0
+intestinal epithelial cell,0,0,0,0,2,0,0,0,0,0
+iris pigment epithelial cell,0,0,0,0,2,0,1,0,0,0
+islet precursor cell,0,0,0,0,0,0,1,0,0,0
+keratinocyte,2,8,2,3,2,1,1,0,0,0
+keratocyte,0,0,0,0,2,0,0,0,0,0
+kidney,0,5,4,5,2,2,1,1,0,0
+kidney capillary endothelial cell,0,0,0,0,0,0,1,0,0,0
+kidney epithelial cell,1,2,2,2,0,1,1,0,0,0
+kidney tubule cell,0,0,0,0,0,0,1,0,0,0
+large intestine,0,6,0,1,0,0,1,0,0,0
+lateral rectus extra-ocular muscle,0,0,0,0,2,0,0,0,0,0
+layer of hippocampus,0,5,0,0,0,0,0,0,0,0
+left cardiac atrium,0,0,2,2,2,1,1,1,0,0
+left colon,0,0,2,2,0,1,1,1,0,0
+left forelimb,0,0,0,0,0,0,1,0,0,0
+left hindlimb,0,0,0,0,0,0,1,0,0,0
+left kidney,0,0,2,1,0,1,1,0,0,0
+left lobe of liver,0,0,2,2,0,1,1,1,0,0
+left lung,1,6,4,3,0,2,1,1,0,0
+left ovary,0,0,0,0,2,0,0,0,0,0
+left renal cortex interstitium,0,0,2,1,0,1,1,0,0,0
+left renal pelvis,0,0,2,1,0,1,1,0,0,0
+left ventricle myocardium,0,0,2,1,0,1,0,0,0,0
+left ventricle myocardium inferior,1,6,2,2,0,1,1,0,0,0
+left ventricle myocardium superior,0,0,2,2,0,1,1,1,0,0
+lens epithelial cell,0,0,0,0,2,0,0,0,0,0
+leptomeningeal cell,0,0,0,0,2,0,0,0,0,0
+light melanocyte,0,0,0,0,2,0,0,0,0,0
+liver,18,6,4,5,2,2,1,1,0,0
+locus ceruleus,0,0,0,0,2,0,0,0,0,0
+lower leg skin,2,0,4,3,0,2,1,0,0,0
+lower lobe of left lung,1,6,2,2,0,1,1,1,0,0
+lower lobe of right lung,1,5,2,2,2,1,1,1,0,0
+luminal epithelial cell of mammary gland,0,4,2,2,0,1,0,0,0,0
+lung,0,7,4,4,2,2,1,1,0,0
+lung fibroblast,0,0,0,0,2,0,0,0,0,0
+lung microvascular endothelial cell,0,0,2,2,0,1,1,0,0,0
+lymph node,0,0,0,0,2,0,0,0,0,0
+lymphoblast,0,0,2,1,0,1,0,0,0,0
+macrophage,0,0,0,0,2,0,0,0,0,0
+mammary epithelial cell,2,10,4,4,0,2,1,0,0,0
+mammary gland epithelial cell,0,0,0,0,2,0,0,0,0,0
+mammary microvascular endothelial cell,0,0,2,2,0,1,0,0,0,0
+mammary stem cell,0,0,2,2,0,1,0,0,0,0
+mast cell,0,0,0,0,2,0,0,0,0,0
+medial rectus extraocular muscle,0,0,0,0,2,0,0,0,0,0
+medulla oblongata,0,0,0,0,2,0,0,0,0,0
+melanocyte of skin,0,0,2,2,0,1,0,0,0,0
+memory B cell,0,0,0,0,0,0,1,1,0,0
+meninx,0,0,0,0,2,0,0,0,0,0
+mesangial cell,0,0,2,2,2,1,0,0,0,0
+mesenchymal cell,0,0,0,0,2,0,0,0,0,0
+mesenchymal stem cell,0,14,2,2,0,1,1,0,0,0
+mesenchymal stem cell of Wharton's jelly,0,0,2,2,2,1,0,0,0,0
+mesenchymal stem cell of adipose,0,0,2,2,2,1,0,0,0,0
+mesenchymal stem cell of the bone marrow,0,0,2,2,2,1,0,0,0,0
+mesenchymal stem cell of umbilical cord,0,0,0,0,2,0,0,0,0,0
+mesendoderm,0,7,2,2,0,1,1,0,0,0
+mesenteric fat pad,0,0,2,2,0,1,1,1,0,0
+mesodermal cell,0,5,2,2,0,1,0,0,0,0
+mesothelial cell,0,0,0,0,4,0,0,0,0,0
+mesothelial cell of epicardium,1,0,2,2,0,1,1,0,0,0
+metanephros,0,0,2,2,0,1,0,0,0,0
+middle frontal gyrus,0,0,0,0,2,0,0,0,0,0
+middle temporal gyrus,0,0,0,0,2,0,0,0,0,0
+mitral valve,0,0,0,0,2,0,0,0,0,0
+mole,0,0,0,2,0,0,0,0,0,0
+monocyte,0,0,0,0,2,0,0,0,0,0
+mononuclear cell,0,3,2,2,0,1,0,0,0,0
+motor neuron,0,3,2,1,0,1,0,1,0,0
+mouth mucosa,0,0,0,0,2,0,0,0,0,0
+mucosa of descending colon,1,3,2,2,0,1,1,1,0,0
+mucosa of gallbladder,0,0,2,2,0,1,1,1,0,0
+mucosa of rectum,0,5,0,0,0,0,0,0,0,0
+mucosa of stomach,0,4,0,0,0,0,0,0,0,0
+mucosa of urinary bladder,0,0,0,0,0,0,0,1,0,0
+muscle layer of colon,0,5,0,0,0,0,0,0,0,0
+muscle layer of duodenum,0,5,0,0,0,0,0,0,0,0
+muscle of arm,0,0,2,1,0,1,1,0,0,0
+muscle of back,0,0,2,1,0,1,1,0,0,0
+muscle of leg,0,6,2,3,0,1,1,0,0,0
+muscle of trunk,0,6,2,1,0,1,1,0,0,0
+myelocyte,0,0,0,0,2,0,0,0,0,0
+myocyte,0,0,4,3,0,2,1,0,0,0
+myoepithelial cell of mammary gland,0,6,2,2,0,1,0,0,0,0
+myometrial cell,0,0,2,2,0,1,0,0,0,0
+myotube,0,9,2,2,2,1,1,0,0,0
+nail plate,0,0,0,0,2,0,0,0,0,0
+naive B cell,0,0,2,1,0,1,1,1,0,0
+naive regulatory T cell,0,0,0,0,4,0,0,0,0,0
+"naive thymus-derived CD4-positive, alpha-beta T cell",0,4,4,3,2,2,1,1,0,0
+"naive thymus-derived CD8-positive, alpha-beta T cell",0,0,4,3,0,2,1,1,0,0
+nasal cavity respiratory epithelium epithelial cell of viscerocranial mucosa,0,0,2,2,0,1,0,0,0,0
+natural killer cell,1,5,4,4,2,2,1,1,0,0
+nephron,1,0,0,0,0,0,0,0,0,0
+nephron progenitor cell,1,0,0,0,0,0,1,0,0,0
+nephron tubule epithelial cell,0,0,0,0,2,0,0,0,0,0
+neural cell,5,4,2,2,0,1,0,0,0,0
+neural crest cell,1,0,2,2,0,1,1,0,0,0
+neural progenitor cell,3,9,2,2,0,1,1,0,0,0
+neuron,0,5,0,0,2,0,0,0,0,0
+neuronal stem cell,0,11,2,2,2,1,1,0,0,0
+neurosphere,0,6,2,2,0,1,0,0,0,0
+neutrophil,1,6,0,0,4,0,0,0,0,0
+non-pigmented ciliary epithelial cell,0,0,0,0,2,0,1,0,0,0
+nucleus accumbens,0,0,2,1,2,1,0,0,0,0
+nucleus pulposus cell of intervertebral disc,0,0,0,0,2,0,0,0,0,0
+occipital lobe,0,0,2,2,2,1,0,0,0,0
+occipital pole,0,0,0,0,2,0,0,0,0,0
+olfactory epithelial cell,0,0,0,0,4,0,0,0,0,0
+olfactory region,0,0,0,0,2,0,0,0,0,0
+oligodendrocyte precursor cell,0,0,0,0,2,0,0,0,0,0
+omental fat pad,1,0,4,3,0,2,1,1,0,0
+omentum preadipocyte,0,0,0,0,2,0,0,0,0,0
+osteoblast,1,9,2,2,2,1,0,0,0,0
+osteocyte,1,0,2,2,0,1,0,0,0,0
+outer medulla of kidney,0,0,2,1,0,1,0,0,0,0
+outer root sheath cell,0,0,0,0,2,0,0,0,0,0
+ovary,2,6,6,6,0,3,1,1,0,0
+pancreas,1,5,4,4,2,2,1,1,0,0
+paracentral gyrus,0,0,0,0,2,0,0,0,0,0
+parathyroid adenoma,1,6,0,0,0,0,0,0,0,0
+parietal lobe,0,0,2,2,2,1,0,0,0,0
+parotid gland,0,0,0,0,2,0,0,0,0,0
+penis,0,0,0,0,2,0,0,0,0,0
+pericardium fibroblast,0,0,2,2,0,1,0,0,0,0
+perineural cell,0,0,0,0,2,0,0,0,0,0
+peripheral blood mononuclear cell,0,7,2,2,0,1,0,0,0,0
+perirenal adipocyte cell,0,0,0,0,2,0,0,0,0,0
+perirenal preadipocyte,0,0,0,0,2,0,0,0,0,0
+pineal body,0,0,0,0,2,0,0,0,0,0
+pituitary gland,0,0,2,1,2,1,0,0,0,0
+placenta,1,6,4,4,2,2,1,0,0,0
+placental basal plate,0,1,2,2,0,1,0,0,0,0
+placental epithelial cell,0,0,2,2,2,1,0,0,0,0
+placental pericyte,0,0,2,2,0,1,0,0,0,0
+plasmacytoid dendritic cell,0,0,0,0,4,0,0,0,0,0
+pneumocyte,0,0,0,0,2,0,0,0,0,0
+pons,0,0,0,0,2,0,1,0,0,0
+postcentral gyrus,0,0,0,0,2,0,0,0,0,0
+posterior cingulate gyrus,0,0,0,0,0,0,1,0,0,0
+posterior vena cava,0,0,2,2,0,1,1,1,0,0
+preadipocyte of the breast,0,0,0,0,2,0,0,0,0,0
+progenitor cell of endocrine pancreas,1,0,2,2,0,1,1,0,0,0
+prostate gland,3,3,4,3,2,2,1,0,0,0
+prostate stromal cell,0,0,0,0,2,0,0,0,0,0
+psoas muscle,1,5,4,4,0,2,1,1,0,0
+pulmonary artery endothelial cell,0,0,2,2,0,1,1,0,0,0
+pulmonary valve,0,0,0,0,2,0,0,0,0,0
+putamen,0,0,2,1,2,1,1,0,0,0
+rectal smooth muscle tissue,0,4,0,0,0,0,0,0,0,0
+rectum,0,0,0,0,2,0,0,0,0,0
+regular cardiac myocyte,0,0,2,2,0,1,0,0,0,0
+renal cortex interstitium,0,0,2,1,0,1,1,0,0,0
+renal cortical epithelial cell,0,0,2,2,2,1,1,0,0,0
+renal pelvis,0,0,2,1,0,1,1,0,0,0
+respiratory epithelial cell,0,0,0,0,2,0,0,0,0,0
+respiratory system smooth muscle,0,0,0,0,2,0,0,0,0,0
+reticulocyte,0,0,0,0,2,0,0,0,0,0
+retina,0,0,0,0,2,0,1,0,0,0
+retinal pigment epithelial cell,1,1,0,0,2,0,1,0,0,0
+right atrium auricular region,1,5,4,3,0,2,1,0,0,0
+right cardiac atrium,0,3,4,4,0,2,1,1,0,0
+right forelimb,0,0,0,0,0,0,1,0,0,0
+right hindlimb,0,0,0,0,0,0,1,0,0,0
+right kidney,0,0,0,0,0,0,1,0,0,0
+right lobe of liver,2,4,4,3,0,2,1,1,0,0
+right lung,0,0,2,1,0,1,1,0,0,0
+right ovary,0,0,0,0,2,0,0,0,0,0
+right renal cortex interstitium,0,0,2,1,0,1,1,0,0,0
+right renal pelvis,0,0,2,1,0,1,1,0,0,0
+saliva-secreting gland,0,0,0,0,2,0,0,0,0,0
+sciatic nerve,0,0,2,2,0,1,1,1,0,0
+seminal vesicle,0,0,0,0,2,0,0,0,0,0
+sigmoid colon,4,5,6,5,0,3,1,1,0,0
+skeletal muscle cell,0,1,0,0,0,0,1,0,0,0
+skeletal muscle myoblast,1,7,4,5,2,2,1,0,0,0
+skeletal muscle satellite cell,0,6,2,2,2,1,0,0,0,0
+skeletal muscle tissue,0,6,2,2,2,1,0,0,0,0
+skin epidermis,0,2,0,0,0,0,0,0,0,0
+skin fibroblast,0,0,0,0,2,0,0,0,1,0
+skin of body,0,0,2,2,0,1,0,0,0,0
+skin of palm of manus,0,0,0,0,2,0,0,0,0,0
+small intestine,0,6,2,3,2,1,1,0,0,0
+smooth muscle cell,0,9,4,3,0,2,0,0,0,0
+smooth muscle cell of bladder,0,0,2,2,2,1,0,0,0,0
+smooth muscle cell of colon,0,0,0,0,2,0,0,0,0,0
+smooth muscle cell of prostate,0,0,0,0,2,0,0,0,0,0
+smooth muscle cell of the brachiocephalic vasculature,0,0,0,0,2,0,0,0,0,0
+smooth muscle cell of the brain vasculature,0,0,0,0,2,0,1,0,0,0
+smooth muscle cell of the carotid artery,0,0,0,0,2,0,0,0,0,0
+smooth muscle cell of the coronary artery,0,0,2,2,2,1,0,0,0,0
+smooth muscle cell of the esophagus,0,0,0,0,2,0,0,0,0,0
+smooth muscle cell of the internal thoracic artery,0,0,0,0,2,0,0,0,0,0
+smooth muscle cell of the pulmonary artery,0,0,2,2,2,1,0,0,0,0
+smooth muscle cell of the subclavian artery,0,0,0,0,2,0,0,0,0,0
+smooth muscle cell of the umbilical artery,0,0,2,2,2,1,0,0,0,0
+smooth muscle cell of the umbilical vein,0,0,0,0,2,0,0,0,0,0
+smooth muscle cell of trachea,0,0,2,2,2,1,0,0,0,0
+smooth muscle tissue,0,0,0,0,2,0,0,0,0,0
+soleus muscle,0,0,0,0,2,0,0,0,0,0
+spinal cord,0,5,4,5,2,2,1,0,0,0
+spleen,3,6,6,6,2,3,1,1,0,0
+stem cell of epidermis,0,0,0,0,2,0,0,0,0,0
+stomach,3,6,6,6,2,3,1,1,0,0
+stomach smooth muscle,0,6,0,0,0,0,0,0,0,0
+stromal cell of bone marrow,0,0,0,0,0,0,1,0,0,0
+stromal cell of pancreas,0,0,0,0,2,0,0,0,0,0
+subcutaneous abdominal adipose tissue,0,7,0,0,0,0,0,0,0,0
+subcutaneous adipose tissue,0,0,4,3,0,2,0,1,0,0
+subcutaneous fat cell,0,0,0,0,2,0,0,0,0,0
+subcutaneous preadipocyte,0,0,2,2,2,1,0,0,0,0
+submandibular gland,0,0,0,0,2,0,0,0,0,0
+substantia nigra,0,5,2,1,2,1,0,0,0,0
+superior rectus extraocular muscle,0,0,0,0,2,0,0,0,0,0
+suppressor macrophage,0,0,0,0,0,0,1,0,0,0
+suprapubic skin,3,5,4,3,0,2,1,0,0,0
+synovial cell,0,0,0,0,2,0,0,0,0,0
+temporal lobe,0,5,2,2,2,1,0,0,0,0
+tendon cell,0,0,0,0,2,0,0,0,0,0
+testis,1,3,6,6,2,3,1,0,0,0
+thoracic aorta,1,4,2,2,0,1,1,0,0,0
+thoracic aorta endothelial cell,0,0,2,2,2,1,0,0,0,0
+throat,0,0,0,0,2,0,0,0,0,0
+thymus,0,6,2,3,2,1,1,0,0,0
+thyroid gland,2,4,4,3,2,2,1,1,0,0
+tibial artery,1,6,2,1,0,1,1,1,0,0
+tibial nerve,3,6,4,3,0,2,1,0,0,0
+tongue,0,0,2,2,2,1,1,0,0,0
+tonsil,0,0,0,0,2,0,0,0,0,0
+trabecular meshwork cell,0,0,0,0,2,0,0,0,0,0
+trachea,0,0,0,0,2,0,0,0,0,0
+tracheal epithelial cell,0,0,2,2,2,1,0,0,0,0
+transverse colon,4,5,4,3,0,2,1,1,0,0
+tricuspid valve,0,0,0,0,2,0,0,0,0,0
+trophoblast,0,3,2,2,0,1,0,0,0,0
+trophoblast cell,0,14,2,2,0,1,1,0,0,0
+type B pancreatic cell,1,0,2,2,0,1,0,0,0,0
+umbilical cord,0,0,2,2,2,1,1,0,0,0
+umbilical cord blood,0,0,0,0,2,0,0,0,0,0
+upper lobe of left lung,4,4,4,3,0,2,1,1,0,0
+upper lobe of right lung,1,4,2,2,0,1,1,1,0,0
+ureter,0,0,2,2,0,1,1,1,0,0
+urethra,0,0,0,0,2,0,0,0,0,0
+urinary bladder,0,2,6,5,2,3,0,0,0,0
+urothelial cell,0,0,0,0,2,0,0,0,0,0
+urothelium cell line,0,0,0,0,0,0,1,0,0,0
+uterine cervix,0,0,0,0,2,0,0,0,0,0
+uterine smooth muscle cell,0,0,2,2,2,1,0,0,0,0
+uterus,2,2,4,3,2,2,1,1,0,0
+vagina,3,4,4,3,2,2,0,0,0,0
+vas deferens,0,0,0,0,2,0,0,0,0,0
+vein,0,0,0,0,2,0,0,0,0,0
+vein endothelial cell,0,0,2,2,2,1,0,0,0,0
+venous blood,0,0,2,1,0,1,0,0,0,0
+vermiform appendix,0,0,0,0,2,0,0,0,0,0
+vertebral mesenchymal stem cell,0,0,0,0,2,0,0,0,0,0
+visceral preadipocyte,0,0,0,0,2,0,0,0,0,0
+vitreous humor,0,0,0,0,2,0,0,0,0,0
+zone of skin,0,0,0,0,2,0,0,0,0,0

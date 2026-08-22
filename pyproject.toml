@@ -27,6 +27,7 @@ dependencies = [
     "scikit-learn",                
     "pyBigWig",
     "bioframe",
+    "pyfaidx",                   # utils.load_fasta fallback engine (pysam is unavailable on Windows)
     "biopython>=1.80",
     "scipy",
     "matplotlib",
@@ -48,6 +49,14 @@ dev = [
 #   pip install -e ".[discover]"
 discover = [
     "modisco-lite",               # provides the `modisco` CLI (pip package name)
+    "finemo",                     # provides the `finemo` CLI (pip package name)
+]
+# AlphaGenome API backend for ISA scoring (optional). Get a free (non-commercial
+# use) API key at https://deepmind.google.com/science/alphagenome:
+#   pip install -e ".[alphagenome]"
+alphagenome = [
+    "alphagenome",                # provides AlphaGenomeAdapter (modeling/alpha_genome_adapter.py)
+    "pyyaml",
 ]
 
 [tool.setuptools.packages.find]
