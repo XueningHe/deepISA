@@ -16,7 +16,7 @@ Vectorization notes (vs. the mc000 original)
 CLI reference
 -------------
 ``finemo call-hits -r <npz> -m <motif_db.h5> -o <out_dir> -l <lambda> --max-steps N``
-https://github.com/npatsalos/finemo
+https://github.com/kundajelab/Fi-NeMo
 """
 
 from __future__ import annotations
@@ -42,7 +42,7 @@ __all__ = [
 _FINEMO_INSTALL_HINT = (
     "Fi-NeMo CLI not found on PATH.\n"
     "  Install:  pip install finemo\n"
-    "  GitHub:   https://github.com/npatsalos/finemo"
+    "  GitHub:   https://github.com/kundajelab/Fi-NeMo"
 )
 
 

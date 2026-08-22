@@ -20,10 +20,15 @@ Delegating to it removes an entire class of subtle bugs.
 Public API
 ----------
 - :func:`compute_attribution` -- per-position DeepLIFT-SHAP attributions.
+- :func:`select_top_regions`, :func:`drop_non_acgt_regions` -- input-set
+  curation (rank by activity, drop N-containing regions).
 - :func:`prepare_modisco_input`, :func:`run_modisco` -- tf-modisco-lite orchestration.
+- :func:`read_attribution_h5` -- read saved attributions back (single-track selection).
 - :func:`build_finemo_input`, :func:`run_finemo_scan`, :func:`load_hits_with_annotation`,
   :func:`build_finemo_db` -- Fi-NeMo orchestration.
-- :func:`load_motifs`, :func:`extract_motifs_from_group` -- read discovered motifs back.
+- :func:`load_motifs`, :func:`extract_motifs_from_group`, :func:`parse_motif_name` --
+  read discovered motifs back.
+- :func:`run_motif_report`, :func:`cwm_to_meme` -- HTML report + MEME export.
 
 Convention
 ----------
@@ -50,6 +55,7 @@ from deepISA.scoring.discover.h5_io import (
     parse_motif_name,
 )
 from deepISA.scoring.discover.report import run_motif_report, cwm_to_meme
+from deepISA.scoring.discover.select import select_top_regions, drop_non_acgt_regions
 
 __all__ = [
     "compute_attribution",
@@ -65,4 +71,6 @@ __all__ = [
     "parse_motif_name",
     "run_motif_report",
     "cwm_to_meme",
+    "select_top_regions",
+    "drop_non_acgt_regions",
 ]

@@ -96,6 +96,14 @@ def compute_attribution(
     (hyp_scores, act_scores) : tuple of np.ndarray
         Both arrays have shape ``(len(tracks), N, 4, L)`` -- track-leading so
         downstream consumers can index ``hyp_scores[t]`` per task.
+
+    Notes
+    -----
+    Unknown bases (``N``) encode to all-zero columns which tangermeme rejects
+    (``X must be one-hot encoded ... cannot have unknown characters``). They
+    are imputed with seeded-random ACGT before attribution; the H5 ``sequences``
+    dataset holds the imputed, strictly one-hot sequences. The caller's input
+    array is never modified.
     """
     # Local import so importing deepISA does not hard-require tangermeme at
     # module load time (only when attribution is actually computed).
@@ -113,6 +121,19 @@ def compute_attribution(
 
     N, _, L = seqs_ohe.shape
     seqs_np = np.ascontiguousarray(seqs_ohe, dtype=np.float32)
+    # Genomic sequences routinely contain N; one_hot_encode maps them to
+    # all-zero columns which tangermeme (and tf-modisco-lite) reject. Impute
+    # them *before* anything downstream sees the data -- the saved H5 must
+    # hold the imputed (strictly one-hot) sequences.
+    seqs_np = _impute_unknown_bases(seqs_np, seed)
+    not_onehot = seqs_np.sum(axis=1) != 1
+    if not_onehot.any():
+        raise ValueError(
+            "seqs_ohe must be strictly one-hot (every position sums to 1); "
+            f"{int(not_onehot.sum())} position(s) sum to something other than "
+            "0 (unknown base) or 1. Encode raw ACGT strings with "
+            "deepISA.utils.one_hot_encode."
+        )
     tracks = list(tracks)
     T = len(tracks)
 
@@ -159,6 +180,35 @@ def compute_attribution(
 
     logger.info(f"Attribution done (tangermeme): {T} track(s) x {N} seqs x {L} positions.")
     return hyp_all, act_all
+
+
+def _impute_unknown_bases(seqs_np: np.ndarray, seed: Optional[int]) -> np.ndarray:
+    """Replace all-zero one-hot columns (``N`` / unknown bases) with random ACGT.
+
+    Real reference genomes contain ``N`` bases and :func:`deepISA.utils.one_hot_encode`
+    encodes them as all-zero columns. tangermeme validates that every position sums
+    to exactly 1 and otherwise raises ``ValueError: X must be one-hot encoded ...
+    cannot have unknown characters``; tf-modisco-lite has the same requirement.
+    Imputing a uniformly random base is the standard remedy: imputed positions
+    carry no signal and receive ~0 attribution, so motif discovery is unaffected.
+
+    Returns a new array when anything was imputed (the caller's input is never
+    modified); returns the input unchanged when there is nothing to do.
+    """
+    unknown = seqs_np.sum(axis=1) == 0                       # (N, L)
+    n_bad = int(unknown.sum())
+    if n_bad == 0:
+        return seqs_np
+    rows, cols = np.nonzero(unknown)
+    rng = np.random.default_rng(seed)
+    imputed = np.eye(4, dtype=seqs_np.dtype)[rng.integers(0, 4, size=n_bad)]
+    out = seqs_np.copy()
+    out[rows, :, cols] = imputed
+    logger.warning(
+        f"Imputed {n_bad} unknown base(s) (N) in {np.unique(rows).size}/{seqs_np.shape[0]} "
+        f"sequences with random ACGT (seed={seed}); their attribution is ~0 by construction."
+    )
+    return out
 
 
 # ---------------------------------------------------------------------------

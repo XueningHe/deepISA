@@ -25,6 +25,8 @@ from deepISA.scoring.discover import (
     run_motif_report,
     cwm_to_meme,
     read_attribution_h5,
+    select_top_regions,
+    drop_non_acgt_regions,
 )
 from deepISA.scoring.filter import (
     _get_second_max,
@@ -97,14 +99,15 @@ class TestAttribution:
         # Non-observed positions should be near zero.
         assert np.max(np.abs(act[0][not_observed])) < 1e-5, "act nonzero at absent bases"
 
-    def test_different_tracks_give_different_attributions(self, tiny_model, device):
+    def test_different_tracks_give_different_attributions(self, device):
         """Dual-mode models have distinct regression/classification heads; their
-        attributions must differ. (Regression for the silent track-averaging bug.)"""
-        if _model_n_outputs(tiny_model) < 2:
-            pytest.skip("single-output model")
+        attributions must differ. (Regression for the silent track-averaging bug.)
+        Builds its own dual-output model so the test always runs, never skips."""
+        cfg = {"seq_len": 60, "ks": [7, 5], "cs": [8, 8], "ds": [1, 2], "dropout": 0.0}
+        model = Conv(mode="dual", model_config=cfg).to(device).eval()
         seqs = _rand_onehot(2, 60, seed=15)
         hyp, _ = compute_attribution(
-            tiny_model, seqs, tracks=[0, 1], device=device,
+            model, seqs, tracks=[0, 1], device=device,
             n_refs=4, batch_size=8, show_progress=False,
         )
         assert hyp.shape[0] == 2
@@ -132,6 +135,61 @@ def _model_n_outputs(model):
         x = torch.zeros(1, 4, 60)
         y = model(x)
     return int(y.shape[-1]) if y.ndim > 1 else 1
+
+
+# ---------------------------------------------------------------------------
+# unknown bases (N) -- regression for the crash on real genomes:
+# one_hot_encode maps N to all-zero columns and tangermeme then raises
+# "ValueError: X must be one-hot encoded ... cannot have unknown characters".
+# ---------------------------------------------------------------------------
+class TestUnknownBaseImputation:
+    def test_impute_is_valid_onehot_deterministic_and_nondestructive(self):
+        from deepISA.scoring.discover.attribution import _impute_unknown_bases
+        from deepISA.utils import one_hot_encode
+
+        seqs = one_hot_encode(["ACGTN", "NNNNN", "ACGTA"])
+        out1 = _impute_unknown_bases(seqs, seed=7)
+        out2 = _impute_unknown_bases(seqs, seed=7)
+
+        # every position is now exactly one base
+        assert np.array_equal(out1.sum(axis=1), np.ones((3, 5), dtype=np.float32))
+        # known bases are untouched (seqs "ACGTN" prefix and "ACGTA" entirely)
+        assert np.array_equal(out1[0, :, :4], seqs[0, :, :4])
+        assert np.array_equal(out1[2], seqs[2])
+        # seeded -> deterministic
+        assert np.array_equal(out1, out2)
+        # caller's array is not modified
+        assert (seqs.sum(axis=1) == 0).any()
+
+    def test_compute_attribution_tolerates_unknown_bases(self, tiny_model, device, tmp_path):
+        """End-to-end repro of the collaborator crash: sequences containing N
+        must pass through attribution, and the saved H5 must hold strictly
+        one-hot sequences (what modisco consumes as -s)."""
+        import h5py
+        from deepISA.utils import one_hot_encode
+
+        rng = np.random.default_rng(0)
+        seq_list = []
+        for _ in range(3):
+            s = ["ACGT"[i] for i in rng.integers(0, 4, size=60)]
+            s[7] = "N"
+            s[33] = "N"
+            seq_list.append("".join(s))
+        seqs = one_hot_encode(seq_list)
+        assert (seqs.sum(axis=1) == 0).any(), "fixture must contain N columns"
+
+        h5_path = str(tmp_path / "attr.h5")
+        hyp, act = compute_attribution(
+            tiny_model, seqs, tracks=[0], device=device,
+            n_refs=3, batch_size=8, save_h5_path=h5_path, show_progress=False,
+        )
+        assert hyp.shape == (1, 3, 4, 60)
+        assert np.isfinite(hyp).all()
+        with h5py.File(h5_path, "r") as f:
+            saved = f["sequences"][:]
+        assert np.array_equal(saved.sum(axis=1), np.ones((3, 60), dtype=np.float32))
+        # the caller's original array keeps its zero columns (no in-place edit)
+        assert (seqs.sum(axis=1) == 0).any()
 
 
 # ---------------------------------------------------------------------------
@@ -400,10 +458,9 @@ class TestReport:
         assert "MEME version 5" in text
         assert "ALPHABET= ACGT" in text
         assert "MOTIF m0" in text and "MOTIF m1" in text
-        # Negative CWM value clipped: row 0 of m0 sums to 1.0 (PPM).
-        # row 0 = [0.5, 0.2, 0.2, 0.1] -> already nonneg, sums to 1.0.
-        # row 1 = [-0.3, 0.8, 0.1, 0.1] -> clip -> [0, 0.8, 0.1, 0.1] -> normalize
-        assert "0.0000" in text  # the clipped -0.3 -> 0
+        # Negative CWM values must be clipped before PPM normalization: m0's
+        # -0.3 may not appear anywhere in the matrices (all values are %.4f).
+        assert "-0.3000" not in text
 
 
 # ---------------------------------------------------------------------------
@@ -419,18 +476,257 @@ class TestH5IOReproducibility:
         assert a == b
         assert a.startswith("task_x")
 
-    def test_load_motifs_skip_does_not_drop_legit_v_names(self, tmp_path):
-        # A motif legitimately containing "_v" in its name must NOT be dropped
-        # by skip_main (regression for the "_v" in name substring match).
+    def test_load_motifs_skip_main_uses_anchored_suffix(self, tmp_path):
+        # skip_main must drop only TRAILING "_v{n}" dedup suffixes, not any
+        # name containing "_v" (regression for the substring match). Two nodes
+        # that parse to the same id collide: the 2nd gets "_v2" and is dropped,
+        # while the task name "evi1_v" itself must survive.
         import h5py
         h5_path = str(tmp_path / "m.h5")
         with h5py.File(h5_path, "w") as f:
-            pos = f.create_group("pos_patterns")
-            p = pos.create_group("pattern_0")
-            sub = p.create_group("subpattern_0")
-            sub.create_dataset("contrib_scores",
-                               data=np.random.rand(20, 4).astype(np.float32))
-            sub.create_dataset("sequence",
-                               data=np.eye(4, dtype=np.float32)[:20])
-        loaded = load_motifs(h5_path, task_name="evi1_tf", target_len=10)
-        assert len(loaded) >= 1, "task name containing legit chars must not be dropped"
+            for parent in ("pos_patterns", "other_grp"):
+                sub = f.create_group(f"{parent}/pattern_0/subpattern_0")
+                sub.create_dataset("contrib_scores",
+                                   data=np.random.rand(20, 4).astype(np.float32))
+                sub.create_dataset("sequence",
+                                   data=np.eye(4, dtype=np.float32)[:20])
+        loaded = load_motifs(h5_path, task_name="evi1_v", target_len=10)
+        assert "evi1_v_p0_sub0" in loaded, "legit '_v' in task name wrongly dropped"
+        assert len(loaded) == 1, f"dedup-suffixed duplicate not dropped: {list(loaded)}"
+
+
+# ---------------------------------------------------------------------------
+# input-set curation: select_top_regions + drop_non_acgt_regions
+# (+ the QuickStart-level composition _select_modisco_regions)
+# ---------------------------------------------------------------------------
+def _write_mini_fasta(path, seq):
+    with open(path, "w") as fh:
+        fh.write(">chrSyn\n" + seq + "\n")
+
+
+class TestRegionSelection:
+    def test_select_top_regions_basic_and_ceil(self):
+        df = pd.DataFrame({"region": [f"r{i}" for i in range(10)]})
+        out = select_top_regions(df, list(range(10)), top_frac=0.1)
+        assert len(out) == 1 and out["region"].iloc[0] == "r9"
+        assert out["activity_score"].iloc[0] == 9.0
+        # 10 rows x 0.25 = 2.5 -> ceil -> 3 kept
+        out = select_top_regions(df, list(range(10)), top_frac=0.25)
+        assert len(out) == 3
+        # descending order preserved
+        assert list(out["region"]) == ["r9", "r8", "r7"]
+
+    def test_select_top_regions_column_name_and_ties(self):
+        df = pd.DataFrame({"region": list("abcde"), "sig": [1.0, 5.0, 5.0, 2.0, 0.0]})
+        out = select_top_regions(df, "sig", top_frac=0.4)   # ceil(2.0) = 2
+        # ties 'b' and 'c' keep original relative order (stable sort)
+        assert list(out["region"]) == ["b", "c"]
+
+    def test_select_top_regions_validates(self):
+        df = pd.DataFrame({"region": list("abc")})
+        with pytest.raises(ValueError):
+            select_top_regions(df, [1, 2, 3], top_frac=0.0)
+        with pytest.raises(ValueError):
+            select_top_regions(df, [1, 2], top_frac=0.5)   # length mismatch
+
+    def test_drop_non_acgt_regions(self, tmp_path):
+        # 60bp layout: two clean 20bp regions, one N-containing in the middle
+        seq = "ACGT" * 5 + "NNACGTACGTACGTACGTN" + "CGTA" * 5
+        fa = str(tmp_path / "syn.fa")
+        _write_mini_fasta(fa, seq)
+        df = pd.DataFrame({
+            "chrom": ["chrSyn"] * 3,
+            "start": [0, 20, 40],
+            "end": [20, 40, 60],
+        })
+        kept, n_dropped = drop_non_acgt_regions(df, fa)
+        assert n_dropped == 1 and len(kept) == 2
+        assert list(kept["start"]) == [0, 40]   # middle (N) region gone
+
+
+class TestQuickStartSelection:
+    """QuickStart-level composition: predict -> rank -> top-frac -> drop N."""
+
+    def test_select_modisco_regions_end_to_end(self, tmp_path):
+        from deepISA.quickstart import QuickStart
+
+        seq = ("ACGT" * 5) + ("NNNN" + "ACGT" * 4) + ("TTTTACGG" * 5)
+        fa = str(tmp_path / "syn.fa")
+        _write_mini_fasta(fa, seq)
+        df = pd.DataFrame({
+            "chrom": ["chrSyn"] * 3,
+            "start": [0, 20, 60],
+            "end": [20, 40, 80],
+        })
+        pipe = QuickStart(
+            results_dir=str(tmp_path / "res"),
+            fasta_path=fa,
+            df_input=df,
+            device="cpu",
+        )
+        cfg = {"seq_len": 20, "ks": [7, 5], "cs": [8, 8], "ds": [1, 2], "dropout": 0.0}
+        pipe.define_model(cfg, mode="regression")
+
+        sel = pipe._select_modisco_regions(
+            df, tracks=[0], top_frac=0.5, rank_by=None, drop_N=True, max_drop_frac=1.0
+        )
+        # N region dropped first (3 -> 2), then top 50% -> ceil(1.0) = 1 region
+        assert len(sel) == 1
+        assert "activity_score" in sel.columns
+        assert sel["activity_score"].notna().all()
+
+        # rank_by path: explicit column is used verbatim
+        df_sig = df.copy()
+        df_sig["signal"] = [1.0, 3.0, 2.0]
+        sel2 = pipe._select_modisco_regions(
+            df_sig, tracks=[0], top_frac=0.34, rank_by="signal", drop_N=False
+        )
+        # ceil(3 * 0.34) = 2 -> highest signals: 3.0 (row1) then 2.0 (row2)
+        assert list(sel2["start"]) == [20, 60]
+
+        # disabling both filters is a structural no-op (order/content kept)
+        sel3 = pipe._select_modisco_regions(df, tracks=[0], top_frac=None, drop_N=False)
+        assert len(sel3) == 3 and list(sel3["start"]) == [0, 20, 60]
+
+        # drop_N=True over a fully-ACGT fasta drops nothing (0% N -> no-op)
+        fa_clean = str(tmp_path / "clean.fa")
+        _write_mini_fasta(fa_clean, "ACGT" * 15)
+        df_clean = pd.DataFrame({"chrom": ["chrSyn"] * 3,
+                                 "start": [0, 20, 40], "end": [20, 40, 60]})
+        pipe_clean = QuickStart(results_dir=str(tmp_path / "res_clean"),
+                                fasta_path=fa_clean, df_input=df_clean, device="cpu")
+        sel4 = pipe_clean._select_modisco_regions(df_clean, tracks=[0],
+                                                  top_frac=None, drop_N=True)
+        assert list(sel4["start"]) == [0, 20, 40]
+
+    def test_predict_activity_deterministic_and_dual_indexed(self, tmp_path):
+        """Regression: _predict_activity must eval() the model first -- with
+        dropout active (dropout=0.5 below) two calls on the same input
+        disagree, making the top_frac ranking irreproducible. Also checks the
+        pred[:, track] branch on a dual-output model."""
+        from deepISA.quickstart import QuickStart
+
+        fa = str(tmp_path / "syn.fa")
+        _write_mini_fasta(fa, "ACGT" * 10)
+        df = pd.DataFrame({"chrom": ["chrSyn"] * 2,
+                           "start": [0, 20], "end": [20, 40]})
+        pipe = QuickStart(results_dir=str(tmp_path / "res"), fasta_path=fa,
+                          df_input=df, device="cpu")
+        pipe.define_model({"seq_len": 20, "ks": [7, 5], "cs": [8, 8],
+                           "ds": [1, 2], "dropout": 0.5}, mode="dual")
+
+        s0a = pipe._predict_activity(df, track=0)
+        s0b = pipe._predict_activity(df, track=0)
+        s1 = pipe._predict_activity(df, track=1)
+        assert s0a.shape == (2,)
+        assert np.array_equal(s0a, s0b), "dropout still active: ranking not reproducible"
+        assert not np.array_equal(s0a, s1), "dual heads must give distinct tracks"
+
+    def test_n_fallback_when_drop_exceeds_cap(self, tmp_path):
+        """Safety valve: when N regions exceed max_drop_frac (default 20%),
+        nothing is dropped -- the regions are kept and their N bases will be
+        imputed with random ACGT during attribution instead."""
+        from deepISA.quickstart import QuickStart
+
+        seq = ("NACG" + "ACGT" * 4) + ("ACGT" * 5) + ("NNNN" + "ACGT" * 4)
+        fa = str(tmp_path / "syn.fa")
+        _write_mini_fasta(fa, seq)                     # 2 of 3 regions contain N (67%)
+        df = pd.DataFrame({
+            "chrom": ["chrSyn"] * 3,
+            "start": [0, 20, 40],
+            "end": [20, 40, 60],
+        })
+        pipe = QuickStart(results_dir=str(tmp_path / "res"), fasta_path=fa,
+                          df_input=df, device="cpu")
+        pipe.define_model({"seq_len": 20, "ks": [7, 5], "cs": [8, 8],
+                           "ds": [1, 2], "dropout": 0.0}, mode="regression")
+
+        sel = pipe._select_modisco_regions(df, tracks=[0], top_frac=None, drop_N=True)
+        assert len(sel) == 3, "67% N > 20% cap -> keep all, impute downstream"
+
+        # boundary: exactly 20% (1 of 5) still counts as droppable
+        seq5 = ("NACG" + "ACGT" * 4) + "ACGT" * 5 + "ACGT" * 5 + "CGTA" * 5 + "TGCA" * 5
+        fa5 = str(tmp_path / "syn5.fa")
+        _write_mini_fasta(fa5, seq5)
+        df5 = pd.DataFrame({
+            "chrom": ["chrSyn"] * 5,
+            "start": [0, 20, 40, 60, 80],
+            "end": [20, 40, 60, 80, 100],
+        })
+        pipe5 = QuickStart(results_dir=str(tmp_path / "res5"), fasta_path=fa5,
+                           df_input=df5, device="cpu")
+        pipe5.define_model({"seq_len": 20, "ks": [7, 5], "cs": [8, 8],
+                            "ds": [1, 2], "dropout": 0.0}, mode="regression")
+        sel5 = pipe5._select_modisco_regions(df5, tracks=[0], top_frac=None, drop_N=True)
+        assert len(sel5) == 4 and list(sel5["start"]) == [20, 40, 60, 80]
+
+        # all regions contain N and the cap allows dropping them all -> the
+        # top-frac step must fail loudly instead of feeding modisco an empty set
+        fa_all = str(tmp_path / "all_n.fa")
+        _write_mini_fasta(fa_all, "N" * 40)
+        df_all = pd.DataFrame({"chrom": ["chrSyn"] * 2,
+                               "start": [0, 20], "end": [20, 40]})
+        pipe_all = QuickStart(results_dir=str(tmp_path / "res_all"), fasta_path=fa_all,
+                              df_input=df_all, device="cpu")
+        with pytest.raises(ValueError, match="No regions left"):
+            pipe_all._select_modisco_regions(df_all, tracks=[0], top_frac=0.5,
+                                             drop_N=True, max_drop_frac=1.0)
+
+
+# ---------------------------------------------------------------------------
+# QuickStart orchestration: CLI-facing methods with the external CLI stubbed out
+# ---------------------------------------------------------------------------
+class TestQuickStartOrchestration:
+    def test_run_modisco_nonzero_first_track(self, tmp_path, monkeypatch):
+        """Regression: the H5 slot index is not the model-output index.
+        run_modisco(tracks=[1]) used to pass track_index=1 to a 1-slot H5 and
+        crash with IndexError; slot 0 (the first requested track) is the pick."""
+        from deepISA.quickstart import QuickStart
+        import deepISA.quickstart as qs
+
+        fa = str(tmp_path / "syn.fa")
+        _write_mini_fasta(fa, "ACGT" * 5)
+        df = pd.DataFrame({"chrom": ["chrSyn"], "start": [0], "end": [20]})
+        pipe = QuickStart(results_dir=str(tmp_path / "res"), fasta_path=fa,
+                          df_input=df, device="cpu")
+        pipe.define_model({"seq_len": 20, "ks": [7, 5], "cs": [8, 8],
+                           "ds": [1, 2], "dropout": 0.0}, mode="dual")
+
+        recorded = {}
+        def fake_cli(ohe_npz, hyp_npz, out_h5, n_seqlets=50000, window=None):
+            recorded["ohe"], recorded["hyp"] = ohe_npz, hyp_npz
+            return out_h5
+        monkeypatch.setattr(qs, "run_modisco", fake_cli)
+
+        out = pipe.run_modisco(tracks=[1], df_pos=df, n_refs=2, attr_batch_size=2,
+                               save_motifs_csv=False, top_frac=None, drop_N=False)
+        assert out == pipe.files["modisco_h5"]
+        # the NPZ fed to the (stubbed) CLI holds slot 0 verbatim
+        seqs_slot, hyp_slot, _ = read_attribution_h5(pipe.files["attr_h5"], track_index=0)
+        with np.load(recorded["hyp"]) as dz:
+            npz_hyp = dz[dz.files[0]]
+        assert npz_hyp.shape == (1, 4, 20)
+        assert np.array_equal(npz_hyp, hyp_slot)
+
+    def test_run_motif_discovery_forwards_curation_kwargs(self, tmp_path):
+        """Regression: the 4 curation kwargs must reach BOTH methods (they used
+        to be split into modisco_keys only, silently dropping them for finemo)."""
+        from deepISA.quickstart import QuickStart
+
+        pipe = QuickStart(results_dir=str(tmp_path / "res"), fasta_path="unused.fa",
+                          df_input=pd.DataFrame({"chrom": ["chr1"], "start": [0],
+                                                 "end": [10]}), device="cpu")
+        calls = {}
+        pipe.run_modisco = lambda **kw: calls.setdefault("modisco", kw)
+        pipe.run_finemo = lambda **kw: calls.setdefault("finemo", kw)
+
+        pipe.run_motif_discovery(tracks=[0], top_frac=0.2, rank_by="signal",
+                                 drop_N=False, max_drop_frac=0.3,
+                                 lam=0.5, n_seqlets=99)
+        cur = {"top_frac": 0.2, "rank_by": "signal",
+               "drop_N": False, "max_drop_frac": 0.3}
+        for k, v in cur.items():
+            assert calls["modisco"].get(k) == v
+            assert calls["finemo"].get(k) == v, f"{k} not forwarded to run_finemo"
+        assert calls["modisco"]["n_seqlets"] == 99
+        assert calls["finemo"]["lam"] == 0.5

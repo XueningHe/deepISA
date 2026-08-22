@@ -1,5 +1,6 @@
 import os
 import torch
+import numpy as np
 import pandas as pd
 import json
 from loguru import logger
@@ -30,7 +31,6 @@ from deepISA.scoring.discover import (
     build_finemo_input,
     run_finemo_scan,
     load_hits_with_annotation,
-    build_finemo_db,
     load_motifs,
     run_motif_report,
     cwm_to_meme,
@@ -500,6 +500,60 @@ class QuickStart:
         seqs = get_sequences_from_df(df_pos, fasta)
         return one_hot_encode(seqs)
 
+    def _predict_activity(self, df_pos, track):
+        """Model prediction per region on one output track -> 1D np.ndarray."""
+        X = self._positives_to_onehot(df_pos)
+        self.model.eval()  # dropout off -> ranking is deterministic
+        preds = []
+        with torch.no_grad():
+            for s in range(0, len(X), 256):
+                xb = torch.from_numpy(X[s:s + 256]).to(self.device)
+                y = self.model(xb).detach().cpu().numpy()
+                preds.append(y)
+        pred = np.concatenate(preds, axis=0)
+        return pred[:, track] if pred.ndim == 2 and pred.shape[1] > 1 else pred.ravel()
+
+    def _select_modisco_regions(self, df_pos, tracks, top_frac=0.1, rank_by=None,
+                                drop_N=True, max_drop_frac=0.2):
+        """Curate the motif-discovery input set (mc000's ``y >= THRESH`` analog).
+
+        N policy with a safety valve: N-containing regions are dropped only
+        while they stay within ``max_drop_frac`` of the input. Beyond that the
+        drop would remove too much data, so all regions are kept and their
+        unknown bases are imputed with random ACGT during attribution instead.
+        """
+        from deepISA.scoring.discover import select_top_regions, drop_non_acgt_regions
+        if drop_N and len(df_pos) > 0:
+            kept, n_dropped = drop_non_acgt_regions(df_pos, self.fasta_path)
+            frac = n_dropped / len(df_pos)
+            if frac <= max_drop_frac:
+                df_pos = kept
+                if n_dropped:
+                    logger.info(
+                        f"Dropped {n_dropped}/{len(df_pos) + n_dropped} region(s) containing "
+                        f"unknown bases (N): {frac:.0%} <= max_drop_frac {max_drop_frac:.0%}."
+                    )
+            else:
+                logger.warning(
+                    f"{n_dropped}/{len(df_pos)} ({frac:.0%}) regions contain N -- more than "
+                    f"max_drop_frac {max_drop_frac:.0%}. Keeping them; unknown bases will be "
+                    f"imputed with random ACGT during attribution instead of dropping."
+                )
+        if top_frac is not None:
+            if len(df_pos) == 0:
+                raise ValueError("No regions left after dropping N-containing ones.")
+            if rank_by is not None:
+                score = df_pos[rank_by].to_numpy(dtype=float)
+                logger.info(f"Ranking {len(df_pos)} regions by column '{rank_by}'.")
+            else:
+                score = self._predict_activity(df_pos, tracks[0])
+                logger.info(
+                    f"Ranking {len(df_pos)} regions by model prediction on track {tracks[0]}."
+                )
+            df_pos = select_top_regions(df_pos, score, top_frac=top_frac)
+            logger.info(f"Motif discovery input: top {top_frac:.0%} -> {len(df_pos)} regions.")
+        return df_pos
+
     def run_modisco(self,
                     tracks=None,
                     df_pos=None,
@@ -509,11 +563,16 @@ class QuickStart:
                     n_seqlets=50000,
                     task_name="discovery",
                     target_motif_len=40,
-                    save_motifs_csv=True):
+                    save_motifs_csv=True,
+                    top_frac=0.1,
+                    rank_by=None,
+                    drop_N=True,
+                    max_drop_frac=0.2):
         """Discover motifs with tf-modisco-lite from model attributions.
 
-        Runs: attribution (captum DeepLiftShap) -> NPZ prep -> ``modisco motifs``.
-        Requires the external ``modisco`` binary on PATH (see
+        Runs: input-set curation -> attribution (tangermeme DeepLIFT-SHAP) ->
+        NPZ prep -> ``modisco motifs``. Requires the external ``modisco``
+        binary on PATH (see
         :func:`deepISA.scoring.discover.modisco.run_modisco`).
 
         Parameters
@@ -542,12 +601,36 @@ class QuickStart:
         save_motifs_csv : bool
             If True, also materialize ``discovered_motifs.csv`` (one row per
             motif with metadata) for downstream inspection.
+        top_frac : float or None
+            Keep only the top fraction of regions by activity (default 0.1 =
+            top 10%) so discovery focuses on sequences the model is confident
+            about. Ranked by model prediction on ``tracks[0]``, or by the
+            ``rank_by`` column when given. ``None`` disables ranking (all
+            regions are used).
+        rank_by : str, optional
+            Column in ``df_pos`` to rank by (e.g. a measured-signal column).
+            Defaults to model predictions.
+        drop_N : bool
+            Drop regions whose sequence contains unknown bases (N) instead of
+            imputing them (default True). Any N that still reaches attribution
+            is imputed with random ACGT there.
+        max_drop_frac : float
+            Safety valve for ``drop_N``: N-containing regions are dropped only
+            while they account for at most this fraction of the input
+            (default 0.2 = 20%). Beyond that, all regions are kept and their
+            N bases are imputed with random ACGT during attribution instead.
         """
         if self.model is None:
             raise ValueError("Model not defined. Call define_model() first.")
 
         tracks = list(tracks) if tracks is not None else list(getattr(self, "tracks", [0]))
         df_pos = self._resolve_positives(df_pos)
+        df_pos = self._select_modisco_regions(
+            df_pos, tracks, top_frac=top_frac, rank_by=rank_by, drop_N=drop_N,
+            max_drop_frac=max_drop_frac,
+        )
+        if len(df_pos) == 0:
+            raise ValueError("Empty motif-discovery input set after curation.")
         seqs_ohe = self._positives_to_onehot(df_pos)
         ids = df_pos["region"].astype(str).tolist() if "region" in df_pos.columns else None
 
@@ -571,7 +654,7 @@ class QuickStart:
         ohe_npz, hyp_npz = prepare_modisco_input(
             h5_path=self.files["attr_h5"],
             out_dir=modisco_dir,
-            track_index=tracks[0],
+            track_index=0,
         )
         run_modisco(
             ohe_npz=ohe_npz,
@@ -610,7 +693,10 @@ class QuickStart:
                    attr_batch_size=64,
                    lam=0.7,
                    max_steps=10000,
-                   annotations=None):
+                   top_frac=0.1,
+                   rank_by=None,
+                   drop_N=True,
+                   max_drop_frac=0.2):
         """Scan sequences for motif hits with Fi-NeMo.
 
         Runs: attribution (reused if available) -> NPZ prep ->
@@ -630,8 +716,10 @@ class QuickStart:
             Fi-NeMo lambda trade-off.
         max_steps : int
             Fi-NeMo optimization step budget.
-        annotations : dict, optional
-            ``motif_id -> TF label`` used only when building a fresh DB.
+        top_frac, rank_by, drop_N, max_drop_frac :
+            Input-set curation, applied only when attribution is computed
+            fresh (same semantics as :meth:`run_modisco`; an existing
+            attribution H5 is reused unchanged).
         """
         if self.model is None:
             raise ValueError("Model not defined. Call define_model() first.")
@@ -644,9 +732,15 @@ class QuickStart:
 
         tracks = list(tracks) if tracks is not None else list(getattr(self, "tracks", [0]))
 
-        # Reuse existing attribution when available; otherwise compute fresh.
+        # Reuse existing attribution when available; otherwise compute fresh
+        # (with the same input-set curation as run_modisco, so a fresh H5
+        # matches what run_modisco would have produced).
         if not os.path.exists(self.files["attr_h5"]):
             df_pos = self._resolve_positives(df_pos)
+            df_pos = self._select_modisco_regions(
+                df_pos, tracks, top_frac=top_frac, rank_by=rank_by, drop_N=drop_N,
+                max_drop_frac=max_drop_frac,
+            )
             seqs_ohe = self._positives_to_onehot(df_pos)
             ids = df_pos["region"].astype(str).tolist() if "region" in df_pos.columns else None
             logger.info(f"Computing attribution for {len(seqs_ohe)} regions, tracks={tracks}.")
@@ -664,7 +758,7 @@ class QuickStart:
         # Build finemo NPZ from the (channel-first) attribution H5.
         # Reuse the first track (consistent with run_modisco).
         from deepISA.scoring.discover.modisco import read_attribution_h5
-        seqs_4lc, hyp_4lc, _ = read_attribution_h5(self.files["attr_h5"], track_index=tracks[0])
+        seqs_4lc, hyp_4lc, _ = read_attribution_h5(self.files["attr_h5"], track_index=0)
         finemo_npz = build_finemo_input(
             seqs_ohe=seqs_4lc,
             hyp_scores=hyp_4lc,
@@ -698,8 +792,13 @@ class QuickStart:
         Any extra ``kwargs`` are split between the two methods by keyword.
         """
         modisco_keys = {"n_refs", "attr_batch_size", "window", "n_seqlets",
-                        "task_name", "target_motif_len", "save_motifs_csv"}
-        finemo_keys = {"lam", "max_steps", "annotations"}
+                        "task_name", "target_motif_len", "save_motifs_csv",
+                        "top_frac", "rank_by", "drop_N", "max_drop_frac"}
+        finemo_keys = {"lam", "max_steps",
+                       "top_frac", "rank_by", "drop_N", "max_drop_frac"}
+        unknown = set(kwargs) - modisco_keys - finemo_keys
+        if unknown:
+            logger.warning(f"run_motif_discovery ignoring unknown kwargs: {sorted(unknown)}")
 
         if do_modisco:
             self.run_modisco(
