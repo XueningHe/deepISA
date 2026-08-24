@@ -4,7 +4,6 @@ import pandas as pd
 from loguru import logger
 import os
 import sys
-import pyBigWig
 from pathlib import Path
 
 
@@ -28,9 +27,23 @@ def one_hot_encode(seqs):
 def get_sequences_from_df(df, fasta):
     """Vectorized sequence fetching using bioframe-loaded fasta."""
     return [
-        str(fasta[row.chrom][int(row.start):int(row.end)]).upper() 
+        str(fasta[row.chrom][int(row.start):int(row.end)]).upper()
         for row in df.itertuples()
     ]
+
+
+def load_fasta(fasta_path):
+    """Load a FASTA, preferring pysam and falling back to pyfaidx.
+
+    bioframe's default engine is pysam, which is unavailable on some platforms
+    (notably Windows). This keeps the default behavior when pysam is present
+    and transparently uses the pure-Python pyfaidx otherwise, so deepISA works
+    cross-platform without forcing a pysam build.
+    """
+    try:
+        return bf.load_fasta(fasta_path)
+    except ImportError:
+        return bf.load_fasta(fasta_path, engine="pyfaidx")
 
 
 def remove_if_exists(path, label="file"):
@@ -151,6 +164,7 @@ def resize_regions(df, seq_len):
 
 def quantify_bw(regions_df, bw_paths, seq_len):
     """Quantifies sum of signals from BigWig files with progress logging."""
+    import pyBigWig   # delayed so the package imports without pyBigWig installed
     regions_df = resize_regions(regions_df, seq_len)
     total_signals = np.zeros(len(regions_df))
     n_regions = len(regions_df)

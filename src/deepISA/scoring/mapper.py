@@ -1,5 +1,4 @@
 import pandas as pd
-import pyBigWig
 import bioframe as bf
 from loguru import logger
 
@@ -45,6 +44,7 @@ def check_remap(motif_df, remap_ref, region_tuple):
 
 class JasparAnnotator:
     def __init__(self, jaspar_path, expressed_tfs, score_thresh, remap_path=None):
+        import pyBigWig   # delayed so the package imports without pyBigWig installed
         self.jaspar = pyBigWig.open(jaspar_path)
         self.score_thresh = score_thresh
         if expressed_tfs is not None:

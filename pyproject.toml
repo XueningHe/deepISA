@@ -27,6 +27,7 @@ dependencies = [
     "scikit-learn",                
     "pyBigWig",
     "bioframe",
+    "pyfaidx",                   # utils.load_fasta fallback engine (pysam is unavailable on Windows)
     "biopython>=1.80",
     "scipy",
     "matplotlib",
@@ -34,11 +35,28 @@ dependencies = [
     "requests",
     "streamlit>=1.20.0",
     "captum",
+    "h5py>=3.0",                  # discover subpackage: attribution/modisco/finemo H5 I/O
+    "tangermeme>=1.0",            # discover subpackage: DeepLIFT-SHAP attribution (torch-native)
 ]
 
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0",                # For the Phase 1/2 validation logic
+]
+# Motif discovery CLI backends. deepISA orchestrates these via subprocess; the
+# Python side (attribution, NPZ/H5 building, hits parsing) works without them.
+# Install only the one(s) you intend to run:
+#   pip install -e ".[discover]"
+discover = [
+    "modisco-lite",               # provides the `modisco` CLI (pip package name)
+    "finemo",                     # provides the `finemo` CLI (pip package name)
+]
+# AlphaGenome API backend for ISA scoring (optional). Get a free (non-commercial
+# use) API key at https://deepmind.google.com/science/alphagenome:
+#   pip install -e ".[alphagenome]"
+alphagenome = [
+    "alphagenome",                # provides AlphaGenomeAdapter (modeling/alpha_genome_adapter.py)
+    "pyyaml",
 ]
 
 [tool.setuptools.packages.find]
