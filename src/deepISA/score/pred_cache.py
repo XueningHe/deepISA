@@ -165,7 +165,8 @@ def _collect_pass_orig(pairs_by_region, cache, fasta):
 def _collect_pass_single(
     pairs_by_region, cache, fasta, motif_num,
     destroy_mode, n_shuffles,
-    sa_cols_present=False
+    sa_cols_present=False,
+    cached_single_mut_map=None,
 ):
     start_col = f"start{motif_num}_rel"
     end_col   = f"end{motif_num}_rel"
@@ -183,10 +184,20 @@ def _collect_pass_single(
             if interval_id in seen_intervals:
                 continue
             seen_intervals.add(interval_id)
-            mut_motifs_for_interval = []
-            for ms in destroy_motifs(seq, [start], [end], mode=destroy_mode, n=n_shuffles):
-                mut_motif = ms[start:end]
-                mut_motifs_for_interval.append(mut_motif)
+            mut_motifs_for_interval = (
+                cached_single_mut_map.get(interval_id)
+                if cached_single_mut_map is not None
+                else None
+            )
+            if mut_motifs_for_interval is None:
+                mut_motifs_for_interval = [
+                    ms[start:end]
+                    for ms in destroy_motifs(
+                        seq, [start], [end], mode=destroy_mode, n=n_shuffles
+                    )
+                ]
+            for mut_motif in list(mut_motifs_for_interval):
+                ms = _mut_motif(seq, start, end, mut_motif)
                 key = PredCache.single_key(region_str, start, end, mut_motif)
                 if not cache.has(key):
                     keys.append(key)
@@ -247,9 +258,9 @@ def _collect_pass_both(
 
 def _run_gpu_pass(model, device, tracks, seqs, keys, cache, pred_batch_size, pass_name):
     if not seqs:
-        logger.info(f"Pass {pass_name}: nothing to compute, skipping.")
+        logger.info(f"Compute prediction for {pass_name}: nothing to compute, skipping.")
         return
-    logger.info(f"Pass {pass_name}: {len(seqs)} sequences → GPU")
+    logger.info(f"Compute prediction for {pass_name}: {len(seqs)} sequences")
     preds = compute_predictions(
         model, seqs, device=device, batch_size=pred_batch_size, tracks=tracks
     )  # shape (len(seqs), n_tracks)

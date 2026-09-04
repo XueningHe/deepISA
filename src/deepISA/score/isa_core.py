@@ -47,8 +47,10 @@ def single_isa_core(
     pred_batch_size,
     destroy_mode="ablate",   
     n_shuffles=8,
+    cache_outpath=None,
 ):
     remove_if_exists(outpath, label="single ISA file")
+    remove_if_exists(cache_outpath, label="single ISA cache file")
     logger.info(f"Single ISA started. Total rows: {len(locs_df)}, destroy_mode={destroy_mode}")
     orig_pred_map = load_pred_orig(pred_orig_path, tracks)
     region_groups = list(locs_df.groupby("region"))
@@ -93,16 +95,14 @@ def single_isa_core(
 
         # ── Reconstruct DataFrame ─────────────────────────────────────
         if destroy_mode == "ablate":
-            # One mutant per row — save motif_mut and pred_mut_t{t} for combi ISA cache reuse
+            # Ablation has one mutation per row; cache details were written above.
             current_df_rows = []
             for flat_i, row_i in enumerate(row_indices):
                 row, _ = batch_rows[row_i]
                 start, end = int(row["start_rel"]), int(row["end_rel"])
                 new_row = row.to_dict()
-                new_row["motif_mut"] = flat_seqs[flat_i][start:end]
                 pred_orig = orig_pred_map[row["region"]]
                 for j, t in enumerate(tracks):
-                    new_row[f"pred_mut_t{t}"] = preds_mut_flat[flat_i, j]
                     new_row[f"isa_t{t}"] = pred_orig[j] - preds_mut_flat[flat_i, j]
                 current_df_rows.append(new_row)
             current_df = pd.DataFrame(current_df_rows)
@@ -120,7 +120,7 @@ def single_isa_core(
 
 
 
-def combi_isa_core(
+def _run_combi_isa_batch(
     model,
     device,
     tracks,
@@ -136,24 +136,23 @@ def combi_isa_core(
     # ── Pass 0: pred_orig ─────────────────────────────────────────────
     keys0, seqs0 = _collect_pass_orig(batch_pairs, cache, fasta)
     _run_gpu_pass(model, device, tracks, seqs0, keys0, cache, pred_batch_size, "0-orig")
-
     # ── Pass 1 & 2: single-motif ablation ────────────────────────────
     keys1, seqs1, single_mut_map1 = _collect_pass_single(
         batch_pairs, cache, fasta, motif_num=1,
-        destroy_mode=destroy_mode, n_shuffles=n_shuffles
+        destroy_mode=destroy_mode, n_shuffles=n_shuffles,
+        cached_single_mut_map=single_mut_map,
     )
     _run_gpu_pass(model, device, tracks, seqs1, keys1, cache, pred_batch_size, "1-single-motif1")
     keys2, seqs2, single_mut_map2 = _collect_pass_single(
         batch_pairs, cache, fasta, motif_num=2,
         destroy_mode=destroy_mode, n_shuffles=n_shuffles,
+        cached_single_mut_map=single_mut_map,
     )
     _run_gpu_pass(model, device, tracks, seqs2, keys2, cache, pred_batch_size, "2-single-motif2")
-    
     if single_mut_map is None:
         single_mut_map = {**single_mut_map1, **single_mut_map2}
     else:
         single_mut_map = {**single_mut_map, **single_mut_map1, **single_mut_map2}
-
     # ── Pass 3: isa_both ──────────────────────────────────────────────
     keys3, seqs3, combi_mut_map = _collect_pass_both(
         batch_pairs, cache, fasta,
@@ -204,4 +203,78 @@ def combi_isa_core(
             pair_df[f"isa_both_t{t}"] = isa_both_vals
 
         write_stream_csv(pair_df, outpath)
+
+
+
+def run_combi_isa_core(
+    model,
+    device,
+    tracks,
+    fasta,
+    pairs_by_region,
+    pred_batch_size,
+    outpath,
+    pred_orig_df=None,
+    single_isa_df=None,
+    num_regions_per_batch=200,
+    destroy_mode="ablate",
+    n_shuffles=4,
+):
+    """Run combinatorial ISA while bounding each orchestration batch.
+
+    ``pairs_by_region`` maps each region to ``(pair_df, seq_ref)``. The pair
+    dataframes may contain motif or generated null pairs. ``single_isa_df``
+    is optional and supplies reusable single-ISA mutations for motif pairs.
+    """
+    if num_regions_per_batch <= 0:
+        raise ValueError("num_regions_per_batch must be positive")
+
+    remove_if_exists(outpath, label="combinatorial ISA file")
+    region_items = list(pairs_by_region.items())
+    if not region_items:
+        logger.warning("No combinatorial pairs to score.")
+        return
+
+    for batch_start in range(0, len(region_items), num_regions_per_batch):
+        batch_items = region_items[batch_start : batch_start + num_regions_per_batch]
+        batch_regions = {region for region, _ in batch_items}
+        batch_pairs = dict(batch_items)
+        cache = PredCache()
+
+        if pred_orig_df is not None:
+            batch_orig_df = pred_orig_df[
+                pred_orig_df["region"].isin(batch_regions)
+            ]
+            cache.load_pred_orig(batch_orig_df, tracks)
+
+        single_mut_map = None
+        if single_isa_df is not None:
+            batch_single_df = single_isa_df[
+                single_isa_df["region"].isin(batch_regions)
+            ]
+            cache.load_single_isa(batch_single_df, tracks)
+            single_mut_map = {}
+            for row in batch_single_df.itertuples():
+                key = (row.region, row.start_rel, row.end_rel)
+                single_mut_map.setdefault(key, [])
+                if row.motif_mut not in single_mut_map[key]:
+                    single_mut_map[key].append(row.motif_mut)
+
+        logger.info(
+            f"Combinatorial ISA region batch "
+            f"{batch_start}-{batch_start + len(batch_items)} / {len(region_items)}"
+        )
+        _run_combi_isa_batch(
+            model=model,
+            device=device,
+            tracks=tracks,
+            fasta=fasta,
+            batch_pairs=batch_pairs,
+            pred_batch_size=pred_batch_size,
+            outpath=outpath,
+            cache=cache,
+            single_mut_map=single_mut_map,
+            destroy_mode=destroy_mode,
+            n_shuffles=n_shuffles,
+        )
 

@@ -7,8 +7,7 @@ from loguru import logger
 from itertools import combinations
 
 from deepISA.utils import remove_if_exists
-from deepISA.score.isa_core import single_isa_core, combi_isa_core
-from deepISA.score.pred_cache import PredCache 
+from deepISA.score.isa_core import single_isa_core, run_combi_isa_core
 from deepISA.score.aggregate_isa import calc_interaction
 
 
@@ -239,6 +238,7 @@ def _calc_non_motif_interaction(
     outpath: str,
     device, tracks: list[int],
     pred_batch_size: int = 1024,
+    num_regions_per_batch: int = 200,
     n_samples: int = 8192,
     n_bins: int = 20,
     destroy_mode: str = "ablate",
@@ -283,21 +283,16 @@ def _calc_non_motif_interaction(
 
     logger.info(f"Scoring {len(null_pairs_df)} non-motif pairs across {len(batch_pairs)} regions")
 
-    # Fresh cache
-    cache = PredCache()
-    cache.load_pred_orig(df_pred_orig, tracks)
-
-    # Call combi_isa_core directly
-    combi_isa_core(
+    run_combi_isa_core(
         model=model,
         device=device,
         tracks=tracks,
         fasta=fasta,
-        batch_pairs=batch_pairs,
         pred_batch_size=pred_batch_size,
+        pairs_by_region=batch_pairs,
         outpath=outpath,
-        cache=cache,
-        single_mut_map=None,  # No single mutant cache for null pairs
+        pred_orig_df=df_pred_orig,
+        num_regions_per_batch=num_regions_per_batch,
         destroy_mode=destroy_mode,
         n_shuffles=n_shuffles,
     )
@@ -336,6 +331,7 @@ def calc_non_motif_stats(
     non_motif_interaction_outpath: str,
     device, tracks: list[int],
     pred_batch_size: int = 1024,
+    num_regions_per_batch: int = 200,
     n_samples: int = 8192,
     n_bins: int = 20,
     tau_quantile: float = 50.0,
@@ -371,6 +367,7 @@ def calc_non_motif_stats(
         outpath=non_motif_interaction_outpath,
         device=device, tracks=tracks,
         pred_batch_size=pred_batch_size,
+        num_regions_per_batch=num_regions_per_batch,
         n_samples=n_samples,
         n_bins=n_bins,
     )
@@ -381,6 +378,7 @@ def calc_non_motif_stats(
     with open(tau_json_path, "w") as f:
         json.dump({str(k): v for k, v in tau_map.items()}, f, indent=2)
     logger.info(f"tau_map written to {tau_json_path}")
+    # TODO: is it really normalized?
     calc_interaction(
         combi_isa_path=inter_path, 
         tracks=tracks,

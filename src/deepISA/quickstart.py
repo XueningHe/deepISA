@@ -111,6 +111,7 @@ class QuickStart:
             "non_motif_isa":      os.path.join(self.data_dir, "non_motif_isa.csv"),
             "pred_orig": os.path.join(self.data_dir, "pred_orig.csv"),
             "isa_single":    os.path.join(self.data_dir, "motif_single_isa.csv"),
+            "isa_single_cache": os.path.join(self.data_dir, "single_isa_cache.csv"),
             "isa_combi":     os.path.join(self.data_dir, "motif_combi_isa.csv"),
             "non_motif_interaction":os.path.join(self.data_dir, "non_motif_interaction.csv"),
             "non_motif_tau": os.path.join(self.data_dir, "non_motif_interaction_tau.json"),
@@ -302,6 +303,7 @@ class QuickStart:
                 fasta=self.fasta_path,
                 motif_locs_path=self.files["motif_locs"],
                 single_isa_outpath=self.files["isa_single"],
+                single_isa_cache_outpath=self.files["isa_single_cache"],
                 pred_orig_outpath=self.files["pred_orig"],
                 device=self.device,
                 tracks=self.tracks,
@@ -321,6 +323,7 @@ class QuickStart:
                 model=self.model,
                 fasta=self.fasta_path,  
                 single_isa_path=self.files["isa_single"],  
+                single_isa_cache_path=self.files["isa_single_cache"],
                 outpath=self.files["isa_combi"],
                 device=self.device,
                 tracks=self.tracks,
@@ -335,7 +338,6 @@ class QuickStart:
         # 5. non-motif stats
         if start_idx <= ISA_STAGES.index("calc_background"):
             logger.info("Running stage: calc_background")
-            # TODO: by setting default path to functions, we can avoid passing this many params
             calc_non_motif_stats(
                 model=self.model,
                 fasta=self.fasta_path,

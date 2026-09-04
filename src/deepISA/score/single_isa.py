@@ -59,6 +59,7 @@ def run_single_isa(
     pred_batch_size=1024,
     destroy_mode="ablate",   
     n_shuffles=10,           
+    single_isa_cache_outpath=None,
 ):
     if isinstance(fasta, str):
         fasta=bf.load_fasta(fasta)
@@ -87,6 +88,7 @@ def run_single_isa(
         num_regions_per_batch=num_regions_per_batch,
         pred_batch_size=pred_batch_size,
         pred_orig_path=pred_orig_outpath,
+        cache_outpath=single_isa_cache_outpath,
         destroy_mode=destroy_mode,
         n_shuffles=n_shuffles,
     )

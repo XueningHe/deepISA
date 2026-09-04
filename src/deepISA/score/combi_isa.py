@@ -7,9 +7,7 @@ from itertools import combinations
 
 
 # Internal imports
-from deepISA.utils import remove_if_exists
-from deepISA.score.pred_cache import PredCache 
-from deepISA.score.isa_core import combi_isa_core
+from deepISA.score.isa_core import run_combi_isa_core
 
 
 # TODO: since the file names are almost determined, all paths should have a default value.
@@ -75,20 +73,6 @@ def build_combi_pairs_by_region(df_single_isa, receptive_field):
     return pairs_by_region
 
 
-def _build_single_mut_map_from_df(df: pd.DataFrame) -> dict:
-    """
-    Build single_mut_map from pre-computed df_single_isa.
-    Returns: {(region_str, start_rel, end_rel): [motif_mut_seq, ...]}
-    """
-    single_mut_map = {}
-    for row in df.itertuples():
-        key = (row.region, row.start_rel, row.end_rel)
-        single_mut_map.setdefault(key, [])
-        if row.motif_mut not in single_mut_map[key]:
-            single_mut_map[key].append(row.motif_mut)
-    return single_mut_map
-
-
 
 def _check_isa_cols_present(df: pd.DataFrame, tracks: list, destroy_mode: str) -> bool:
     if destroy_mode == "dinuc_shuffle":
@@ -118,9 +102,8 @@ def run_combi_isa(
     pred_batch_size=1024,
     destroy_mode="ablate",
     n_shuffles=4,
+    single_isa_cache_path=None,
 ):
-    remove_if_exists(outpath)
-
     if isinstance(fasta, str):
         fasta = bf.load_fasta(fasta)
 
@@ -130,50 +113,31 @@ def run_combi_isa(
         return None
 
     df_pred_orig = pd.read_csv(pred_orig_path) if pred_orig_path is not None else None
-    isa_cols_present = _check_isa_cols_present(df_single_isa, tracks, destroy_mode)
+    df_single_isa_cache = (
+        pd.read_csv(single_isa_cache_path)
+        if single_isa_cache_path is not None
+        else None
+    )
 
     all_regions = df_single_isa["region"].unique().tolist()
 
     logger.info(f"Combinatorial ISA: {len(all_regions)} regions, batch size {num_regions_per_batch}")
 
-    for batch_start in range(0, len(all_regions), num_regions_per_batch):
-        batch_regions = all_regions[batch_start : batch_start + num_regions_per_batch]
-        batch_region_set = set(batch_regions)
-        logger.info(f"Batch {batch_start}–{batch_start + len(batch_regions)} / {len(all_regions)}")
-
-        # ── build pairs for this batch only ──────────────────────────
-        batch_df = df_single_isa[df_single_isa["region"].isin(batch_region_set)]
-        batch_pairs = build_combi_pairs_by_region(batch_df, receptive_field)
-        if not batch_pairs:
-            continue
-
-        # ── fresh cache per batch ─────────────────────────────────────
-        cache = PredCache()
-
-        if df_pred_orig is not None:
-            batch_orig_df = df_pred_orig[df_pred_orig["region"].isin(batch_region_set)]
-            cache.load_pred_orig(batch_orig_df, tracks)
-
-        if isa_cols_present:
-            cache.load_single_isa(batch_df, tracks)
-            single_mut_map = _build_single_mut_map_from_df(batch_df)
-        else:
-            single_mut_map = None
-
-        # ── four GPU passes ───────────────────────────────────────────
-        combi_isa_core(
-            model=model,
-            device=device,
-            tracks=tracks,
-            fasta=fasta,
-            batch_pairs=batch_pairs,
-            pred_batch_size=pred_batch_size,
-            outpath=outpath,
-            cache=cache,
-            single_mut_map=single_mut_map,
-            destroy_mode=destroy_mode,
-            n_shuffles=n_shuffles,
-        )
+    pairs_by_region = build_combi_pairs_by_region(df_single_isa, receptive_field)
+    run_combi_isa_core(
+        model=model,
+        device=device,
+        tracks=tracks,
+        fasta=fasta,
+        pairs_by_region=pairs_by_region,
+        pred_batch_size=pred_batch_size,
+        outpath=outpath,
+        pred_orig_df=df_pred_orig,
+        single_isa_df=df_single_isa_cache,
+        num_regions_per_batch=num_regions_per_batch,
+        destroy_mode=destroy_mode,
+        n_shuffles=n_shuffles,
+    )
 
     logger.info(f"Combinatorial ISA complete. Results saved to {outpath}")
 
