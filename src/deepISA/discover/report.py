@@ -22,7 +22,7 @@ from typing import Optional
 
 from loguru import logger
 
-from deepISA.scoring.discover.modisco import resolve_cli, python_wrap
+from deepISA.discover.modisco import resolve_cli, python_wrap
 
 __all__ = ["run_motif_report", "cwm_to_meme"]
 

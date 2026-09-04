@@ -4,6 +4,8 @@ from loguru import logger
 
 from deepISA.utils import remove_if_exists, write_stream_csv
 
+# TODO: since the file names are almost determined, all paths should have a default value.
+
 
 
 def subset_by_rna(df, expressed_tfs):
@@ -32,7 +34,6 @@ def check_remap(motif_df, remap_ref, region_tuple):
     # Filter ReMap peaks to only those within the current genomic window
     local_peaks = bf.select(remap_ref, (chrom, start, end))
     chip_tfs = set(local_peaks["TF"].unique())
-
     # Check dimer components against available ChIP TFs
     prots = motif_df["tf"].str.split("::", expand=True)
     p1 = prots[0].str.upper()
@@ -136,6 +137,7 @@ def get_non_motifs(regions_df, motif_locs_df):
 
 def map_motifs(regions_df, 
                jaspar_path, 
+               # TODO: figure out default path
                motif_outpath, 
                non_motif_outpath,
                expressed_tfs=None,
@@ -145,7 +147,7 @@ def map_motifs(regions_df,
     High-level API for motif mapping.
     Outputs:
       - motif_outpath: mapped motifs after structural filtering only
-      - non_motif_outpath: regions not covered by mapped motifs
+      - non_motif_outpath: regions not covered by mapped motifs (only if null_mode is "non_motif_kmers")
     """
     logger.info("Starting JASPAR motif mapping.")
     # deduplicate regions_df
@@ -156,10 +158,10 @@ def map_motifs(regions_df,
         score_thresh=motif_score_thresh,
         remap_path=remap_path
     )
+    logger.info(f"Mapped motifs saved to {motif_outpath}.")
     annotator.annotate(regions_df, motif_outpath)
     motif_df = pd.read_csv(motif_outpath)
     non_motif_df = get_non_motifs(regions_df, motif_df)
     non_motif_df.to_csv(non_motif_outpath, index=False)
-
-    logger.info(f"Mapped motifs saved to {motif_outpath}.")
     logger.info(f"Non-motif regions saved to {non_motif_outpath}.")
+

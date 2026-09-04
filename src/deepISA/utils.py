@@ -46,6 +46,7 @@ def load_fasta(fasta_path):
         return bf.load_fasta(fasta_path, engine="pyfaidx")
 
 
+
 def remove_if_exists(path, label="file"):
     if path is None:
         return

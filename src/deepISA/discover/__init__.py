@@ -37,25 +37,25 @@ All arrays follow deepISA's native layout ``(N, 4, L)`` (channels-first), matchi
 ``(N, 4, L)`` layout expected by the external CLIs happens at the NPZ boundary.
 """
 
-from deepISA.scoring.discover.attribution import compute_attribution
-from deepISA.scoring.discover.modisco import (
+from deepISA.discover.attribution import compute_attribution
+from deepISA.discover.modisco import (
     prepare_modisco_input,
     run_modisco,
     read_attribution_h5,
 )
-from deepISA.scoring.discover.finemo import (
+from deepISA.discover.finemo import (
     build_finemo_input,
     run_finemo_scan,
     load_hits_with_annotation,
     build_finemo_db,
 )
-from deepISA.scoring.discover.h5_io import (
+from deepISA.discover.h5_io import (
     extract_motifs_from_group,
     load_motifs,
     parse_motif_name,
 )
-from deepISA.scoring.discover.report import run_motif_report, cwm_to_meme
-from deepISA.scoring.discover.select import select_top_regions, drop_non_acgt_regions
+from deepISA.discover.report import run_motif_report, cwm_to_meme
+from deepISA.discover.select import select_top_regions, drop_non_acgt_regions
 
 __all__ = [
     "compute_attribution",

@@ -1,5 +1,5 @@
 import os
-from deepISA.modeling.trainer import Trainer
+from deepISA.model.trainer import Trainer
 import numpy as np
 import json
 import torch

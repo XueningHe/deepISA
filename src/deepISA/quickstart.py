@@ -6,25 +6,27 @@ import json
 from loguru import logger
 
 # DeepISA Imports
-from deepISA.modeling.cnn import Conv
-from deepISA.modeling.preprocess import compile_training_data
-from deepISA.modeling.train import train_model
-from deepISA.scoring.mapper import map_motifs
-from deepISA.scoring.single_isa import (
-    run_single_isa, 
-    calc_tf_importance
+from deepISA.model.cnn import Conv
+from deepISA.model.preprocess import compile_training_data
+from deepISA.model.train import train_model
+from deepISA.score.mapper import map_motifs
+from deepISA.score.single_isa import run_single_isa
+
+from deepISA.score.combi_isa import run_combi_isa
+
+from deepISA.score.aggregate_isa import (
+    calc_interaction,
+    calc_tf_importance,
+    calc_coop_score,
 )
 
-from deepISA.scoring.combi_isa import (
-    run_combi_isa,
-    run_null_interaction,
-    add_interaction,
-    calc_coop_score
-)
+from deepISA.score.non_motifs import calc_non_motif_stats
+
+
 from deepISA.utils import setup_logger, find_available_gpu
 
 # Motif discovery (tf-modisco-lite + Fi-NeMo) -- optional, additive API.
-from deepISA.scoring.discover import (
+from deepISA.discover import (
     compute_attribution,
     prepare_modisco_input,
     run_modisco,
@@ -37,25 +39,25 @@ from deepISA.scoring.discover import (
 )
 
 
-# Plotting functions
-from deepISA.plotting.interaction import (
+# Plot functions
+from deepISA.plot.interaction import (
     plot_interaction_decay, 
 )
 
-from deepISA.plotting.null import (
+from deepISA.plot.null import (
     plot_null_isa,
     plot_motif_length,
     plot_null_interaction,
     plot_motif_distance
 )
 
-from deepISA.plotting.cooperativity import (
+from deepISA.plot.cooperativity import (
     hist_coop_score,
     heatmap_coop_score,
     plot_motif_distance_by_category
 )
 
-from deepISA.plotting.tf import (
+from deepISA.plot.tf import (
     plot_motif_gc_by_coop,
     plot_coop_vs_importance,
     plot_partner_specificity
@@ -63,18 +65,18 @@ from deepISA.plotting.tf import (
 
 
 # exploring functions
-from deepISA.exploring.tf_family import (
+from deepISA.explore.tf_family import (
     plot_coop_by_tf_pair_family,
     plot_coop_by_dbd,
     plot_intra_family_coop_score
 )
 
-from deepISA.exploring.tf_pair_ppi import (
+from deepISA.explore.tf_pair_ppi import (
     plot_ppi_enrichment,
     plot_cofactor_recruitment,
     plot_dna_mediated_ppi
 )
-from deepISA.exploring.tf_function import (
+from deepISA.explore.tf_function import (
     plot_usf_pfs,
     plot_cell_specificity
 )
@@ -83,7 +85,7 @@ ISA_STAGES = [
     "map_motifs",
     "single_isa",
     "combi_isa",
-    "null_interaction",
+    "calc_background",
     "aggregate_isa",
 ]
 
@@ -106,11 +108,12 @@ class QuickStart:
         self.files = {
             "motif_locs":    os.path.join(self.data_dir, "motif_locs.csv"),
             "non_motif_locs":os.path.join(self.data_dir, "non_motif_locs.csv"),
-            "null_isa":      os.path.join(self.data_dir, "null_isa.csv"),
+            "non_motif_isa":      os.path.join(self.data_dir, "non_motif_isa.csv"),
             "pred_orig": os.path.join(self.data_dir, "pred_orig.csv"),
             "isa_single":    os.path.join(self.data_dir, "motif_single_isa.csv"),
             "isa_combi":     os.path.join(self.data_dir, "motif_combi_isa.csv"),
-            "null_interaction":os.path.join(self.data_dir, "null_interaction.csv"),
+            "non_motif_interaction":os.path.join(self.data_dir, "non_motif_interaction.csv"),
+            "non_motif_tau": os.path.join(self.data_dir, "non_motif_interaction_tau.json"),
             "imp_tf":        os.path.join(self.data_dir, "tf_importance.csv"),
             "coop_tf_pair":  os.path.join(self.data_dir, "coop_tf_pair.csv"),
             "coop_tf":       os.path.join(self.data_dir, "coop_tf.csv"),
@@ -228,13 +231,13 @@ class QuickStart:
         if start_from == "map_motifs":
             return
         if start_from == "single_isa":
-            required = [self.files["motif_locs"], self.files["non_motif_locs"]]  
+            required = [self.files["motif_locs"]]  
         elif start_from == "combi_isa":
             required = [self.files["isa_single"], self.files["pred_orig"]]        
-        elif start_from == "null_interaction":
+        elif start_from == "calc_background":
             required = [self.files["non_motif_locs"], self.files["isa_combi"], self.files["pred_orig"]]  
         elif start_from == "aggregate_isa":
-            required = [self.files["isa_single"], self.files["null_isa"], self.files["isa_combi"], self.files["null_interaction"]]  
+            required = [self.files["non_motif_tau"],self.files["isa_single"], self.files["non_motif_isa"], self.files["isa_combi"], self.files["non_motif_interaction"]]  
             required = []
         missing = [path for path in required if not os.path.exists(path)]
         if missing:
@@ -246,14 +249,14 @@ class QuickStart:
     
     def run_isa(self, 
             jaspar_path,
-            isa_config,
+            isa_config={},
             df_pos=None,
             expressed_tfs=None,
-            start_from="map_motifs"):
+            start_from="map_motifs"): 
             
         if self.model is None:
             raise ValueError("Model not defined. Call define_model() first.")
-
+        
         self._validate_start_from(start_from)
         self._check_isa_dependencies(start_from)
 
@@ -296,17 +299,16 @@ class QuickStart:
             logger.info("Running stage: single_isa")
             run_single_isa(
                 model=self.model,
-                fasta=self.fasta_path,  
+                fasta=self.fasta_path,
                 motif_locs_path=self.files["motif_locs"],
-                non_motif_locs_path=self.files["non_motif_locs"],   
-                single_isa_outpath=self.files["isa_single"],         
-                null_isa_outpath=self.files["null_isa"], 
-                null_percentile=isa_config["null_percentile"],        
-                pred_orig_outpath=self.files["pred_orig"],           
+                single_isa_outpath=self.files["isa_single"],
+                pred_orig_outpath=self.files["pred_orig"],
                 device=self.device,
                 tracks=self.tracks,
                 num_regions_per_batch=isa_config.get("num_regions_per_batch", 200),
                 pred_batch_size=isa_config.get("pred_batch_size", 1024),
+                destroy_mode=isa_config.get("destroy_mode", "ablate"),
+                n_shuffles=isa_config.get("n_shuffles", 10),
             )
 
         else:
@@ -330,61 +332,73 @@ class QuickStart:
         else:
             logger.info(f"Skipping stage: combi_isa (start_from='{start_from}')")
 
-        # 5. Null combination ISA
-        if start_idx <= ISA_STAGES.index("null_interaction"):
-            logger.info("Running stage: null_interaction")
-            run_null_interaction(
+        # 5. non-motif stats
+        if start_idx <= ISA_STAGES.index("calc_background"):
+            logger.info("Running stage: calc_background")
+            # TODO: by setting default path to functions, we can avoid passing this many params
+            calc_non_motif_stats(
                 model=self.model,
-                fasta=self.fasta_path,  
+                fasta=self.fasta_path,
                 non_motif_locs_path=self.files["non_motif_locs"],
-                combi_isa_path=self.files["isa_combi"],    
+                single_isa_path=self.files["isa_single"],
+                combi_isa_path=self.files["isa_combi"],
                 pred_orig_path=self.files["pred_orig"],
-                tracks=self.tracks,    
-                outpath=self.files["null_interaction"],
-                device=self.device
+                non_motif_isa_outpath=self.files["non_motif_isa"],
+                non_motif_interaction_outpath=self.files["non_motif_interaction"],
+                device=self.device,
+                tracks=self.tracks,
+                num_regions_per_batch=isa_config.get("num_regions_per_batch", 200),
+                pred_batch_size=isa_config.get("pred_batch_size", 1024),
+                n_samples=isa_config.get("n_samples", 8192),
+                n_bins=isa_config.get("n_bins", 20),
             )
         else:
-            logger.info(f"Skipping stage: null_interaction (start_from='{start_from}')")
+            logger.info(f"Skipping stage: calc_background (start_from='{start_from}')")
 
         # 6. Aggregate / calculate cooperativity scores
         if start_idx <= ISA_STAGES.index("aggregate_isa"):
-            logger.info(f"Running stage: calc_coop_score")
-            logger.info(f"Aggregating results in {self.data_dir}")
-            add_interaction(
+            with open(self.files["non_motif_tau"]) as f:
+                tau_map = {int(k): v for k, v in json.load(f).items()}
+            
+            # make sure if null_interaction is set to non_motif_interaction, normalize_interaction must be True
+            if isa_config.get("null_interaction", "distant_pairs") == "non_motif_interaction":
+                logger.info("Setting 'normalize_interaction' to True because 'null_interaction' uses 'non_motif_interaction'")
+                isa_config["normalize_interaction"] = True
+                
+            calc_interaction(
                 combi_isa_path=self.files["isa_combi"],
-                null_interaction_path=self.files["null_interaction"],
-                null_isa_path=self.files["null_isa"],
                 tracks=self.tracks,
-                null_percentile=isa_config["null_percentile"])
+                tau_map=tau_map,                         
+                isa_thresh_quantile=isa_config.get("isa_thresh_quantile", 0.1),
+                single_isa_path=self.files["isa_single"], # use to derive isa_thresh
+                normalize=isa_config.get("normalize_interaction", False)
+            )
             
             calc_tf_importance(
                 self.files["isa_single"],
-                self.files["null_isa"],                    
                 self.files["imp_tf"],    
-                null_percentile=isa_config["null_percentile"],   
+                non_motif_isa_path=self.files["non_motif_isa"],                    
                 min_count=isa_config.get("min_count", 10),
             )
 
             for t in self.tracks:
                 calc_coop_score(
-                    self.files["isa_combi"],               
-                    self.files["null_interaction"],   
-                    # add track suffix to output paths        
+                    self.files["isa_combi"],
                     outpath=self.files["coop_tf_pair"].replace(".csv", f"_t{t}.csv"),
-                    level="tf_pair",
+                    level="tf_pair",   
+                    # add track suffix to output paths        
+                    non_motif_interaction_path=self.files["non_motif_interaction"] if isa_config.get("null_interaction", "distant_pairs") == "non_motif_interaction" else None,
                     track_idx=t,
-                    null_percentile=isa_config["null_percentile"],                
                     min_count=isa_config.get("min_count", 10),
                     q_val_thresh=isa_config.get("q_val_thresh", 0.1),
                 )
                                 
                 calc_coop_score(
                     self.files["isa_combi"],             
-                    self.files["null_interaction"],            
                     outpath=self.files["coop_tf"].replace(".csv", f"_t{t}.csv"),
                     level="tf",
+                    non_motif_interaction_path=self.files["non_motif_interaction"] if isa_config.get("null_interaction", "distant_pairs") == "non_motif_interaction" else None,
                     track_idx=t,
-                    null_percentile=isa_config["null_percentile"],
                     min_count=isa_config.get("min_count", 10),
                     q_val_thresh=isa_config.get("q_val_thresh", 0.1),
                 )
@@ -409,16 +423,16 @@ class QuickStart:
         
         # --- A. Null Distributions (null.py) ---
         
-        plot_null_isa(self.files["null_isa"],
+        plot_null_isa(self.files["non_motif_isa"],
                     tracks=self.tracks, 
                     outpath=os.path.join(self.plots_dir, f"null_isa.png"))
-        plot_motif_length(self.files["null_isa"],
+        plot_motif_length(self.files["non_motif_isa"],
                           self.files["motif_locs"],
                           outpath=os.path.join(self.plots_dir, f"motif_length.png"))
-        plot_null_interaction(self.files["null_interaction"],
+        plot_null_interaction(self.files["non_motif_interaction"],
                               tracks=self.tracks, 
                               outpath=os.path.join(self.plots_dir, f"null_interaction.png"))
-        plot_motif_distance(self.files["null_interaction"],
+        plot_motif_distance(self.files["non_motif_interaction"],
                             self.files["isa_combi"],
                             outpath=os.path.join(self.plots_dir, f"motif_distance.png"))
         # --- B. Interaction Plots (interaction.py) ---
@@ -522,7 +536,7 @@ class QuickStart:
         drop would remove too much data, so all regions are kept and their
         unknown bases are imputed with random ACGT during attribution instead.
         """
-        from deepISA.scoring.discover import select_top_regions, drop_non_acgt_regions
+        from deepISA.discover import select_top_regions, drop_non_acgt_regions
         if drop_N and len(df_pos) > 0:
             kept, n_dropped = drop_non_acgt_regions(df_pos, self.fasta_path)
             frac = n_dropped / len(df_pos)
@@ -635,6 +649,12 @@ class QuickStart:
         ids = df_pos["region"].astype(str).tolist() if "region" in df_pos.columns else None
 
         logger.info(f"Computing attribution for {len(seqs_ohe)} regions, tracks={tracks}.")
+        import numpy as np
+        row_sums = seqs_ohe.sum(axis=1)  # if shape (N,4,L)
+        bad_pos = np.where(row_sums != 1)
+        print("Num bad positions:", len(bad_pos[0]))
+        print("Num bad sequences:", len(np.unique(bad_pos[0])))
+                
         compute_attribution(
             model=self.model,
             seqs_ohe=seqs_ohe,
@@ -757,7 +777,7 @@ class QuickStart:
 
         # Build finemo NPZ from the (channel-first) attribution H5.
         # Reuse the first track (consistent with run_modisco).
-        from deepISA.scoring.discover.modisco import read_attribution_h5
+        from deepISA.discover.modisco import read_attribution_h5
         seqs_4lc, hyp_4lc, _ = read_attribution_h5(self.files["attr_h5"], track_index=0)
         finemo_npz = build_finemo_input(
             seqs_ohe=seqs_4lc,
