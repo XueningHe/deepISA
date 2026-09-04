@@ -47,10 +47,8 @@ def single_isa_core(
     pred_batch_size,
     destroy_mode="ablate",   
     n_shuffles=8,
-    cache_outpath=None,
 ):
     remove_if_exists(outpath, label="single ISA file")
-    remove_if_exists(cache_outpath, label="single ISA cache file")
     logger.info(f"Single ISA started. Total rows: {len(locs_df)}, destroy_mode={destroy_mode}")
     orig_pred_map = load_pred_orig(pred_orig_path, tracks)
     region_groups = list(locs_df.groupby("region"))
@@ -95,14 +93,17 @@ def single_isa_core(
 
         # ── Reconstruct DataFrame ─────────────────────────────────────
         if destroy_mode == "ablate":
-            # Ablation has one mutation per row; cache details were written above.
+            # Ablation has one mutation per row; retain the mutation details for combi ISA.
             current_df_rows = []
             for flat_i, row_i in enumerate(row_indices):
                 row, _ = batch_rows[row_i]
                 start, end = int(row["start_rel"]), int(row["end_rel"])
                 new_row = row.to_dict()
+                mutated_seq = flat_seqs[flat_i]
+                new_row["motif_mut"] = mutated_seq[start:end]
                 pred_orig = orig_pred_map[row["region"]]
                 for j, t in enumerate(tracks):
+                    new_row[f"pred_mut_t{t}"] = preds_mut_flat[flat_i, j]
                     new_row[f"isa_t{t}"] = pred_orig[j] - preds_mut_flat[flat_i, j]
                 current_df_rows.append(new_row)
             current_df = pd.DataFrame(current_df_rows)

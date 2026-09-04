@@ -1,6 +1,5 @@
-import os
+
 import pandas as pd
-import numpy as np
 import bioframe as bf
 from loguru import logger
 from itertools import combinations
@@ -102,7 +101,6 @@ def run_combi_isa(
     pred_batch_size=1024,
     destroy_mode="ablate",
     n_shuffles=4,
-    single_isa_cache_path=None,
 ):
     if isinstance(fasta, str):
         fasta = bf.load_fasta(fasta)
@@ -113,11 +111,6 @@ def run_combi_isa(
         return None
 
     df_pred_orig = pd.read_csv(pred_orig_path) if pred_orig_path is not None else None
-    df_single_isa_cache = (
-        pd.read_csv(single_isa_cache_path)
-        if single_isa_cache_path is not None
-        else None
-    )
 
     all_regions = df_single_isa["region"].unique().tolist()
 
@@ -133,7 +126,7 @@ def run_combi_isa(
         pred_batch_size=pred_batch_size,
         outpath=outpath,
         pred_orig_df=df_pred_orig,
-        single_isa_df=df_single_isa_cache,
+        single_isa_df=df_single_isa,
         num_regions_per_batch=num_regions_per_batch,
         destroy_mode=destroy_mode,
         n_shuffles=n_shuffles,
