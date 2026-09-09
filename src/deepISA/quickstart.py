@@ -10,7 +10,7 @@ from deepISA.model.cnn import Conv
 from deepISA.model.preprocess import compile_training_data
 from deepISA.model.train import train_model
 from deepISA.score.mapper import map_motifs
-from deepISA.score.single_isa import run_single_isa
+from deepISA.score.single_isa import run_single_isa, calc_pred_orig
 
 from deepISA.score.combi_isa import run_combi_isa
 
@@ -83,6 +83,7 @@ from deepISA.explore.tf_function import (
 
 ISA_STAGES = [
     "map_motifs",
+    "calc_orig",
     "single_isa",
     "combi_isa",
     "calc_background",
@@ -108,8 +109,8 @@ class QuickStart:
         self.files = {
             "motif_locs":    os.path.join(self.data_dir, "motif_locs.csv"),
             "non_motif_locs":os.path.join(self.data_dir, "non_motif_locs.csv"),
-            "non_motif_isa":      os.path.join(self.data_dir, "non_motif_isa.csv"),
-            "pred_orig": os.path.join(self.data_dir, "pred_orig.csv"),
+            "non_motif_isa": os.path.join(self.data_dir, "non_motif_isa.csv"),
+            "pred_orig":     os.path.join(self.data_dir, "pred_orig.csv"),
             "isa_single":    os.path.join(self.data_dir, "motif_single_isa.csv"),
             "isa_combi":     os.path.join(self.data_dir, "motif_combi_isa.csv"),
             "non_motif_interaction":os.path.join(self.data_dir, "non_motif_interaction.csv"),
@@ -231,7 +232,7 @@ class QuickStart:
         if start_from == "map_motifs":
             return
         if start_from == "single_isa":
-            required = [self.files["motif_locs"]]  
+            required = [self.files["motif_locs"], self.files["pred_orig"]]
         elif start_from == "combi_isa":
             required = [self.files["isa_single"], self.files["pred_orig"]]        
         elif start_from == "calc_background":
@@ -294,21 +295,36 @@ class QuickStart:
         else:
             logger.info(f"Skipping stage: map_motifs (start_from='{start_from}')")
 
-        # 2. Single ISA now writes raw then filters to final motif_single_isa.csv
+
+        # 2. calc pred_orig
+        if start_idx <= ISA_STAGES.index("calc_orig"):
+            logger.info("Running stage: calc_orig")
+            calc_pred_orig(
+                model=self.model,
+                fasta=self.fasta_path,
+                motif_locs_path=self.files["motif_locs"],
+                tracks=self.tracks,
+                outpath=self.files["pred_orig"],
+                device=self.device,
+                pred_batch_size=isa_config.get("pred_batch_size", 1024),
+            )
+        else:
+            logger.info(f"Skipping stage: calc_orig (start_from='{start_from}')")
+
+
+        # 3. Single ISA now writes raw then filters to final motif_single_isa.csv
         if start_idx <= ISA_STAGES.index("single_isa"):
             logger.info("Running stage: single_isa")
             run_single_isa(
                 model=self.model,
                 fasta=self.fasta_path,
                 motif_locs_path=self.files["motif_locs"],
-                single_isa_outpath=self.files["isa_single"],
-                pred_orig_outpath=self.files["pred_orig"],
+                pred_orig_path=self.files["pred_orig"],
+                outpath=self.files["isa_single"],
                 device=self.device,
                 tracks=self.tracks,
                 num_regions_per_batch=isa_config.get("num_regions_per_batch", 200),
                 pred_batch_size=isa_config.get("pred_batch_size", 1024),
-                destroy_mode=isa_config.get("destroy_mode", "ablate"),
-                n_shuffles=isa_config.get("n_shuffles", 10),
             )
 
         else:
@@ -332,7 +348,7 @@ class QuickStart:
         else:
             logger.info(f"Skipping stage: combi_isa (start_from='{start_from}')")
 
-        # 5. non-motif stats
+        # 5. non-motif backgrounds
         if start_idx <= ISA_STAGES.index("calc_background"):
             logger.info("Running stage: calc_background")
             calc_non_motif_stats(

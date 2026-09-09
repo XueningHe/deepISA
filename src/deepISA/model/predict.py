@@ -5,7 +5,7 @@ from deepISA.utils import one_hot_encode
 
 
 
-def compute_predictions(model, seqs, device, batch_size, tracks=[0]):
+def compute_predictions(model, seqs, device, batch_size=2048, tracks=[0]):
     """
     Computes predictions for a list of DNA sequences.
     

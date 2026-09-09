@@ -243,14 +243,12 @@ class AlphaGenomeAdapter(nn.Module):
                     requested_outputs=self._all_output_type_enums,
                     ontology_terms=self._all_terms,
                 )
-                agg_fn = {"sum": np.sum, "mean": np.mean, "max": np.max}[
-                    self._cfg["aggregation"]
-                ]
                 parts = []
                 for attr, col_idx in self._extraction_plan:
                     track_data = getattr(output, attr)
                     window = track_data.values[self._start_idx:self._end_idx, :]
-                    parts.append(agg_fn(window[:, col_idx], axis=0))  # (n_cols_for_this_bio,)
+                    summed = np.sum(window[:, col_idx], axis=0)  
+                    parts.append(np.log1p(summed))
                 self._cache[raw] = np.concatenate(parts).tolist()
             result.append(self._cache[raw])
         return result

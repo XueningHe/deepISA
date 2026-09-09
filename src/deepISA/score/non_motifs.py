@@ -7,7 +7,8 @@ from loguru import logger
 from itertools import combinations
 
 from deepISA.utils import remove_if_exists
-from deepISA.score.isa_core import single_isa_core, run_combi_isa_core
+from deepISA.score.combi_isa import combi_isa_core
+from deepISA.score.single_isa import run_single_isa
 from deepISA.score.aggregate_isa import calc_interaction
 
 
@@ -200,8 +201,6 @@ def _calc_non_motif_isa(
     num_regions_per_batch: int = 200,
     pred_batch_size: int = 1024,
     n_samples: int = 8192,
-    destroy_mode: str = "ablate",
-    n_shuffles: int = 10,
 ) -> str:
     remove_if_exists(outpath, label="non-motif ISA file")
 
@@ -214,15 +213,16 @@ def _calc_non_motif_isa(
         f"Running non-motif ISA on {len(null_kmers_df)} sampled k-mers "
         f"(lengths matched to {single_isa_path})"
     )
-
-    single_isa_core(
-        model=model, fasta=fasta, locs_df=null_kmers_df,
-        pred_orig_path=pred_orig_path, outpath=outpath,
-        device=device, tracks=tracks,
+    null_kmers_df.to_csv(outpath + "_null_kmers.csv", index=False)
+    run_single_isa(
+        model=model, fasta=fasta, 
+        motif_locs_path=outpath + "_null_kmers.csv",
+        pred_orig_path=pred_orig_path, 
+        outpath=outpath,
+        device=device, 
+        tracks=tracks,
         num_regions_per_batch=num_regions_per_batch,
         pred_batch_size=pred_batch_size,
-        destroy_mode=destroy_mode,
-        n_shuffles=n_shuffles,
     )
     logger.info(f"Non-motif ISA written to {outpath}")
     return outpath
@@ -239,10 +239,8 @@ def _calc_non_motif_interaction(
     device, tracks: list[int],
     pred_batch_size: int = 1024,
     num_regions_per_batch: int = 200,
-    n_samples: int = 8192,
+    n_samples: int = 2048,
     n_bins: int = 20,
-    destroy_mode: str = "ablate",
-    n_shuffles: int = 10,
 ) -> str:
     """Score non-motif pairs matched to combi ISA distance distribution."""
     remove_if_exists(outpath, label="non-motif interaction file")
@@ -273,28 +271,24 @@ def _calc_non_motif_interaction(
         logger.warning("_generate_null_pairs produced no pairs; nothing to score.")
         return outpath
 
-    # Load pred_orig for cache
-    df_pred_orig = pd.read_csv(pred_orig_path)
-    
+
     # Build pairs by region (same as in run_combi_isa)
     batch_pairs = {}
     for region_str, group in null_pairs_df.groupby("region"):
-        batch_pairs[region_str] = (group.reset_index(drop=True), None)
+        batch_pairs[region_str] = group.reset_index(drop=True)
 
     logger.info(f"Scoring {len(null_pairs_df)} non-motif pairs across {len(batch_pairs)} regions")
 
-    run_combi_isa_core(
+    combi_isa_core(
         model=model,
         device=device,
         tracks=tracks,
         fasta=fasta,
-        pred_batch_size=pred_batch_size,
         pairs_by_region=batch_pairs,
         outpath=outpath,
-        pred_orig_df=df_pred_orig,
+        pred_orig_path=pred_orig_path,
         num_regions_per_batch=num_regions_per_batch,
-        destroy_mode=destroy_mode,
-        n_shuffles=n_shuffles,
+        pred_batch_size=pred_batch_size,
     )
 
     logger.info(f"Non-motif interaction written to {outpath}")
@@ -329,7 +323,8 @@ def calc_non_motif_stats(
     pred_orig_path: str,
     non_motif_isa_outpath: str,
     non_motif_interaction_outpath: str,
-    device, tracks: list[int],
+    device, 
+    tracks: list[int],
     pred_batch_size: int = 1024,
     num_regions_per_batch: int = 200,
     n_samples: int = 8192,

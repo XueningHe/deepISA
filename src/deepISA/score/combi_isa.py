@@ -4,12 +4,23 @@ import bioframe as bf
 from loguru import logger
 from itertools import combinations
 
+from deepISA.model.predict import compute_predictions
 
-# Internal imports
-from deepISA.score.isa_core import run_combi_isa_core
+from deepISA.utils import remove_if_exists, write_stream_csv
+from deepISA.model.predict import compute_predictions
+from deepISA.utils import (
+    remove_if_exists,
+    write_stream_csv,
+)
+
+from deepISA.score.utils_isa import (
+    ablate_motifs, 
+    region_str_to_seq,
+    load_pred_orig
+)
 
 
-# TODO: since the file names are almost determined, all paths should have a default value.
+
 
 
 def make_pairs_for_region(
@@ -18,7 +29,6 @@ def make_pairs_for_region(
 ) -> pd.DataFrame | None:
     if len(region_motif_rows) < 2:
         return None
-
     region_motif_rows = region_motif_rows.sort_values("start_rel")
     pairs = []
     for idx1, idx2 in combinations(region_motif_rows.index, 2):
@@ -44,46 +54,93 @@ def make_pairs_for_region(
             t = col.split("isa_t")[-1]
             pair_data[f"isa1_t{t}"] = m1[col]
             pair_data[f"isa2_t{t}"] = m2[col]
-
-        pred_mut_cols = [c for c in region_motif_rows.columns if c.startswith("pred_mut_t")]
-        for col in pred_mut_cols:
-            t = col.split("pred_mut_t")[-1]
-            pair_data[f"pred_mut1_t{t}"] = m1[col]
-            pair_data[f"pred_mut2_t{t}"] = m2[col]
+        
         pairs.append(pair_data)
-
     if not pairs:
         return None
     return pd.DataFrame(pairs)
 
 
 
-
 def build_combi_pairs_by_region(df_single_isa, receptive_field):
     pairs_by_region = {}
-    seq_ref_col = "seq_ref" in df_single_isa.columns
     for region_str, grp in df_single_isa.groupby("region"):
         grp = grp.copy()
         pair_df = make_pairs_for_region(grp, receptive_field)
         if pair_df is None or pair_df.empty:
             continue
-        seq_ref = grp["seq_ref"].iloc[0] if seq_ref_col else None
-        pairs_by_region[region_str] = (pair_df, seq_ref)
+        pairs_by_region[region_str] = pair_df
     return pairs_by_region
 
 
+def combi_isa_core(
+    model,
+    device,
+    tracks,
+    fasta,
+    pairs_by_region,            
+    outpath,
+    pred_orig_path,    
+    num_regions_per_batch,
+    pred_batch_size,
+):
+    remove_if_exists(outpath)
+    orig_pred_map = load_pred_orig(pred_orig_path, tracks) 
+    regions = list(pairs_by_region.keys())
+    
+    # determine compute_single_isa
+    probe_df = next(df for df in pairs_by_region.values())
+    single_isa_cols = [f"isa1_t{t}" for t in tracks] + [f"isa2_t{t}" for t in tracks]
+    compute_single_isa = not all(c in probe_df.columns for c in single_isa_cols)
 
-def _check_isa_cols_present(df: pd.DataFrame, tracks: list, destroy_mode: str) -> bool:
-    if destroy_mode == "dinuc_shuffle":
-        return False
-    if "motif_mut" not in df.columns:
-        return False
-    for t in tracks:
-        if f"isa_t{t}" not in df.columns:
-            return False
-        if f"pred_mut_t{t}" not in df.columns:
-            return False
-    return True
+    for batch_start in range(0, len(regions), num_regions_per_batch):
+        batch_end = min(batch_start + num_regions_per_batch, len(regions))
+        logger.info(f"Processing regions {batch_start}-{batch_end} / {len(regions)}")
+        batch_regions = regions[batch_start:batch_end]
+        pair_dfs = []
+        pair_offsets = []
+        all_seqs_both = []
+        if compute_single_isa:
+            all_seqs_m1 = []
+            all_seqs_m2 = []
+        for region_str in batch_regions:
+            pair_df = pairs_by_region.get(region_str)
+            if pair_df is None or pair_df.empty: continue
+            try:
+                seq_orig = region_str_to_seq(fasta, region_str)
+            except Exception as e:
+                logger.error(f"Failed to parse region: {region_str}. Error: {e}. Skipping this region.")
+                continue
+            seqs_both = [ablate_motifs(seq_orig, [r.start1_rel, r.start2_rel], [r.end1_rel, r.end2_rel]) for r in pair_df.itertuples()]
+            pair_offsets.append((len(all_seqs_both), len(pair_df)))
+            all_seqs_both.extend(seqs_both)
+            pair_dfs.append(pair_df)
+            if compute_single_isa:
+                seqs_m1 = [ablate_motifs(seq_orig, [r.start1_rel], [r.end1_rel]) for r in pair_df.itertuples()]
+                seqs_m2 = [ablate_motifs(seq_orig, [r.start2_rel], [r.end2_rel]) for r in pair_df.itertuples()]
+                all_seqs_m1.extend(seqs_m1)
+                all_seqs_m2.extend(seqs_m2)
+
+        if not pair_dfs: continue
+        
+        p_both = compute_predictions(model, all_seqs_both, device=device, batch_size=pred_batch_size, tracks=tracks)
+        if compute_single_isa:
+            p_m1 = compute_predictions(model, all_seqs_m1, device=device, batch_size=pred_batch_size, tracks=tracks)
+            p_m2 = compute_predictions(model, all_seqs_m2, device=device, batch_size=pred_batch_size, tracks=tracks)
+
+        for pair_df, (start, n) in zip(pair_dfs, pair_offsets):
+            sl = slice(start, start + n)
+            pair_df = pair_df.copy()
+            region_val = pair_df["region"].iloc[0]
+            p_orig = orig_pred_map[region_val]  
+            for j, t in enumerate(tracks):
+                pair_df[f"isa_both_t{t}"] = p_orig[j] - p_both[sl, j]
+                if compute_single_isa:
+                    pair_df[f"isa1_t{t}"] = p_orig[j] - p_m1[sl, j]
+                    pair_df[f"isa2_t{t}"] = p_orig[j] - p_m2[sl, j]
+            
+            write_stream_csv(pair_df, outpath)
+
 
 
 
@@ -95,46 +152,34 @@ def run_combi_isa(
     outpath,
     device,
     receptive_field,
-    pred_orig_path=None,
+    pred_orig_path, 
     tracks=[0],
     num_regions_per_batch=200,
     pred_batch_size=1024,
-    destroy_mode="ablate",
-    n_shuffles=4,
 ):
+    remove_if_exists(outpath)
+    
     if isinstance(fasta, str):
-        fasta = bf.load_fasta(fasta)
+        fasta=bf.load_fasta(fasta)
 
-    df_single_isa = pd.read_csv(single_isa_path)
-    if df_single_isa.empty:
+    df_motif_single_isa = pd.read_csv(single_isa_path)
+    if df_motif_single_isa.empty:
         logger.warning("No motifs in motif_single_isa file.")
         return None
 
-    df_pred_orig = pd.read_csv(pred_orig_path) if pred_orig_path is not None else None
-
-    all_regions = df_single_isa["region"].unique().tolist()
-
-    logger.info(f"Combinatorial ISA: {len(all_regions)} regions, batch size {num_regions_per_batch}")
-
-    pairs_by_region = build_combi_pairs_by_region(df_single_isa, receptive_field)
-    run_combi_isa_core(
+    logger.info(f"Perform combinatorial ISA from motif_single_isa: {single_isa_path}")
+    # TODO: future: build_combi_pairs_by_region all at once use up memory
+    pairs_by_region = build_combi_pairs_by_region(df_motif_single_isa, receptive_field)
+    combi_isa_core(
         model=model,
         device=device,
         tracks=tracks,
         fasta=fasta,
         pairs_by_region=pairs_by_region,
-        pred_batch_size=pred_batch_size,
         outpath=outpath,
-        pred_orig_df=df_pred_orig,
-        single_isa_df=df_single_isa,
+        pred_orig_path=pred_orig_path,
         num_regions_per_batch=num_regions_per_batch,
-        destroy_mode=destroy_mode,
-        n_shuffles=n_shuffles,
+        pred_batch_size=pred_batch_size,
     )
-
     logger.info(f"Combinatorial ISA complete. Results saved to {outpath}")
-
-
-
-
 

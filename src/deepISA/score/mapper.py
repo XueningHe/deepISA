@@ -124,6 +124,8 @@ def get_non_motifs(regions_df, motif_locs_df):
     # subtract from original regions
     non_motif_df = bf.subtract(regions_df, motif_locs_df)
     non_motif_df = non_motif_df[['chrom', 'start', 'end', 'region']]
+    # subset non_motif_df by region to make sure all regions in non_motif_df is in motif_locs_df
+    non_motif_df = non_motif_df[non_motif_df['region'].isin(motif_locs_df['region'])].reset_index(drop=True)
     # add relative coord
     reg_starts = non_motif_df['region'].str.extract(r':(\d+)-')[0].astype(int)
     non_motif_df['start_rel'] = (non_motif_df['start'] - reg_starts)
@@ -137,7 +139,6 @@ def get_non_motifs(regions_df, motif_locs_df):
 
 def map_motifs(regions_df, 
                jaspar_path, 
-               # TODO: figure out default path
                motif_outpath, 
                non_motif_outpath,
                expressed_tfs=None,
